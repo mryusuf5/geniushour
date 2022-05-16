@@ -26,7 +26,6 @@ export class ProjectsComponent implements OnInit {
   public projectsDifficulity: boolean = false;
   public searchName: string;
   public selectedSearch: string = "Project naam";
-  public key: string = "project_id";
   public reverse: boolean = false;
   public page: number = 1;
 
@@ -78,12 +77,6 @@ export class ProjectsComponent implements OnInit {
     {
       this.getAllProjects();
     }
-  }
-
-  public sort(key)
-  {
-    this.key = key;
-    this.reverse = !this.reverse;
   }
 
   public gotoProject(e)

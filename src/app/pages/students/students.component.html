@@ -1,1 +1,41 @@
-<app-sidebar-teacher></app-sidebar-teacher>
+<div class="d-flex">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="mt-3 mx-4" style="width: 75vw">
+    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4">Student toevoegen</a>
+
+    <div class="projectsContainer">
+      <div class="d-flex gap-3">
+        <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
+        <select class="form-select w-25" [(ngModel)]="selectedSearch">
+          <option value="Student naam">Student naam</option>
+          <option value="Student achternaam">Student achternaam</option>
+          <option value="Student email">Student email</option>
+        </select>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th (click)="getAllStudentsName()"><span>Student naam <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllStudentsMail()"><span>Student email <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllStudentsId()"><span># <i class="far fa-sort"></i></span></th>
+          <!--          <th>Leraar(en)</th>-->
+        </tr>
+        </thead>
+        <tbody *ngIf="students.length > 0">
+        <tr class="" *ngFor="let student of students | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
+          <td><a id="{{student.project_id}}" class="text-info" (click)="gotoStudent($event)">{{student.student_firstname}} {{student.student_lastname}}</a></td>
+          <td>{{student.student_email}}</td>
+          <td>{{i}}</td>
+          <!--          <td *ngFor="let teacher of project.teachers">-->
+          <!--            <span>{{teacher[0].teacher_firstname}}</span>-->
+          <!--          </td>-->
+        </tr>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="students.length == 0">
+      <span class="text-danger">Geen studenten.</span>
+    </div>
+  </div>
+</div>
