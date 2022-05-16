@@ -1,0 +1,37 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh">
+  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+    <span class="fs-4">Geniushour</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto gap-2">
+    <li class="nav-item">
+      <a #home routerLinkActive="active" routerLink="/home" [ngClass]="home.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="far fa-home"></i>
+        Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="home" class="nav-link text-white gap-2 d-flex align-items-center" aria-current="page">
+        <i class="far fa-comment"></i>
+        Mijn berichten
+      </a>
+    </li>
+    <li class="nav-item">
+      <a #settings [ngClass]="settings.classList.contains('active') ? 'text-black' : 'text-white'" routerLink="/instellingen" routerLinkActive="active" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="far fa-cog"></i>
+        Instellingen
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="dropdown">
+    <a (click)="menuShow = !menuShow" href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="assets/images/{{profilePicture}}" alt="" width="32" height="32" class="rounded-circle me-2">
+      <strong>{{username}}</strong>
+    </a>
+    <ul [ngClass]="{show: menuShow, hide: !menuShow}" class="dropdown-menu dropdown-menu-dark text-small shadow dropdownMenu">
+      <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</div>

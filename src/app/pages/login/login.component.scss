@@ -1,0 +1,24 @@
+body{
+  overflow: hidden !important;
+}
+.loginContainer{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  position: relative;
+}
+.logo{
+  width: 200px;
+  padding: 20px;
+}
+.logoSchool{
+  height: 50px;
+}
+form{
+  border-radius: 20px;
+}
+.mainContainer{
+  background-image: linear-gradient(0deg, #00458b, #3fd2c7);
+}

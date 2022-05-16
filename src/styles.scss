@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+$theme-colors: (
+  "primary": #fff,
+  "secondary": #169898
+);
+
+.active{
+  background: #fff !important;
+  color: black !important;
+}
+@import "node_modules/bootstrap/scss/bootstrap";
