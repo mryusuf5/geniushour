@@ -108,7 +108,7 @@
                 <!--              <th>Leraar(en)</th>-->
               </tr>
               </thead>
-              <tbody *ngIf="projects.length > 0">
+              <tbody *ngIf="studentProjects.length > 0">
               <tr class="" *ngFor="let project of studentProjects | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
                 <td><a id="{{project.project_id}}" class="text-info" (click)="gotoProject($event)">{{project.project_name}}</a></td>
                 <td>{{project.field_name}}</td>
@@ -127,6 +127,9 @@
               <pagination-controls (pageChange)="page = $event"></pagination-controls>
               </tbody>
             </table>
+          </div>
+          <div *ngIf="studentProjects.length == 0">
+            <span class="text-danger">Geen projecten.</span>
           </div>
         </div>
       </div>

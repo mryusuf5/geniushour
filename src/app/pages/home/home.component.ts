@@ -266,7 +266,7 @@ export class HomeComponent implements OnInit {
 
   public getStudentProjects()
   {
-    const data = this.userdataClassId;
+    const data = this.userdata[0].student_id;
     this.projectService.getStudentProjects(data).subscribe((e) => {
       this.studentProjects = e;
     })

@@ -84,6 +84,7 @@ export class SingleProjectComponent implements OnInit {
           "",
           "success"
         );
+        this.disableApplication = true;
         this.projectService.AddApplication(data).subscribe((e) => {
           this.messages = e;
         })

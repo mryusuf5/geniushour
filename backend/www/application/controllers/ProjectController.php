@@ -383,7 +383,7 @@
           $json = file_get_contents("php://input");
           $data = json_decode($json);
 
-          $projects = $this->Projectmodel->GetApplicationsByStudentId($data[0], $data[1]);
+          $projects = $this->Projectmodel->GetApplicationsByStudentId($data);
 
           echo json_encode($projects);
         }
@@ -394,5 +394,13 @@
           $data = json_decode($json);
 
           $this->Projectmodel->DenyApplication($data);
+        }
+
+        public function AcceptApplication()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $this->Projectmodel->AcceptApplication($data[0], $data[1], $data[2]);
         }
     }

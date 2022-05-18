@@ -58,7 +58,7 @@ export class ApplicationsComponent implements OnInit {
       {
         this.projectService.denyApplication(this.singleApplicationId).subscribe(() => {});
         Swal.fire(
-          "Succesvol verwijderd",
+          "Succesvol geweigerd",
           "",
           "success"
         )
