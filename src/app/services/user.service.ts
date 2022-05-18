@@ -6,6 +6,7 @@ import { HttpClient} from "@angular/common/http";
 })
 export class UserService {
 
+  public url: string = "http://yusufyildiz.nl/genieshour/backend/www/";
   constructor(private http: HttpClient) { }
 
   public loggedIn()
@@ -15,11 +16,31 @@ export class UserService {
 
   public login(data)
   {
-    return this.http.post("http://yusufyildiz.nl/userController/LoginStudent", data);
+    return this.http.post(`${this.url}UserController/LoginStudent`, data);
   }
 
   public loginTeacher(data)
   {
-    return this.http.post("http://yusufyildiz.nl/userController/LoginTeacher", data);
+    return this.http.post(`${this.url}UserController/LoginTeacher`, data);
+  }
+
+  public changeProfilePicture(data)
+  {
+    return this.http.post(`${this.url}UserController/ChangeProfilePicture`, data);
+  }
+
+  public changeProfilePictureTeacher(data)
+  {
+    return this.http.post(`${this.url}UserController/ChangeProfilePictureTeacher`, data);
+  }
+
+  public getProfilePicture(data)
+  {
+    return this.http.post(`${this.url}UserController/GetProfileImage`, data);
+  }
+
+  public getProfilePictureTeacher(data)
+  {
+    return this.http.post(`${this.url}UserController/GetProfileImageTeacher`, data);
   }
 }

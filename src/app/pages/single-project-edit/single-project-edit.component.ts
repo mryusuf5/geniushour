@@ -61,8 +61,27 @@ export class SingleProjectEditComponent implements OnInit {
       this.formProjectDescription,
       this.formProjectField
     ];
-    this.projectService.EditProject(data).subscribe((e) => {
-      this.messages = e;
+    Swal.fire({
+      title: "Weet u zeker dat u dit project wilt aanpassen?",
+      text: " ",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#169898",
+      cancelButtonColor: "#BB2D3B",
+      confirmButtonText: "Ja",
+      cancelButtonText: "Nee"
+    }).then((result) => {
+      if(result.isConfirmed)
+      {
+        const data = e.srcElement.id;
+        this.projectService.EditProject(data).subscribe(() => {
+        })
+        Swal.fire(
+          "Het project is succesvol aangepast",
+          " ",
+          "success"
+        )
+      }
     })
   }
 
@@ -70,12 +89,12 @@ export class SingleProjectEditComponent implements OnInit {
   {
     console.log(e.srcElement.id);
     Swal.fire({
-      title: "Weet je het zeker?",
-      text: "Het project word voor altijd verwijderd.",
+      title: "Weet u zeker dat u dit project wilt verwijderen?",
+      text: " ",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#BB2D3B",
-      cancelButtonColor: "#169898",
+      confirmButtonColor: "#169898",
+      cancelButtonColor: "#BB2D3B",
       confirmButtonText: "Ja",
       cancelButtonText: "Nee"
     }).then((result) => {
@@ -86,8 +105,8 @@ export class SingleProjectEditComponent implements OnInit {
 
         })
         Swal.fire(
-          "Verwijderd",
           "Het project is succesvol verwijderd",
+          " ",
           "success"
         )
         setTimeout(() => {

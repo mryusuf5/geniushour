@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from "../../services/student.service";
+import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
+import {FormGroup, FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-students',
@@ -9,6 +12,7 @@ import { StudentService } from "../../services/student.service";
 export class StudentsComponent implements OnInit {
 
   public students: any = [];
+  public classes: any = [];
   public searchName: string;
   public selectedSearch: string = "Student naam";
   public reverse: boolean = false;
@@ -16,16 +20,71 @@ export class StudentsComponent implements OnInit {
   public studentId: boolean = true;
   public studentName: boolean = false;
   public studentEmail: boolean = false;
+  public studentHours: boolean = false;
+  public studentNumber: boolean = false;
+  public showModal: boolean = false;
+  public studentForm: FormGroup;
+  public messages: any;
+  public error: string;
 
-  constructor(private studentService: StudentService) { }
+  constructor(private studentService: StudentService,
+              private router: Router,
+              private spinner: NgxSpinnerService,
+              private form: FormBuilder) { }
 
   ngOnInit(): void {
     this.getAllStudentsId();
+    this.studentForm = this.form.group({
+      studentName: [""],
+      studentLastName: [""],
+      studentPrefix: [""],
+      studentNumber: [""],
+      studentHours: [""],
+      studentEmail: [""],
+      studentClass: [""]
+    })
   }
 
   public triggerModal()
   {
+    this.showModal = true;
+    this.studentService.getAllClasses().subscribe((e) => {
+      this.classes = e;
+      console.log(this.classes);
+    })
+  }
 
+  public addNewStudent()
+  {
+    const data = [];
+
+    data.push(this.studentForm.value.studentName,
+      this.studentForm.value.studentLastName,
+      this.studentForm.value.studentPrefix,
+      this.studentForm.value.studentNumber,
+      this.studentForm.value.studentHours,
+      this.studentForm.value.studentEmail,
+      this.studentForm.value.studentClass)
+
+    this.studentService.addStudent(data).subscribe((e) => {
+      this.messages = e;
+      if(this.messages.error)
+      {
+        this.error = this.messages.error;
+      }
+      if(this.messages.success)
+      {
+        this.showModal = false;
+        this.getAllStudentsId();
+        this.studentForm.get("studentName").reset(),
+          this.studentForm.get("studentLastName").reset(),
+          this.studentForm.get("studentPrefix").reset(),
+          this.studentForm.get("studentNumber").reset(),
+          this.studentForm.get("studentHours").reset(),
+          this.studentForm.get("studentEmail").reset(),
+          this.studentForm.get("studentClass").reset()
+      }
+    })
   }
 
   public search()
@@ -58,17 +117,51 @@ export class StudentsComponent implements OnInit {
   {
     if(this.studentName)
     {
+      this.spinner.show();
       this.studentService.getAllStudentsNameDesc().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentName = false;
     }
     else
     {
+      this.spinner.show();
       this.studentService.getAllStudentsNameAsc().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentName = true;
+    }
+  }
+
+  public getAllStudentsNumber()
+  {
+    if(this.studentNumber)
+    {
+      this.spinner.show();
+      this.studentService.getAllStudentsNumberDesc().subscribe((e) => {
+        this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
+      })
+      this.studentNumber = false;
+    }
+    else
+    {
+      this.spinner.show();
+      this.studentService.getAllStudentsNumberAsc().subscribe((e) => {
+        this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
+      })
+      this.studentNumber = true;
     }
   }
 
@@ -76,15 +169,23 @@ export class StudentsComponent implements OnInit {
   {
     if(this.studentEmail)
     {
+      this.spinner.show();
       this.studentService.getAllStudentsEmailDesc().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentEmail = false;
     }
     else
     {
+      this.spinner.show();
       this.studentService.getAllStudentsEmailAsc().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentEmail = true;
     }
@@ -94,22 +195,55 @@ export class StudentsComponent implements OnInit {
   {
     if(this.studentId)
     {
+      this.spinner.show();
       this.studentService.getAllStudents().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentId = false;
     }
     else
     {
+      this.spinner.show();
       this.studentService.getAllStudentsAsc().subscribe((e) => {
         this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
       this.studentId = true;
+    }
+  }
+  public getAllStudentsHours()
+  {
+    if(this.studentHours)
+    {
+      this.spinner.show();
+      this.studentService.getAllStudentsHoursDesc().subscribe((e) => {
+        this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
+      })
+      this.studentHours = false;
+    }
+    else
+    {
+      this.spinner.show();
+      this.studentService.getAllStudentsHoursAsc().subscribe((e) => {
+        this.students = e;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
+      })
+      this.studentHours = true;
     }
   }
 
   public gotoStudent(e)
   {
-
+    this.router.navigate(["/studenten/student-edit"], {queryParams: {studentId: e.srcElement.id}});
   }
 }

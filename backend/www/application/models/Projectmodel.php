@@ -120,4 +120,19 @@
         {
             $this->db->query("DELETE FROM projects WHERE project_id = '$id'");
         }
+
+        public function GetApplicationById($id)
+        {
+          return $this->db->query("SELECT * FROM `project_applications` INNER JOIN students ON project_applications.student_id = students.student_id INNER JOIN projects ON project_applications.project_id = projects.project_id INNER JOIN fields on project_applications.field_id = fields.field_id WHERE application_id = '$id'")->result();
+        }
+
+        public function GetApplicationsByField($id)
+        {
+          return $this->db->query("SELECT * FROM `project_applications` INNER JOIN students on project_applications.student_id = students.student_id INNER JOIN fields ON project_applications.field_id = fields.field_id WHERE project_applications.field_id = '$id'")->result();
+        }
+
+        public function AddApplication($student_id, $project_id, $field_id)
+        {
+          $this->db->query("INSERT INTO project_applications(student_id, project_id, field_id) VALUES('$student_id', '$project_id', '$field_id')");
+        }
     }

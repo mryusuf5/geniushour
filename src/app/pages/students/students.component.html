@@ -1,7 +1,16 @@
-<div class="d-flex">
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="d-flex" [ngClass]="showModal ? 'backgroundDim' : ''">
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="mt-3 mx-4" style="width: 75vw">
-    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4">Student toevoegen</a>
+    <h2>Studenten</h2>
+    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4"><i class="fal fa-user-plus"></i>  Student toevoegen</a>
 
     <div class="projectsContainer">
       <div class="d-flex gap-3">
@@ -16,15 +25,19 @@
         <thead>
         <tr>
           <th (click)="getAllStudentsName()"><span>Student naam <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllStudentsNumber()"><span>Student nummer <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsMail()"><span>Student email <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllStudentsHours()"><span>Uren over <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsId()"><span># <i class="far fa-sort"></i></span></th>
           <!--          <th>Leraar(en)</th>-->
         </tr>
         </thead>
         <tbody *ngIf="students.length > 0">
-        <tr class="" *ngFor="let student of students | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
-          <td><a id="{{student.project_id}}" class="text-info" (click)="gotoStudent($event)">{{student.student_firstname}} {{student.student_lastname}}</a></td>
+        <tr class="" *ngFor="let student of students | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
+          <td class="d-flex align-items-center gap-2"><div class="studentImage" style="background-image: url({{student.student_image}})"></div><a id="{{student.student_id}}" class="text-info" (click)="gotoStudent($event)">{{student.student_firstname}} {{student.student_prefix}} {{student.student_lastname}}</a></td>
+          <td>{{student.student_number}}</td>
           <td>{{student.student_email}}</td>
+          <td>{{student.student_hours}} uur</td>
           <td>{{i}}</td>
           <!--          <td *ngFor="let teacher of project.teachers">-->
           <!--            <span>{{teacher[0].teacher_firstname}}</span>-->
@@ -36,6 +49,59 @@
     </div>
     <div *ngIf="students.length == 0">
       <span class="text-danger">Geen studenten.</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" [ngClass]="showModal ? 'show' : ''">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Student toevoegen</h5>
+        <button (click)="showModal = false" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-4">
+        <form action="" [formGroup]="studentForm" class="d-flex flex-column gap-2">
+          <span *ngIf="error" class="text-danger" >{{error}}</span>
+          <div class="form-group">
+            <label>Student voornnaam: </label>
+            <input type="text" class="form-control" name="studentName" placeholder="Voornaam" formControlName="studentName">
+          </div>
+          <div class="form-group">
+            <label>Student tussenvoegsel: </label>
+            <input type="text" class="form-control" name="studentPrefix" placeholder="Tussenvoegsel" formControlName="studentPrefix">
+            <small class="text-muted">Laat dit veld leeg als de student geen tussenvoegsel heeft.</small>
+          </div>
+          <div class="form-group">
+            <label>Student achternaam: </label>
+            <input type="text" class="form-control" name="studentLastName" placeholder="Achternaam" formControlName="studentLastName">
+          </div>
+          <div class="form-group">
+            <label>Student nummer: </label>
+            <input type="number" class="form-control" name="studentNumber" placeholder="Nummer" formControlName="studentNumber">
+          </div>
+          <div class="form-group">
+            <label>Student email: </label>
+            <input type="text" class="form-control" name="studentEmail" placeholder="Email" formControlName="studentEmail">
+          </div>
+          <div class="form-group">
+            <label>Student uren: </label>
+            <input type="number" class="form-control" name="studentHours" placeholder="Uren" formControlName="studentHours">
+            <small class="text-muted">Laat dit veld leeg als de student 200 uren heeft.</small>
+          </div>
+          <div class="form-group">
+            <label>Student klas: </label>
+            <select class="form-control" formControlName="studentClass" name="studentClass">
+              <option value="">Selecteer een klas</option>
+              <option *ngFor="let class of classes" value="{{class.class_id}}">{{class.class_name}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button (click)="addNewStudent()" type="button" class="btn btn-secondary text-white">Opslaan</button>
+      </div>
     </div>
   </div>
 </div>

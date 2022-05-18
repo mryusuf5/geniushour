@@ -4,6 +4,7 @@
     <a routerLink="/home/totaal-projecten">Terug</a>
     <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
       <div class="p-4 d-flex gap-4 flex-column" *ngFor="let project of singleProject">
+        <span class="text-success" *ngIf="messages">{{messages.success}}</span>
         <h2>{{project.project_name}}</h2>
         <p class="fs-3">Vak: {{project.field_name}}</p>
         <p class="fs-3">Te behalen uren: {{project.project_duration}} uur</p>
@@ -16,9 +17,8 @@
         <p class="fs-3">Vakdocent(en): <span *ngFor="let teacher of teachers">{{teacher.teacher_firstname}} {{teacher.teacher_lastname}}, </span></p>
         <p class="projectDescription"><span class="fs-3">Project uitleg:</span>&nbsp; {{project.project_description}}</p>
         <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Download</a></p>
-        <button class="btn btn-secondary text-white w-25">Aanvraag indienen.</button>
+        <button class="btn btn-secondary text-white w-25" (click)="submitApplication()">Aanvraag indienen.</button>
       </div>
     </div>
   </div>
-
 </div>

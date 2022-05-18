@@ -22,6 +22,11 @@ import { NgxPaginationModule} from "ngx-pagination";
 import { Ng2OrderModule} from "ng2-order-pipe";
 import { Ng2SearchPipeModule} from "ng2-search-filter";
 import { SingleProjectEditComponent } from './pages/single-project-edit/single-project-edit.component';
+import { SingleStudentComponent } from './pages/single-student/single-student.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { TeachersComponent } from './pages/teachers/teachers.component';
+import { SingleTeacherComponent } from './pages/single-teacher/single-teacher.component';
+import { ApplicationsComponent } from './pages/applications/applications.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { SingleProjectEditComponent } from './pages/single-project-edit/single-p
     SingleProjectComponent,
     SidebarTeacherComponent,
     StudentsComponent,
-    SingleProjectEditComponent
+    SingleProjectEditComponent,
+    SingleStudentComponent,
+    ProfileComponent,
+    TeachersComponent,
+    SingleTeacherComponent,
+    ApplicationsComponent
   ],
   imports: [
     BrowserModule,

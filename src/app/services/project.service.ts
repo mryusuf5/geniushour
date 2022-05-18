@@ -6,124 +6,140 @@ import { HttpClient} from "@angular/common/http";
 })
 export class ProjectService {
 
+  public url: string = "http://yusufyildiz.nl/genieshour/backend/www/";
   constructor(private http: HttpClient) { }
 
   public GetAllProjects()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjects");
+    return this.http.get(`${this.url}ProjectController/GetAllProjects`);
   }
   public GetAllProjectsByYearAsc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsByYearAsc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsByYearAsc`, data);
   }
   public GetAllProjectsByYearDesc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsByYearDesc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsByYearDesc`, data);
   }
   public GetAllProjectsYearByNameAsc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByNameAsc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByNameAsc`, data);
   }
   public GetAllProjectsYearByNameDesc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByNameDesc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByNameDesc`, data);
   }
   public GetAllProjectsYearByFieldAsc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByFieldAsc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByFieldAsc`, data);
   }
   public GetAllProjectsYearByFieldDesc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByFieldDesc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByFieldDesc`, data);
   }
   public GetAllProjectsYearByDurationAsc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByDurationAsc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByDurationAsc`, data);
   }
   public GetAllProjectsYearByDurationDesc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByDurationDesc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByDurationDesc`, data);
   }
   public GetAllProjectsYearByDifficulityAsc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByDifficulityAsc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByDifficulityAsc`, data);
   }
   public GetAllProjectsYearByDifficulityDesc(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllProjectsYearByDifficulityDesc", data);
+    return this.http.post(`${this.url}ProjectController/GetAllProjectsYearByDifficulityDesc`, data);
   }
   public GetAllProjectsAsc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsAsc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsAsc`);
   }
   public GetAllProjectsDesc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsDesc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsDesc`);
   }
   public GetAllProjectsByNameAsc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByNameAsc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByNameAsc`);
   }
   public GetAllProjectsByNameDesc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByNameDesc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByNameDesc`);
   }
   public GetAllProjectsByFieldAsc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByFieldAsc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByFieldAsc`);
   }
   public GetAllProjectsByFieldDesc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByFieldDesc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByFieldDesc`);
   }
   public GetAllProjectsByDurationAsc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByDurationAsc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByDurationAsc`);
   }
   public GetAllProjectsByDurationDesc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByDurationDesc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByDurationDesc`);
   }
   public GetAllProjectsByDifficulityAsc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByDifficulityAsc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByDifficulityAsc`);
   }
   public GetAllProjectsByDifficulityDesc()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllProjectsByDifficulityDesc");
+    return this.http.get(`${this.url}ProjectController/GetAllProjectsByDifficulityDesc`);
   }
   public GetSingleProject(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetSingleProject", data);
+    return this.http.post(`${this.url}ProjectController/GetSingleProject`, data);
   }
 
   public GetAllFields()
   {
-    return this.http.get("http://yusufyildiz.nl/ProjectController/GetAllFields");
+    return this.http.get(`${this.url}ProjectController/GetAllFields`);
   }
 
   public GetAllFieldsById(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetAllFieldsById", data);
+    return this.http.post(`${this.url}ProjectController/GetAllFieldsById`, data);
   }
 
   public GetTeachersForSingleProject(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/GetTeachersForSingleProject", data);
+    return this.http.post(`${this.url}ProjectController/GetTeachersForSingleProject`, data);
   }
 
   public AddNewProject(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/AddNewProject", data);
+    return this.http.post(`${this.url}ProjectController/AddNewProject`, data);
   }
 
   public EditProject(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/EditProject", data);
+    return this.http.post(`${this.url}ProjectController/EditProject`, data);
   }
 
   public deleteProject(data)
   {
-    return this.http.post("http://yusufyildiz.nl/ProjectController/DeleteProject", data);
+    return this.http.post(`${this.url}ProjectController/DeleteProject`, data);
+  }
+
+  public getApplicationById(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetApplicationById`, data);
+  }
+
+  public getApplicationsByField(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetApplicationByField`, data);
+  }
+
+  public AddApplication(data)
+  {
+    return this.http.post(`${this.url}ProjectController/AddApplication`, data);
   }
 }

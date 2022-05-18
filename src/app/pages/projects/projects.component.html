@@ -1,7 +1,8 @@
 <div class="d-flex" [ngClass]="showModal ? 'backgroundDim' : ''">
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="mt-3 mx-4" style="width: 75vw">
-    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4">Project toevoegen</a>
+    <h2>Projecten</h2>
+    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4"><i class="fal fa-folder-plus"></i>  Project toevoegen</a>
 
     <div class="projectsContainer">
       <div class="d-flex gap-3">
@@ -59,8 +60,8 @@
         </button>
       </div>
       <div class="modal-body d-flex flex-column gap-4">
-        <form action="" [formGroup]="projectForm">
-          <p class="text-danger" >{{error}}</p>
+        <form class="d-flex flex-column gap-2" [formGroup]="projectForm">
+          <span *ngIf="error" class="text-danger" >{{error}}</span>
           <div class="form-group">
             <label>Project naam: </label>
             <input type="text" class="form-control" name="username" placeholder="Project naam" formControlName="projectName">

@@ -7,30 +7,44 @@
   <ul class="nav nav-pills flex-column mb-auto gap-2">
     <li class="nav-item">
       <a #dashboard routerLinkActive="active" routerLink="/dashboard" [ngClass]="dashboard.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
-        <i class="far fa-home"></i>
+        <i class="fal fa-home"></i>
         Home
       </a>
     </li>
     <li class="nav-item">
       <a #projects routerLinkActive="active" [ngClass]="projects.classList.contains('active') ? 'text-black' : 'text-white'" routerLink="/projecten" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
-        <i class="far fa-folder"></i>
+        <i class="fal fa-folder"></i>
         Projecten
       </a>
     </li>
     <li class="nav-item">
-      <a #students routerLink="/students" routerLinkActive="active" [ngClass]="students.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
-        <i class="far fa-users"></i>
+      <a #students routerLink="/studenten" routerLinkActive="active" [ngClass]="students.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="fal fa-users"></i>
         Studenten
+      </a>
+    </li>
+    <li class="nav-item">
+      <a #teachers routerLink="/leraren" routerLinkActive="active" [ngClass]="teachers.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="fal fa-users"></i>
+        Leraren
+      </a>
+    </li>
+    <li class="nav-item">
+      <a #applications routerLink="/verzoeken" routerLinkActive="active" [ngClass]="applications.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="fal fa-plus"></i>
+        Verzoeken
       </a>
     </li>
   </ul>
   <hr>
   <div class="dropdown">
     <a (click)="menuShow = !menuShow" href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="assets/images/{{profilePicture}}" alt="" width="32" height="32" class="rounded-circle me-2">
+<!--      <img src="{{profilePicture}}" alt="" width="32" height="32" class="rounded-circle me-2">-->
+      <div class="sidebarImage rounded-circle me-2" style="background-image: url({{profilePicture}})"></div>
       <strong>{{username}}</strong>
     </a>
     <ul [ngClass]="{show: menuShow, hide: !menuShow}" class="dropdown-menu dropdown-menu-dark text-small shadow dropdownMenu">
+      <li><a class="dropdown-item" href="#" routerLink="/profiel">Mijn profiel</a></li>
       <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
     </ul>
   </div>

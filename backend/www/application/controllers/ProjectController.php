@@ -335,4 +335,36 @@
                 $this->Projectmodel->deleteProject($id);
             }
         }
+
+        public function GetApplicationById()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $applications = $this->Projectmodel->GetApplicationById($data);
+
+          echo json_encode($applications);
+        }
+
+        public function GetApplicationByField()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $applications = $this->Projectmodel->GetApplicationsByField($data);
+
+          echo json_encode($applications);
+        }
+
+        public function AddApplication()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+          if($data[0] != "0" && $data[1] != "0" && $data[2] != "0")
+          {
+            $result["success"] = "Aanvraag is ingedient";
+            $this->Projectmodel->AddApplication($data[0], $data[1], $data[2]);
+            echo json_encode($result);
+          }
+        }
     }

@@ -1,3 +1,21 @@
 th span{
   cursor: pointer;
 }
+td a{
+  cursor: pointer;
+}
+.studentImage{
+  width: 75px;
+  height: 75px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+}
+.show
+{
+  display: block !important;
+}
+.backgroundDim{
+  filter: blur(8px);
+}

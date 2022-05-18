@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   public messages: any;
   public user: any;
   public loginForm: FormGroup;
-  public studentBool: Boolean = true;
+  public error: string;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -46,33 +46,25 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("userdata", JSON.stringify(userdata));
         this.router.navigate(["/home"]);
       }
-    })
-  }
-
-  public loginFormSubmitTeacher()
-  {
-    const data = new FormData();
-    const userdata = [];
-    data.append("username", this.loginForm.value.username);
-    data.append("password", this.loginForm.value.password);
-    userdata.push(this.loginForm.value.username, this.loginForm.value.password);
-
-    this.spinner.show();
-    this.userService.loginTeacher(userdata).subscribe((data) => {
-      this.spinner.hide();
-      this.messages = data;
-      if(this.messages.teacher)
+      else if(this.messages.message)
       {
-        let userdata = this.messages.teacher;
-        localStorage.setItem("teacher", JSON.stringify(userdata));
-        this.router.navigate(["/home"]);
+        this.userService.loginTeacher(userdata).subscribe((data) => {
+          this.spinner.hide();
+          this.messages = data;
+          if(this.messages.teacher)
+          {
+            let userdata = this.messages.teacher;
+            localStorage.setItem("teacher", JSON.stringify(userdata));
+            this.router.navigate(["/dashboard"]);
+          }
+          else if(this.messages.message)
+          {
+            this.error = this.messages.message;
+          }
+        })
       }
+    },(err) => {
+
     })
   }
-
-  public changeTeacher()
-  {
-    this.studentBool ? this.studentBool = false : this.studentBool = true;
-  }
-
 }

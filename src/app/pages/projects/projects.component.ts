@@ -120,9 +120,9 @@ export class ProjectsComponent implements OnInit {
 
     this.projectService.AddNewProject(data).subscribe((e) => {
       this.messages = e;
-      if(this.messages.message)
+      if(this.messages.error)
       {
-        this.error = this.messages.message;
+        this.error = this.messages.error;
       }
       if(this.messages.success)
       {
@@ -146,8 +146,10 @@ export class ProjectsComponent implements OnInit {
       this.spinner.show();
       this.projectService.GetAllProjectsAsc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsNumber = false;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
     else if(!this.projectsNumber)
@@ -155,8 +157,10 @@ export class ProjectsComponent implements OnInit {
       this.spinner.show();
       this.projectService.GetAllProjectsDesc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsNumber = true;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
   }
@@ -166,16 +170,20 @@ export class ProjectsComponent implements OnInit {
     {
       this.projectService.GetAllProjectsByNameAsc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsName = true;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
     else if(this.projectsName)
     {
       this.projectService.GetAllProjectsByNameDesc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsName = false;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
   }
@@ -185,16 +193,20 @@ export class ProjectsComponent implements OnInit {
     {
       this.projectService.GetAllProjectsByFieldAsc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsField = true;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
     else if(this.projectsField)
     {
       this.projectService.GetAllProjectsByFieldDesc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsField = false;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
   }
@@ -204,16 +216,20 @@ export class ProjectsComponent implements OnInit {
     {
       this.projectService.GetAllProjectsByDurationAsc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsDuration = true;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
     else if(this.projectsDuration)
     {
       this.projectService.GetAllProjectsByDurationDesc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsDuration = false;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
   }
@@ -223,16 +239,20 @@ export class ProjectsComponent implements OnInit {
     {
       this.projectService.GetAllProjectsByDifficulityAsc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsDifficulity = true;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
     else if(this.projectsDifficulity)
     {
       this.projectService.GetAllProjectsByDifficulityDesc().subscribe((e) => {
         this.projects = e;
-        this.spinner.hide();
         this.projectsDifficulity = false;
+        this.spinner.hide();
+      },(err) => {
+        this.spinner.hide();
       })
     }
   }

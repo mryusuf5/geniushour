@@ -3,7 +3,7 @@
   display: block !important;
 }
 .backgroundDim{
-  background-color: rgba(0, 0, 0, 0.6);
+  filter: blur(8px);
 }
 th span{
   cursor: pointer;

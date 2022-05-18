@@ -89,4 +89,68 @@ class UserController extends CI_CONTROLLER{
             echo json_encode($result);
         }
     }
+
+  public function ChangeProfilePicture()
+  {
+    $fileName = $_FILES["profilePicture"]["name"];
+    $fileName = str_replace(" ", "_", $fileName);
+    $fileTmpName = $_FILES["profilePicture"]["tmp_name"];
+
+    $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
+    $profilePicture = "./assets/images/" . $fileName;
+
+    if(move_uploaded_file($fileTmpName, $profilePicture))
+    {
+      $result = ["success" => "Profiel foto aangepast."];
+      $this->Usermodel->ChangeProfilePicture($_POST["userId"], $profilePictureData);
+      echo json_encode($result);
+    }
+    else
+    {
+      $result = ["error" => "Er is iets fout gegaan, probeer een andere foto typen up te loaden."];
+      echo json_encode($result);
+    }
+  }
+
+  public function GetProfileImage()
+  {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json);
+
+    $image = $this->Usermodel->GetProfilePicture($data);
+
+    echo json_encode($image);
+  }
+
+  public function ChangeProfilePictureTeacher()
+  {
+    $fileName = $_FILES["profilePicture"]["name"];
+    $fileName = str_replace(" ", "_", $fileName);
+    $fileTmpName = $_FILES["profilePicture"]["tmp_name"];
+
+    $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
+    $profilePicture = "./assets/images/" . $fileName;
+
+    if(move_uploaded_file($fileTmpName, $profilePicture))
+    {
+      $result = ["success" => "Profiel foto aangepast."];
+      $this->Usermodel->ChangeProfilePictureTeacher($_POST["teacherId"], $profilePictureData);
+      echo json_encode($result);
+    }
+    else
+    {
+      $result = ["error" => "Er is iets fout gegaan, probeer een andere foto typen up te loaden."];
+      echo json_encode($result);
+    }
+  }
+
+  public function GetProfileImageTeacher()
+  {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json);
+
+    $image = $this->Usermodel->GetProfilePictureTeacher($data);
+
+    echo json_encode($image);
+  }
 }
