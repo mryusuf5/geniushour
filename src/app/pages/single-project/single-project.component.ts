@@ -19,6 +19,7 @@ export class SingleProjectComponent implements OnInit {
   public userId: string = this.userdata[0].student_id;
   public applications: any = [];
   public disableApplication: boolean = false;
+  public studentProject: any = [];
 
   constructor(private projectService: ProjectService,
               private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class SingleProjectComponent implements OnInit {
     this.projectService.GetTeachersForSingleProject(data).subscribe((e) =>{
       this.teachers = e;
     })
+    this.getStudentProject();
   }
 
   public checkstudentApplication()
@@ -58,6 +60,21 @@ export class SingleProjectComponent implements OnInit {
       })
       console.log(this.applications);
       this.spinner.hide();
+    })
+    if(this.studentProject[0])
+    {
+      this.disableApplication = true;
+    }
+  }
+
+  public getStudentProject()
+  {
+    const data = [
+      this.userdata[0].student_id,
+      this.projectId
+    ]
+    this.projectService.getStudentProject(data).subscribe((e) => {
+      this.studentProject = e;
     })
   }
 

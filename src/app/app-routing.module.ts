@@ -14,6 +14,7 @@ import {ProfileComponent} from "./pages/profile/profile.component";
 import {TeachersComponent} from "./pages/teachers/teachers.component";
 import {SingleTeacherComponent} from "./pages/single-teacher/single-teacher.component";
 import {ApplicationsComponent} from "./pages/applications/applications.component";
+import {MessagesComponent} from "./pages/messages/messages.component";
 
 const routes: Routes = [
   {path: "", component: LoginComponent, canActivate: [AuthService]},
@@ -31,7 +32,8 @@ const routes: Routes = [
   {path: "leraren/leraar-edit", component: SingleTeacherComponent, canActivate: [AuthService]},
   {path: "profiel", component: ProfileComponent, canActivate: [AuthService]},
   {path: "leraren", component: TeachersComponent, canActivate: [AuthService]},
-  {path: "verzoeken", component: ApplicationsComponent, canActivate: [AuthService]}
+  {path: "verzoeken", component: ApplicationsComponent, canActivate: [AuthService]},
+  {path: "berichten", component: MessagesComponent, canActivate: [AuthService]}
 ];
 
 @NgModule({

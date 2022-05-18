@@ -27,6 +27,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { TeachersComponent } from './pages/teachers/teachers.component';
 import { SingleTeacherComponent } from './pages/single-teacher/single-teacher.component';
 import { ApplicationsComponent } from './pages/applications/applications.component';
+import { SingleStudentProjectComponent } from './pages/single-student-project/single-student-project.component';
+import { MessagesComponent } from './pages/messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { ApplicationsComponent } from './pages/applications/applications.compone
     ProfileComponent,
     TeachersComponent,
     SingleTeacherComponent,
-    ApplicationsComponent
+    ApplicationsComponent,
+    SingleStudentProjectComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="home" class="nav-link text-white gap-2 d-flex align-items-center" aria-current="page">
+      <a #messages routerLink="/berichten" routerLinkActive="active" [ngClass]="messages.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
         <i class="fal fa-comment"></i>
         Mijn berichten
       </a>

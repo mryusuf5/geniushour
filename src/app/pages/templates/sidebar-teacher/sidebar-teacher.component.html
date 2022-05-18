@@ -30,9 +30,14 @@
       </a>
     </li>
     <li class="nav-item">
-      <a #applications routerLink="/verzoeken" routerLinkActive="active" [ngClass]="applications.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
-        <i class="fal fa-plus"></i>
-        Verzoeken
+      <a #applications routerLink="/verzoeken" routerLinkActive="active" [ngClass]="applications.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center justify-content-between" aria-current="page">
+        <div class="">
+          <i class="fal fa-plus"></i>
+          Verzoeken
+        </div>
+        <div>
+          <span class="notification badge badge-pill bg-danger" *ngIf="notifications != '0'">{{notifications}}</span>
+        </div>
       </a>
     </li>
   </ul>

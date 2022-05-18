@@ -141,6 +141,11 @@
           return $this->db->query("SELECT * FROM `student_projects` INNER JOIN students ON student_projects.student_id = students.student_id INNER JOIN projects ON student_projects.project_id = projects.project_id INNER JOIN fields ON student_projects.field_id = fields.field_id WHERE student_projects.student_id = '$id'")->result();
         }
 
+        public function GetStudentProject($id, $projectId)
+        {
+          return $this->db->query("SELECT * FROM student_projects WHERE project_id = '$projectId' AND student_id = '$id'")->result();
+        }
+
         public function GetApplicationsByStudentId($id, $projectId)
         {
           return $this->db->query("SELECT * FROM `project_applications` WHERE student_id = '$id' AND project_id = '$projectId'")->result();

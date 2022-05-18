@@ -360,7 +360,7 @@
         {
           $json = file_get_contents("php://input");
           $data = json_decode($json);
-          if($data[0] != "0" && $data[1] != "0" && $data[2] != "0")
+          if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]))
           {
             $result["success"] = "Aanvraag is ingedient";
             $this->Projectmodel->AddApplication($data[0], $data[1], $data[2]);
@@ -378,12 +378,22 @@
           echo json_encode($projects);
         }
 
+        public function GetStudentProject()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $projects = $this->Projectmodel->GetStudentProject($data[0], $data[1]);
+
+          echo json_encode($projects);
+        }
+
         public function GetApplicationsByStudentId()
         {
           $json = file_get_contents("php://input");
           $data = json_decode($json);
 
-          $projects = $this->Projectmodel->GetApplicationsByStudentId($data);
+          $projects = $this->Projectmodel->GetApplicationsByStudentId($data[0], $data[1]);
 
           echo json_encode($projects);
         }
@@ -400,7 +410,10 @@
         {
           $json = file_get_contents("php://input");
           $data = json_decode($json);
-
-          $this->Projectmodel->AcceptApplication($data[0], $data[1], $data[2]);
+          if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]))
+          {
+            $this->Projectmodel->AcceptApplication($data[0], $data[1], $data[2]);
+            $this->Projectmodel->DenyApplication($data[3]);
+          }
         }
     }
