@@ -18,6 +18,8 @@
         <select class="form-select w-25" [(ngModel)]="selectedSearch">
           <option value="Student naam">Student naam</option>
           <option value="Student achternaam">Student achternaam</option>
+          <option value="Student nummer">Student nummer</option>
+          <option value="Klas">Klas</option>
           <option value="Student email">Student email</option>
         </select>
       </div>
@@ -26,6 +28,7 @@
         <tr>
           <th (click)="getAllStudentsName()"><span>Student naam <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsNumber()"><span>Student nummer <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllStudentsNumber()"><span>Klas <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsMail()"><span>Student email <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsHours()"><span>Uren over <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsId()"><span># <i class="far fa-sort"></i></span></th>
@@ -36,6 +39,7 @@
         <tr class="" *ngFor="let student of students | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
           <td class="d-flex align-items-center gap-2"><div class="studentImage" style="background-image: url({{student.student_image}})"></div><a id="{{student.student_id}}" class="text-info" (click)="gotoStudent($event)">{{student.student_firstname}} {{student.student_prefix}} {{student.student_lastname}}</a></td>
           <td>{{student.student_number}}</td>
+          <td>{{student.class_name}}</td>
           <td>{{student.student_email}}</td>
           <td>{{student.student_hours}} uur</td>
           <td>{{i}}</td>

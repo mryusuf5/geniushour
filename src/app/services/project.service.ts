@@ -142,4 +142,19 @@ export class ProjectService {
   {
     return this.http.post(`${this.url}ProjectController/AddApplication`, data);
   }
+
+  public getStudentProjects(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetStudentProjects`, data);
+  }
+
+  public getApplicationsByStudentId(data)
+  {
+    return this.http.post(`${this.url}ProjectController/getApplicationsByStudentId`, data);
+  }
+
+  public denyApplication(data)
+  {
+    return this.http.post(`${this.url}ProjectController/DenyApplication`, data);
+  }
 }

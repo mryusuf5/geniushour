@@ -1,0 +1,38 @@
+<div class="d-flex">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="singleProjectContainer mt-3 mx-4">
+    <a routerLink="/studenten">Terug</a>
+    <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
+      <form>
+        <div class="p-4 d-flex gap-4 flex-column" *ngFor="let student of student">
+          <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
+          <div class="d-flex gap-2">
+            <h2>Student voornaam:</h2><input name="studentFirstname" [(ngModel)]="formStudentFirstName" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Student voorvoegsel:</h2><input name="studentPrefix" [(ngModel)]="formStudentPrefix" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Student achternaam:</h2><input name="studentLastname" [(ngModel)]="formStudentLastName" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Student email:</h2><input class="form-control w-25" type="text" name="studentEmail" [(ngModel)]="formStudentEmail">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Uren over:</h2><input class="form-control w-25" type="text" name="studentHours" [(ngModel)]="formStudentHours">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Klas: </h2>
+            <select class="form-select w-25" name="studentClass" [(ngModel)]="formStudentClass">
+              <option *ngFor="let class of classes" value="{{class.class_id}}">{{class.class_name}}</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary text-white w-25" id="{{student.student_id}}" (click)="editStudent($event)">Student aanpassen.</button>
+          <button class="btn btn-danger deleteButton w-25 text-white" id="{{student.student_id}}" (click)="deleteStudent($event)">Student verwijderen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

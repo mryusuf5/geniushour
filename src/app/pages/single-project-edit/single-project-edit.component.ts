@@ -81,6 +81,9 @@ export class SingleProjectEditComponent implements OnInit {
           " ",
           "success"
         )
+        setTimeout(() => {
+          this.router.navigate(["/projecten"]);
+        }, 1000)
       }
     })
   }

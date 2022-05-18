@@ -367,4 +367,32 @@
             echo json_encode($result);
           }
         }
+
+        public function GetStudentProjects()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $projects = $this->Projectmodel->GetStudentProjects($data);
+
+          echo json_encode($projects);
+        }
+
+        public function GetApplicationsByStudentId()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $projects = $this->Projectmodel->GetApplicationsByStudentId($data[0], $data[1]);
+
+          echo json_encode($projects);
+        }
+
+        public function DenyApplication()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $this->Projectmodel->DenyApplication($data);
+        }
     }

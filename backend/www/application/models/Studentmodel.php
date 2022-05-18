@@ -4,43 +4,43 @@
   {
     public function GetAllStudents()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_id DESC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_id DESC")->result();
     }
     public function GetAllStudentsAsc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_id Asc")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_id Asc")->result();
     }
     public function GetAllStudentsNameAsc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_firstname ASC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_firstname ASC")->result();
     }
     public function GetAllStudentsNameDesc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_firstname DESC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_firstname DESC")->result();
     }
     public function GetAllStudentsEmailAsc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_email ASC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_email ASC")->result();
     }
     public function GetAllStudentsEmailDesc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_email DESC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_email DESC")->result();
     }
     public function GetAllStudentsHoursAsc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_hours ASC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_hours ASC")->result();
     }
     public function GetAllStudentsHoursDesc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_hours DESC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_hours DESC")->result();
     }
     public function GetAllStudentsNumberAsc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_number ASC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_number ASC")->result();
     }
     public function GetAllStudentsNumberDesc()
     {
-      return $this->db->query("SELECT * FROM students ORDER BY student_number DESC")->result();
+      return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id ORDER BY student_number DESC")->result();
     }
 
     public function GetSingleStudent($id)

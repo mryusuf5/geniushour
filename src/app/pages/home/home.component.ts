@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   public projects: any = [];
   public userdata: any = JSON.parse(localStorage.getItem("userdata"));
   public userdataClassId: string = this.userdata[0].class_id;
-  public projectsCount: number;
+  public userId: string = this.userdata[0].studentId;
   public teachers:any = [];
   public projectsNumber: boolean = true;
   public projectsName: boolean = false;
@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   public key: string = "project_id";
   public reverse: boolean = false;
   public page: number = 1;
+  public studentProjects: any = [];
 
   constructor(private router: Router,
               private projectService: ProjectService,
@@ -46,40 +47,76 @@ export class HomeComponent implements OnInit {
     const data = {"classId": this.userdataClassId};
     this.projectService.GetAllProjectsByYearDesc(data).subscribe((e) => {
       this.projects = e;
-      this.projectsCount = this.projects.length;
     })
+
+    this.getStudentProjects();
   }
 
   public search()
   {
-    if(this.selectedSearch == "Project naam" && this.searchName != "")
+    if(this.allProjects)
     {
-      this.projects = this.projects.filter(res => {
-        return res.project_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
-      })
+      if(this.selectedSearch == "Project naam" && this.searchName != "")
+      {
+        this.projects = this.projects.filter(res => {
+          return res.project_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Vak" && this.searchName != "")
+      {
+        this.projects = this.projects.filter(res => {
+          return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Aantal uren" && this.searchName != "")
+      {
+        this.projects = this.projects.filter(res => {
+          return res.project_duration.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Moeilijkheidsgraad" && this.searchName != "")
+      {
+        this.projects = this.projects.filter(res => {
+          return res.project_difficulty.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.searchName == "")
+      {
+        this.getAllProjectsYear();
+      }
     }
-    else if(this.selectedSearch == "Vak" && this.searchName != "")
+    else if(this.studentProjects)
     {
-      this.projects = this.projects.filter(res => {
-        return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
-      })
+      if(this.selectedSearch == "Project naam" && this.searchName != "")
+      {
+        this.studentProjects = this.studentProjects.filter(res => {
+          return res.project_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Vak" && this.searchName != "")
+      {
+        this.studentProjects = this.studentProjects.filter(res => {
+          return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Aantal uren" && this.searchName != "")
+      {
+        this.studentProjects = this.studentProjects.filter(res => {
+          return res.project_duration.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Moeilijkheidsgraad" && this.searchName != "")
+      {
+        this.studentProjects = this.studentProjects.filter(res => {
+          return res.project_difficulty.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.searchName == "")
+      {
+        this.getStudentProjects();
+      }
     }
-    else if(this.selectedSearch == "Aantal uren" && this.searchName != "")
-    {
-      this.projects = this.projects.filter(res => {
-        return res.project_duration.toLowerCase().match(this.searchName.toLocaleLowerCase());
-      })
-    }
-    else if(this.selectedSearch == "Moeilijkheidsgraad" && this.searchName != "")
-    {
-      this.projects = this.projects.filter(res => {
-        return res.project_difficulty.toLowerCase().match(this.searchName.toLocaleLowerCase());
-      })
-    }
-    else if(this.searchName == "")
-    {
-      this.getAllProjectsYear();
-    }
+
   }
 
   public sort(key)
@@ -94,7 +131,6 @@ export class HomeComponent implements OnInit {
     const data = {"classId": this.userdataClassId};
     this.projectService.GetAllProjectsByYearDesc(data).subscribe((e) => {
       this.projects = e;
-      this.projectsCount = this.projects.length;
       this.spinner.hide();
       this.getTeachersForSingleProjects();
       console.log(this.projects);
@@ -226,5 +262,13 @@ export class HomeComponent implements OnInit {
   public gotoProject(e)
   {
     this.router.navigate(["/home/project"], {queryParams: {projectId: e.srcElement.id}});
+  }
+
+  public getStudentProjects()
+  {
+    const data = this.userdataClassId;
+    this.projectService.getStudentProjects(data).subscribe((e) => {
+      this.studentProjects = e;
+    })
   }
 }

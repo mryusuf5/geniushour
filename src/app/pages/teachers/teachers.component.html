@@ -1,0 +1,94 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="d-flex" [ngClass]="showModal ? 'backgroundDim' : ''">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="mt-3 mx-4" style="width: 75vw">
+    <h2>Leraren</h2>
+    <a (click)="triggerModal()" class="btn btn-secondary text-white my-4"><i class="fal fa-user-plus"></i>  Leeraar toevoegen</a>
+
+    <div class="projectsContainer">
+      <div class="d-flex gap-3">
+        <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
+        <select class="form-select w-25" [(ngModel)]="selectedSearch">
+          <option value="Leeraar naam">Leeraar naam</option>
+          <option value="Leeraar achternaam">Leeraar achternaam</option>
+          <option value="Leeraar email">Leeraar email</option>
+          <option value="Leeraar email">Leeraar Vak</option>
+        </select>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th (click)="getAllTeachersName()"><span>Leeraar naam <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllTeachersMail()"><span>Leeraar email <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllTeachersField()"><span>Leeraar vak <i class="far fa-sort"></i></span></th>
+          <th (click)="getAllTeachersId()"><span># <i class="far fa-sort"></i></span></th>
+        </tr>
+        </thead>
+        <tbody *ngIf="teachers.length > 0">
+        <tr class="" *ngFor="let teacher of teachers | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
+          <td class="d-flex align-items-center gap-2"><div class="teacherImage" style="background-image: url({{teacher.teacher_image}})"></div><a id="{{teacher.teacher_id}}" class="text-info" (click)="gotoTeacher($event)">{{teacher.teacher_firstname}} {{teacher.teacher_prefix}} {{teacher.teacher_lastname}}</a></td>
+          <td>{{teacher.teacher_email}}</td>
+          <td>{{teacher.field_name}}</td>
+          <td>{{i}}</td>
+        </tr>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="teachers.length == 0">
+      <span class="text-danger">Geen leeraren.</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" [ngClass]="showModal ? 'show' : ''">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Leraar toevoegen</h5>
+        <button (click)="showModal = false" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-4">
+        <form action="" [formGroup]="teacherForm" class="d-flex flex-column gap-2">
+          <span *ngIf="error" class="text-danger" >{{error}}</span>
+          <div class="form-group">
+            <label>Leraar voornnaam: </label>
+            <input type="text" class="form-control" name="teacherName" placeholder="Voornaam" formControlName="teacherName">
+          </div>
+          <div class="form-group">
+            <label>Leraar tussenvoegsel: </label>
+            <input type="text" class="form-control" name="teacherPrefix" placeholder="Tussenvoegsel" formControlName="teacherPrefix">
+            <small class="text-muted">Laat dit veld leeg als de student geen tussenvoegsel heeft.</small>
+          </div>
+          <div class="form-group">
+            <label>Leraar achternaam: </label>
+            <input type="text" class="form-control" name="teacherLastname" placeholder="Achternaam" formControlName="teacherLastName">
+          </div>
+          <div class="form-group">
+            <label>Leraar email: </label>
+            <input type="text" class="form-control" name="teacherEmail" placeholder="Email" formControlName="teacherEmail">
+          </div>
+          <div class="form-group">
+            <label>Leraar vak: </label>
+            <select class="form-select" formControlName="teacherField" name="teacherField">
+              <option value="">Selecteer een vak</option>
+              <option *ngFor="let field of fields" value="{{field.field_id}}">{{field.field_name}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button (click)="addNewTeacher()" type="button" class="btn btn-secondary text-white">Opslaan</button>
+      </div>
+    </div>
+  </div>
+</div>

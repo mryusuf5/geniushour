@@ -9,7 +9,7 @@ class Usermodel extends CI_Model{
 
     public function Login($username, $password)
     {
-        return $this->db->query("SELECT * FROM students WHERE student_email = '$username' AND student_password = '$password'")->result();
+        return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id WHERE student_email = '$username' AND student_password = '$password'")->result();
     }
 
     public function LoginTeacher($username, $password)

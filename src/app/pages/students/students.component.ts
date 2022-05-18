@@ -107,6 +107,18 @@ export class StudentsComponent implements OnInit {
         return res.student_email.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
+    else if(this.selectedSearch == "Student nummer" && this.searchName != "")
+    {
+      this.students = this.students.filter(res => {
+        return res.student_number.toLowerCase().match(this.searchName.toLocaleLowerCase());
+      })
+    }
+    else if(this.selectedSearch == "Klas" && this.searchName != "")
+    {
+      this.students = this.students.filter(res => {
+        return res.class_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+      })
+    }
     else if(this.searchName == "")
     {
       this.getAllStudentsId();

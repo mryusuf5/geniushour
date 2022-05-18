@@ -128,11 +128,26 @@
 
         public function GetApplicationsByField($id)
         {
-          return $this->db->query("SELECT * FROM `project_applications` INNER JOIN students on project_applications.student_id = students.student_id INNER JOIN fields ON project_applications.field_id = fields.field_id WHERE project_applications.field_id = '$id'")->result();
+          return $this->db->query("SELECT * FROM `project_applications` INNER JOIN students on project_applications.student_id = students.student_id INNER JOIN fields ON project_applications.field_id = fields.field_id INNER JOIN projects on project_applications.project_id = projects.project_id WHERE project_applications.field_id = '$id'")->result();
         }
 
         public function AddApplication($student_id, $project_id, $field_id)
         {
           $this->db->query("INSERT INTO project_applications(student_id, project_id, field_id) VALUES('$student_id', '$project_id', '$field_id')");
+        }
+
+        public function GetStudentProjects($id)
+        {
+          return $this->db->query("SELECT * FROM `student_projects` INNER JOIN students ON student_projects.student_id = students.student_id INNER JOIN projects ON student_projects.project_id = projects.project_id INNER JOIN fields ON student_projects.field_id = fields.field_id WHERE id = '$id'")->result();
+        }
+
+        public function GetApplicationsByStudentId($id, $projectId)
+        {
+          return $this->db->query("SELECT * FROM `project_applications` WHERE student_id = '$id' AND project_id = '$projectId'")->result();
+        }
+
+        public function DenyApplication($id)
+        {
+          $this->db->query("DELETE FROM project_applications WHERE application_id = '$id'");
         }
     }

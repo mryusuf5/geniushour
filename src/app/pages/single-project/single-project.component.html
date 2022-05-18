@@ -1,3 +1,11 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="d-flex">
   <app-sidebar></app-sidebar>
   <div class="singleProjectContainer mt-3 mx-4">
@@ -17,7 +25,8 @@
         <p class="fs-3">Vakdocent(en): <span *ngFor="let teacher of teachers">{{teacher.teacher_firstname}} {{teacher.teacher_lastname}}, </span></p>
         <p class="projectDescription"><span class="fs-3">Project uitleg:</span>&nbsp; {{project.project_description}}</p>
         <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Download</a></p>
-        <button class="btn btn-secondary text-white w-25" (click)="submitApplication()">Aanvraag indienen.</button>
+        <button *ngIf="!disableApplication" class="btn btn-secondary text-white w-25" (click)="submitApplication()">Aanvraag indienen.</button>
+        <button *ngIf="disableApplication" disabled class="btn btn-secondary text-white w-25">Aanvraag is al ingedient.</button>
       </div>
     </div>
   </div>

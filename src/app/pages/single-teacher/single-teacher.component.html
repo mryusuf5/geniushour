@@ -1,0 +1,29 @@
+<div class="d-flex">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="singleProjectContainer mt-3 mx-4">
+    <a routerLink="/leraren">Terug</a>
+    <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
+      <form>
+        <div class="p-4 d-flex gap-4 flex-column" *ngFor="let teacher of teacher">
+          <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
+          <div class="d-flex gap-2">
+            <h2>Leraar voornaam:</h2><input name="studentFirstname" [(ngModel)]="formTeacherFirstName" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Leraar voorvoegsel:</h2><input name="studentPrefix" [(ngModel)]="formTeacherPrefix" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Leraar achternaam:</h2><input name="studentLastname" [(ngModel)]="formTeacherLastName" class="form-control w-25" type="text">
+          </div>
+          <div class="d-flex gap-2">
+            <h2>Leraar email:</h2><input class="form-control w-25" type="text" name="studentEmail" [(ngModel)]="formTeacherEmail">
+          </div>
+
+          <button class="btn btn-secondary text-white w-25" id="{{teacher.teacher_id}}" (click)="editTeacher($event)">Leraar aanpassen.</button>
+          <button class="btn btn-danger deleteButton w-25 text-white" id="{{teacher.teacher_id}}" (click)="deleteTeacher($event)">Leraar verwijderen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
