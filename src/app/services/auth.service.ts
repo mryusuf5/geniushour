@@ -179,6 +179,17 @@ export class AuthService implements CanActivate{
         }
         return true;
         break;
+      case "home/mijn-projecten/project":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "teacher")
+        {
+          this.router.navigate(["/dashboard"]);
+        }
+        return true;
+        break;
       default:
         this.router.navigate(["/login"]);
         return true;

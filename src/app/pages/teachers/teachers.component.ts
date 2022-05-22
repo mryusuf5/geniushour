@@ -72,6 +72,12 @@ export class TeachersComponent implements OnInit {
         return res.teacher_email.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
+    else if(this.selectedSearch == "Leeraar vak" && this.searchName != "")
+    {
+      this.teachers = this.teachers.filter(res => {
+        return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+      })
+    }
     else if(this.searchName == "")
     {
       this.getAllTeachersId();
@@ -175,7 +181,7 @@ export class TeachersComponent implements OnInit {
     this.router.navigate(["/leraren/leraar-edit"], {queryParams: {leraarId: e.srcElement.id}});
   }
 
-  addNewTeacher()
+  public addNewTeacher()
   {
     const data = [];
     data.push(this.teacherForm.value.teacherName,

@@ -11,6 +11,7 @@
   <div class="d-flex flex-column" style="width: 75vw">
     <div class="mt-3 mx-3">
       <h2>Overview</h2>
+      <hr>
       <div class="container mt-3">
         <div class="cardsContainer d-flex gap-3">
           <a routerLink="/home/totaal-projecten" [ngClass]="allProjects ? 'border-info' : ''" class="card text-decoration-none text-black border-2">
@@ -110,7 +111,7 @@
               </thead>
               <tbody *ngIf="studentProjects.length > 0">
               <tr class="" *ngFor="let project of studentProjects | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
-                <td><a id="{{project.project_id}}" class="text-info" (click)="gotoProject($event)">{{project.project_name}}</a></td>
+                <td><a id="{{project.project_id}}" class="text-info" (click)="gotoMyProject($event)">{{project.project_name}}</a></td>
                 <td>{{project.field_name}}</td>
                 <td>{{project.project_duration}} uren</td>
                 <td>{{project.project_difficulty}}

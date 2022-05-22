@@ -264,6 +264,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/home/project"], {queryParams: {projectId: e.srcElement.id}});
   }
 
+  public gotoMyProject(e)
+  {
+    this.router.navigate(["/home/mijn-projecten/project"], {queryParams: {projectId: e.srcElement.id}});
+  }
+
   public getStudentProjects()
   {
     const data = this.userdata[0].student_id;

@@ -167,4 +167,9 @@ export class ProjectService {
   {
     return this.http.post(`${this.url}ProjectController/AcceptApplication`, data);
   }
+
+  public getMessagesSingleProject(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetMessagesSingleProject`, data);
+  }
 }

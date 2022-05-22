@@ -18,6 +18,12 @@
           <div class="d-flex gap-2">
             <h2>Leraar email:</h2><input class="form-control w-25" type="text" name="studentEmail" [(ngModel)]="formTeacherEmail">
           </div>
+          <div class="d-flex gap-2">
+            <h2>Leraar Vak:</h2>
+            <select class="form-select w-25">
+              <option value="1">Webdevelopment</option>
+            </select>
+          </div>
 
           <button class="btn btn-secondary text-white w-25" id="{{teacher.teacher_id}}" (click)="editTeacher($event)">Leraar aanpassen.</button>
           <button class="btn btn-danger deleteButton w-25 text-white" id="{{teacher.teacher_id}}" (click)="deleteTeacher($event)">Leraar verwijderen</button>

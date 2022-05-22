@@ -143,7 +143,7 @@
 
         public function GetStudentProject($id, $projectId)
         {
-          return $this->db->query("SELECT * FROM student_projects WHERE project_id = '$projectId' AND student_id = '$id'")->result();
+          return $this->db->query("SELECT * FROM student_projects INNER JOIN fields ON student_projects.field_id = fields.field_id INNER JOIN projects ON student_projects.project_id = projects.project_id WHERE student_id = '$id' AND student_projects.project_id = '$projectId'")->result();
         }
 
         public function GetApplicationsByStudentId($id, $projectId)
@@ -159,5 +159,10 @@
         public function AcceptApplication($student_id, $project_id, $field_id)
         {
           $this->db->query("INSERT INTO student_projects(student_id, project_id, field_id) VALUES('$student_id', '$project_id', '$field_id')");
+        }
+
+        public function GetMessagesSingleProject($studentId, $projectId)
+        {
+          return $this->db->query("SELECT * FROM `messages` INNER JOIN teachers ON messages.teacher_id = teachers.teacher_id WHERE project_id = '$projectId' AND student_id = '$studentId'")->result();
         }
     }

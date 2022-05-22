@@ -416,4 +416,14 @@
             $this->Projectmodel->DenyApplication($data[3]);
           }
         }
+
+        public function GetMessagesSingleProject()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $messages = $this->Projectmodel->GetMessagesSingleProject($data[0], $data[1]);
+
+          echo json_encode($messages);
+        }
     }

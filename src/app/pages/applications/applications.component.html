@@ -10,6 +10,7 @@
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="d-flex flex-column mt-3 mx-4">
     <h2 class="mb-5">Verzoeken</h2>
+    <hr>
     <div class="applicationsContainer d-flex gap-2 flex-wrap" *ngIf="applications.length > 0">
       <a *ngFor="let app of applications" id="{{app.application_id}}" (click)="triggerModal($event)" class="card text-decoration-none text-black border-2">
         <div class="card-body text-center" id="{{app.application_id}}">

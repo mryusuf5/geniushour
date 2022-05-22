@@ -31,6 +31,7 @@ export class SingleProjectComponent implements OnInit {
       this.projectId = p["projectId"];
     })
     const data = {"projectId" : this.projectId };
+    this.spinner.show();
     this.projectService.GetSingleProject(data).subscribe((e) => {
       this.singleProject = e;
       this.checkstudentApplication()
@@ -44,27 +45,24 @@ export class SingleProjectComponent implements OnInit {
 
   public checkstudentApplication()
   {
-    this.spinner.show();
     const data = [
       this.userId,
       this.projectId
     ]
     this.projectService.getApplicationsByStudentId(data).subscribe((e) => {
       this.applications = e;
-      console.log(this.applications);
       this.applications.forEach((e) => {
         if(e.project_id == this.projectId)
         {
           this.disableApplication = true;
         }
       })
-      console.log(this.applications);
+      if(this.studentProject.length > 0)
+      {
+        this.disableApplication = true;
+      }
       this.spinner.hide();
     })
-    if(this.studentProject[0])
-    {
-      this.disableApplication = true;
-    }
   }
 
   public getStudentProject()
