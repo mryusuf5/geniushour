@@ -171,9 +171,6 @@
                   <span class="text-danger" *ngIf="project.project_difficulty > 8 && project.project_difficulty < 11">Heel moeilijk</span>
                 </td>
                 <td>{{i}}</td>
-                <!--              <td *ngFor="let teacher of project.teachers">-->
-                <!--                <span>{{teacher[0].teacher_firstname}}</span>-->
-                <!--              </td>-->
               </tr>
               <pagination-controls (pageChange)="page = $event"></pagination-controls>
               </tbody>

@@ -20,6 +20,7 @@ export class SingleProjectComponent implements OnInit {
   public applications: any = [];
   public disableApplication: boolean = false;
   public studentProject: any = [];
+  public projectSupplies: any = [];
 
   constructor(private projectService: ProjectService,
               private route: ActivatedRoute,
@@ -37,10 +38,19 @@ export class SingleProjectComponent implements OnInit {
       this.checkstudentApplication()
     });
 
+    this.getSupplies();
+
     this.projectService.GetTeachersForSingleProject(data).subscribe((e) =>{
       this.teachers = e;
     })
     this.getStudentProject();
+  }
+
+  public getSupplies()
+  {
+    this.projectService.getProjectSupplies(this.projectId).subscribe((e) => {
+      this.projectSupplies = e;
+    })
   }
 
   public checkstudentApplication()

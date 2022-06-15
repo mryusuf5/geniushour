@@ -1,3 +1,11 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="d-flex">
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="singleProjectContainer mt-3 mx-4">
@@ -39,8 +47,24 @@
             <textarea class="form-control w-25"  value="{{project.project_description}}" name="projectDescription">
             </textarea>
           </div>
-          <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Downloaden</a></p>
-          <button class="btn btn-secondary text-white w-25" id="{{project.project_id}}" (click)="editProject($event)">Project aanpassen.</button>
+          <div class="form-group">
+            <label class="fs-3">bestanden toevoegen: </label>
+            <input type="file" multiple class="form-control" (change)="uploadFile($event)" name="projectFiles">
+          </div>
+          <div *ngIf="projectSupplies.length > 0" class="d-flex flex-column gap-2">
+            <span *ngFor="let supply of projectSupplies" class="singleItem d-flex flex-row gap-3 fs-3 justify-content-between">
+              <div class="d-flex gap-3">
+                <span><i class="fal fa-file"></i></span>
+                <span>{{supply.supply_name}}</span>
+              </div>
+              <div class="d-flex flex-row gap-3">
+                <a href="{{supply.supply_filename}}" target="_blank" download class="btn btn-secondary text-white">Downloaden</a>
+                <button class="btn btn-danger text-white deleteButton" id="{{supply.supply_id}}" (click)="deleteSupply($event)">Verwijderen</button>
+              </div>
+            </span>
+          </div>
+          <button class="btn btn-secondary text-white w-25" (click)="uploadFiles()" *ngIf="selectedFiles.length > 0">Documenten uploaden</button>
+          <button class="btn btn-secondary text-white w-25" id="{{project.project_id}}" (click)="editProject($event)">Project aanpassen</button>
           <button class="btn btn-danger deleteButton w-25 text-white" id="{{project.project_id}}" (click)="deleteProject($event)">Verwijder project</button>
         </div>
       </form>

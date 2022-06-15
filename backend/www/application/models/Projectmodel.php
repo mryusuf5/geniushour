@@ -116,6 +116,16 @@
             $this->db->query("INSERT INTO projects(project_name, project_description, project_duration, field_id, project_difficulty, project_year) VALUES('$project_name', '$project_description', '$project_duration', '$field_id', '$project_difficulty', '$project_year')");
         }
 
+        public function AddSuppliesProject($projectId, $supplyName, $supplyLink)
+        {
+          $this->db->query("INSERT INTO project_supplies(supply_name, supply_filename, project_id) VALUES('$supplyName', '$supplyLink', '$projectId')");
+        }
+
+        public function DeleteSupply($supplyId)
+        {
+          $this->db->query("DELETE FROM project_supplies WHERE supply_id = '$supplyId'");
+        }
+
         public function DeleteProject($id)
         {
             $this->db->query("DELETE FROM projects WHERE project_id = '$id'");
@@ -232,5 +242,15 @@
         public function DeleteProjectsByField($fieldId)
         {
           $this->db->query("DELETE FROM projects WHERE field_id = '$fieldId'");
+        }
+
+        public function DeleteSuppliesByProjectId($projectId)
+        {
+          $this->db->query("DELETE FROM project_supplies WHERE project_id = '$projectId'");
+        }
+
+        public function GetAllSuppliesByProjectId($projectId)
+        {
+          return $this->db->query("SELECT * FROM project_supplies WHERE project_id = '$projectId'")->result();
         }
     }

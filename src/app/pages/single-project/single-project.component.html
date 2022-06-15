@@ -24,7 +24,17 @@
         </p>
         <p class="fs-4">Vakdocent(en): <span *ngFor="let teacher of teachers">{{teacher.teacher_firstname}} {{teacher.teacher_lastname}}, </span></p>
         <p class="projectDescription"><span class="fs-4">Project uitleg:</span>&nbsp; {{project.project_description}}</p>
-        <p class="fs-4">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Downloaden</a></p>
+        <div *ngIf="projectSupplies.length > 0" class="d-flex flex-column gap-2">
+            <span *ngFor="let supply of projectSupplies" class="singleItem d-flex flex-row gap-3 fs-3 justify-content-between">
+              <div class="d-flex gap-3">
+                <span><i class="fal fa-file"></i></span>
+                <span>{{supply.supply_name}}</span>
+              </div>
+              <div class="d-flex flex-row gap-3">
+                <a href="{{supply.supply_filename}}" target="_blank" download class="btn btn-secondary text-white">Downloaden</a>
+              </div>
+            </span>
+        </div>
         <button *ngIf="!disableApplication" class="btn btn-secondary text-white w-25" (click)="submitApplication()">Aanvraag indienen.</button>
         <button *ngIf="disableApplication" disabled class="btn btn-secondary text-white w-25">Ingediend.</button>
       </div>

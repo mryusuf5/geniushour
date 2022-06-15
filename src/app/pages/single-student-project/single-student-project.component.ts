@@ -28,6 +28,7 @@ export class SingleStudentProjectComponent implements OnInit {
   public progressTeacherLatest: string;
   public getProgressLength: any = [];
   public applications: any = [];
+  public projectSupplies: any = [];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -43,8 +44,17 @@ export class SingleStudentProjectComponent implements OnInit {
     this.getSingleProject();
     this.getMessages();
     this.getProgress();
+    this.getSupplies();
     Chart.register(...registerables);
     this.getAllProgresses();
+  }
+
+  public getSupplies()
+  {
+    this.projectService.getProjectSupplies(this.projectId).subscribe((e) => {
+      this.projectSupplies = e;
+      console.log(e)
+    })
   }
 
   public getSingleProject()

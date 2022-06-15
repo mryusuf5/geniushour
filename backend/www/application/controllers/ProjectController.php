@@ -297,44 +297,83 @@
 
         public function AddNewProject()
         {
-            $json = file_get_contents("php://input");
-            $data = json_decode($json);
             $result = [];
-            $projectExists = $this->Projectmodel->GetSingleProjectByName($data[0]);
+            $projectExists = $this->Projectmodel->GetSingleProjectByName($_POST["projectName"]);
 
-//            var_dump($_FILES["projectFiles"]);
-
-            if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]) && $data[3] && $data[4])
+            if(!empty($_POST["projectName"]) && !empty($_POST["projectDescription"]) && !empty($_POST["projectDuration"]) && !empty($_POST["projectField"]) && !empty($_POST["projectDifficulity"]))
             {
                 if(count($projectExists) == 0)
                 {
-                    $result["success"] = "Success";
-                    $this->Projectmodel->AddNewProject($data[0], $data[1], $data[2], $data[3], $data[4], 3);
+                  $this->Projectmodel->AddNewProject($_POST["projectName"], $_POST["projectDescription"], $_POST["projectDuration"], $_POST["projectField"], $_POST["projectDifficulity"], 3);
+                  $projectObject = $this->Projectmodel->GetSingleProjectByName($_POST["projectName"]);
+                  $project = json_decode(json_encode($projectObject), true);
+                  $fileCount = 0;
+                  $targetDir = "./assets/files/";
+                  foreach($_FILES["files"]["name"] as $file)
+                  {
+                    $targetFile = $targetDir . str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
+                    $fileName = str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
+                    move_uploaded_file($_FILES["files"]["tmp_name"][$fileCount], $targetFile);
+                    $this->Projectmodel->AddSuppliesProject($project[0]["project_id"], $file, "http://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
+                    $result["success"] = "success";
+                    $fileCount++;
+                  }
                 }
                 else
                 {
-                    $result["message"] = "Deze project bestaat al.";
+                    $result["error"] = "Deze project bestaat al.";
                 }
-
             }
             else
             {
-                $result["message"] = "Vul alles in a.u.b.";
+                $result["error"] = "Vul alles in a.u.b.";
             }
 
             echo json_encode($result);
+        }
+
+        public function AddSuppliesProject()
+        {
+          $fileCount = 0;
+          $targetDir = "./assets/files/";
+          foreach($_FILES["files"]["name"] as $file)
+          {
+            $targetFile = $targetDir . str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
+            $fileName = str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
+            move_uploaded_file($_FILES["files"]["tmp_name"][$fileCount], $targetFile);
+            $this->Projectmodel->AddSuppliesProject($_POST["projectId"], $file, "http://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
+            $fileCount++;
+          }
+        }
+
+        public function DeleteSupply()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+
+          $this->Projectmodel->DeleteSupply($data);
+        }
+
+        public function GetProjectSupplies()
+        {
+          $json = file_get_contents("php://input");
+          $data = json_decode($json);
+          $supplies = [];
+
+          $supplies = $this->Projectmodel->GetAllSuppliesByProjectId($data);
+
+          echo json_encode($supplies);
         }
 
         public function DeleteProject()
         {
             $json = file_get_contents("php://input");
             $data = json_decode($json);
-            $result = [];
-            var_dump($data);
             $id = (string)$data;
             if(!empty($id))
             {
                 $this->Projectmodel->deleteProject($id);
+                $this->Projectmodel->DeleteSuppliesByProjectId($id);
             }
         }
 

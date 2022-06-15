@@ -29,9 +29,7 @@ export class ProjectsComponent implements OnInit {
   public reverse: boolean = false;
   public page: number = 1;
   public selectedFiles: any = [];
-  public selFiles: any;
-  public formData: any;
-
+  public files: any;
 
   constructor(private projectService: ProjectService,
               private spinner: NgxSpinnerService,
@@ -85,7 +83,7 @@ export class ProjectsComponent implements OnInit {
 
   public gotoProject(e)
   {
-    this.router.navigate(["/projecten/project-edit"], {queryParams: {projectId: e.srcElement.id}});
+    this.router.navigate(["/projecten/project-edit"], {queryParams: {projectId: e.target.id}});
   }
 
   public getAllProjects()
@@ -108,61 +106,52 @@ export class ProjectsComponent implements OnInit {
 
   public uploadFile(e)
   {
-    // const element = e.currentTarget as HTMLInputElement;
-    // this.selFiles = element.files;
-    //
-    // let fileList: FileList | null = element.files;
-    // if(fileList)
-    // {
-    //   for(let itm in fileList)
-    //   {
-    //     let item: File = fileList[itm];
-    //     if((itm.match(/\d+/g) != null) && (!this.selectedFiles.includes(item['name'])))
-    //     {
-    //       this.selectedFiles.push(item['name']);
-    //     }
-    //   }
-    // }
     this.selectedFiles = e.target.files;
     this.projectForm.patchValue({
-      files: this.selectedFiles[0]
+      files: this.selectedFiles
     })
+  }
+
+  public removeFiles()
+  {
+    this.selectedFiles = [];
+    this.files = [];
+    this.projectForm.patchValue({
+      files: []
+    })
+    console.log(this.selectedFiles)
   }
 
   public addNewProject()
   {
-
-    const data = [];
+    this.spinner.show();
     const files = new FormData();
 
-    files.append("files", this.projectForm.value.files)
-    console.log(files);
+    for(let i = 0; i < this.selectedFiles.length; i++)
+    {
+      files.append("files[]", this.projectForm.value.files[i]);
+    }
+    files.append("projectName", this.projectForm.value.projectName);
+    files.append("projectDescription", this.projectForm.value.projectDescription);
+    files.append("projectDuration", this.projectForm.value.projectDuration);
+    files.append("projectField", this.projectForm.value.projectField);
+    files.append("projectDifficulity", this.projectForm.value.projectDifficulity);
 
 
-    data.push(this.projectForm.value.projectName,
-      this.projectForm.value.projectDescription,
-      this.projectForm.value.projectDuration,
-      this.projectForm.value.projectField,
-      this.projectForm.value.projectDifficulity,
-      this.projectForm.value.projectYear)
-
-
-    this.projectService.AddNewProject(data).subscribe((e) => {
+    this.projectService.AddNewProject(files).subscribe((e) => {
       this.messages = e;
+      console.log(this.messages);
       if(this.messages.error)
       {
+        this.spinner.hide();
         this.error = this.messages.error;
       }
       if(this.messages.success)
       {
+        this.spinner.hide();
         this.showModal = false;
         this.getAllProjects();
-        this.projectForm.get("projectName").reset(),
-        this.projectForm.get("projectDescription").reset(),
-        this.projectForm.get("projectDuration").reset(),
-        this.projectForm.value.get("projectField").reset(),
-        this.projectForm.value.get("projectDifficulity").reset(),
-        this.projectForm.value.get("projectYear").reset()
+        location.reload();
       }
     })
   }

@@ -232,4 +232,19 @@ export class ProjectService {
   {
     return this.http.post(`${this.url}ProjectController/GetApplicationByProjectId`, data);
   }
+
+  public getProjectSupplies(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetProjectSupplies`, data);
+  }
+
+  public addProjectSupply(data)
+  {
+    return this.http.post(`${this.url}ProjectController/AddSuppliesProject`, data);
+  }
+
+  public deleteSupply(data)
+  {
+    return this.http.post(`${this.url}ProjectController/DeleteSupply`, data);
+  }
 }
