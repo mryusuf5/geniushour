@@ -1,0 +1,84 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="d-flex">
+  <app-sidebar></app-sidebar>
+  <div class="mt-3 mx-3 d-flex flex-column overflow-hidden">
+    <h2>Mijn berichten</h2>
+    <hr>
+    <div class="messagesContainer">
+      <div class="d-flex gap-3 table-responsive searchContainer">
+        <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
+        <select class="form-select w-25" [(ngModel)]="selectedSearch">
+          <option value="voornaam">Voornaam</option>
+          <option value="achternaam">Achternaam</option>
+          <option value="bericht">Bericht</option>
+          <option value="datum">Datum</option>
+        </select>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th><span>Verzender</span></th>
+          <th><span>Bericht</span></th>
+          <th><span>Datum</span></th>
+          <th><span>#</span></th>
+        </tr>
+        </thead>
+        <tbody *ngIf="messages.length > 0">
+        <tr class="" *ngFor="let message of messages | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
+          <td class="d-flex align-items-center gap-2"><div class="image" style="background-image: url({{message.teacher_image}})"></div><span class="">{{message.teacher_firstname}} {{message.teacher_prefix}} {{message.teacher_lastname}}</span></td>
+          <td id="{{message.student_id}}" (click)="gotoProject($event)" class="message">
+            <span class="overflow-hidden" [ngClass]="message.read_message != 1 ? 'text-danger' : 'text-info'">{{message.message}}</span>
+          </td>
+          <td>{{message.message_created}}</td>
+          <td>
+            <div class="d-flex gap-4 text-info">
+              <span *ngIf="message.read_message != 1" id="{{message.id}}" (click)="markRead($event)"><i id="{{message.id}}" class="fal fa-eye"></i></span>
+              <span *ngIf="message.read_message == 1" id="{{message.id}}" (click)="markUnread($event)"><i id="{{message.id}}" class="fal fa-eye-slash"></i></span>
+              <span (click)="gotoProject($event)" id="{{message.project_id}}"><i id="{{message.project_id}}" class="fal fa-external-link"></i></span>
+              <span (click)="deleteMessage($event)" id="{{message.id}}"><i id="{{message.id}}" class="fal fa-trash"></i></span>
+            </div>
+          </td>
+        </tr>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="mt-3 mx-3 d-flex flex-column overflow-hidden" *ngIf="false">
+  <h2>Mijn berichten</h2>
+  <div class="messagesContainer">
+    <hr>
+    <div *ngIf="messages.length < 0" class="d-flex gap-2 flex-row flex-wrap">
+      <div class="singleMessage d-flex flex-column gap-3 p-2 border-3" [ngClass]="message.read_message == 0 ? 'text-danger' : 'border-info'" *ngFor="let message of messages">
+        <div class="d-flex justify-content-between">
+          <div class="image" style="background-image: url({{message.teacher_image}})"></div>
+          <div class="d-flex flex-column text-end">
+            <p class="fs-4">{{message.teacher_firstname}} {{message.teacher_prefix}} {{message.teacher_lastname}}</p>
+            <span class="text-muted fs-5">{{message.message_created}}</span>
+          </div>
+        </div>
+        <div class="messageContainer d-flex flex-column justify-content-between align-items-end">
+          <p class="message">{{message.message}}</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-secondary text-white"id="{{message.project_id}}" (click)="gotoProject($event)">Ga naar project</button>
+            <button *ngIf="message.read_message != 1" class="btn btn-warning warningButton text-white"id="{{message.id}}" (click)="markRead($event)">Markeren als gelezen</button>
+            <button *ngIf="message.read_message == 1" class="btn btn-warning warningButton text-white"id="{{message.id}}" (click)="markUnread($event)">Markeren als ongelezen</button>
+            <button class="btn btn-danger deleteButton text-white"id="{{message.id}}" (click)="deleteMessage($event)">Verwijder bericht</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="messages.length <= 0">
+      <span class="text-danger">Geen berichten...</span>
+    </div>
+  </div>
+</div>

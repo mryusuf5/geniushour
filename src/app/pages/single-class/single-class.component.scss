@@ -1,0 +1,21 @@
+.studentImage{
+  width: 75px;
+  height: 75px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+}
+a{
+  cursor: pointer;
+}
+.deleteButton{
+  background: #BB2D3B;
+}
+.show
+{
+  display: block !important;
+}
+.backgroundDim{
+  filter: blur(8px);
+}

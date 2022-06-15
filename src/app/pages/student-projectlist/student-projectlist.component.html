@@ -1,0 +1,58 @@
+<div class="d-flex">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="singleProjectContainer mt-3 mx-4">
+    <a routerLink="/studenten">Terug</a>
+    <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
+      <form>
+        <div class="p-4 d-flex gap-4 flex-column" *ngFor="let student of student">
+          <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
+
+          <h2>{{student.student_firstname}} {{student.student_prefix}} {{student.student_lastname}}'s projecten</h2>
+          <a id="{{student.student_id}}" (click)="gotoStudent($event)" class="btn btn-secondary text-white my-4"><i class="fal"></i>  student informatie wijzigen</a>
+
+          <div class="projectsContainer">
+            <div class="d-flex gap-3">
+              <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()" name="search">
+              <select class="form-select w-25" [(ngModel)]="selectedSearch" name="searchAttribute">
+                <option value="Project naam">Project naam</option>
+                <option value="Vak">Vak</option>
+                <option value="Aantal uren">Aantal uren</option>
+                <option value="Moeilijkheidsgraad">Moeilijkheidsgraad</option>
+              </select>
+            </div>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th><span>Project naam</span></th>
+                <th><span>Vak</span></th>
+                <th><span>Aantal uren</span></th>
+                <th><span>Moeilijkheidsgraad</span></th>
+                <th><span>#</span></th>
+              </tr>
+              </thead>
+              <tbody *ngIf="projects.length > 0">
+              <tr class="" *ngFor="let project of projects | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
+                <td><a id="{{project.project_id}}" class="text-info" (click)="gotoStudentProject($event)">{{project.project_name}}</a><span class="text-success" *ngIf="project.finished == 1"> (afgerond)</span></td>
+                <td>{{project.field_name}}</td>
+                <td>{{project.project_duration}} uren</td>
+                <td>{{project.project_difficulty}}
+                  <span class="text-success" *ngIf="project.project_difficulty >= 1 && project.project_difficulty < 4">Makkelijk</span>
+                  <span class="text-warning" *ngIf="project.project_difficulty > 3 && project.project_difficulty < 6">Matig</span>
+                  <span class="text-warning" *ngIf="project.project_difficulty > 5 && project.project_difficulty < 9">Moeilijk</span>
+                  <span class="text-danger" *ngIf="project.project_difficulty > 8 && project.project_difficulty < 11">Heel moeilijk</span>
+                </td>
+                <td>{{i}}</td>
+              </tr>
+              <pagination-controls (pageChange)="page = $event"></pagination-controls>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="projects.length == 0">
+            <span class="text-danger">Geen projecten.</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,74 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="d-flex mainContainer">
+  <app-sidebar></app-sidebar>
+  <div class="singleProjectContainer mt-3 mx-4">
+    <a *ngIf="singleProject[0].finished != 1" routerLink="/home/mijn-projecten">Terug</a>
+    <a *ngIf="singleProject[0].finished == 1" routerLink="/home/afgeronde-projecten">Terug</a>
+    <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
+      <div class="p-4 d-flex gap-4 flex-column singleProject" *ngFor="let project of singleProject">
+        <h2>{{project.project_name}} <span *ngIf="project.finished == 1" class="text-success">(afgerond)</span></h2>
+        <p class="fs-3">Vak: {{project.field_name}}</p>
+        <p class="fs-3">Te behalen uren: {{project.project_duration}} uur</p>
+        <p class="fs-3">Moeilijkheidsgraad: {{project.project_difficulty}}
+          <span class="text-success" *ngIf="project.project_difficulty > 1 && project.project_difficulty < 4">Makkelijk</span>
+          <span class="text-warning" *ngIf="project.project_difficulty > 3 && project.project_difficulty < 6">Matig</span>
+          <span class="text-warning" *ngIf="project.project_difficulty > 5 && project.project_difficulty < 9">Moeilijk</span>
+          <span class="text-danger" *ngIf="project.project_difficulty > 8 && project.project_difficulty < 11">Heel moeilijk</span>
+        </p>
+        <p class="fs-3">Vakdocent(en): <span *ngFor="let teacher of teachers">{{teacher.teacher_firstname}} {{teacher.teacher_lastname}}, </span></p>
+        <p class="projectDescription"><span class="fs-3">Project uitleg:</span>&nbsp; {{project.project_description}}</p>
+        <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Download</a></p>
+        <button *ngIf="project.finished != 1 && applications.length == 0" (click)="finishProject($event)" id="{{project.project_id}}" class="btn btn-secondary text-white w-25">Project afronden</button>
+        <button *ngIf="project.finished == 1" disabled class="btn btn-secondary text-white w-25">Project is afgerond</button>
+        <button *ngIf="applications.length > 0" disabled class="btn btn-secondary text-white w-25">Afronden is aangevraagd</button>
+        <hr>
+        <div class="progressContainer">
+          <p class="fs-3">Mijn voortgang:</p>
+          <div class="chartContainer">
+            <canvas width="400" height="400" id="chart"></canvas>
+          </div>
+          <div>
+            <p class="fs-4">Totaal af leeraar: <strong>{{progress}}%</strong></p>
+            <div class="progress">
+              <div class="progress-bar bg-info" style="width: {{progress}}%;">{{progress}}%</div>
+            </div>
+            <br>
+            <p class="fs-4">Totaal af leerling: <strong>{{progressTeacherLatest}}%</strong></p>
+            <div class="progress">
+              <div class="progress-bar bg-danger" style="width: {{progressTeacherLatest}}%;">{{progressTeacherLatest}}%</div>
+            </div>
+            <br>
+            <div class="d-flex flex-column gap-2" *ngIf="project.finished != 1">
+              <p class="fs-4">Voortgang boeken:</p>
+              <p class="fs-4">{{tmpProgress}}%</p>
+              <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="tmpProgress">
+              <button class="btn btn-secondary text-white w-50" (click)="updateProgress()">Voortgang boeken</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="messagesContainer">
+          <p class="fs-3">Mijn berichten: </p>
+          <div class="messages" *ngIf="messages.length > 0">
+            <div *ngFor="let message of messages">
+              <p class="fs-4">Bericht van: {{message.teacher_firstname}} {{message.teacher_prefix}} {{message.teacher_lastname}}</p>
+              <p class="fs-5">{{message.message}}</p>
+              <p class="text-muted">Datum: {{message.message_created}}</p>
+              <hr>
+            </div>
+          </div>
+          <div *ngIf="messages.length <= 0">
+            <p class="fs-4 text-danger">Geen berichten...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="d-flex" [ngClass]="showModal ? 'backgroundDim' : ''">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="mt-3 mx-4" style="width: 75vw">
+    <h2>Klas {{className}}</h2>
+    <hr>
+    <a [routerLink]="['/klassen']">Terug</a>
+    <div class="d-flex justify-content-between">
+      <button (click)="triggerModal()" class="btn btn-secondary text-white my-4"><i class="fal fa-user-plus"></i> Student toevoegen aan deze klas</button>
+      <button (click)="deleteClass()" class="btn btn-danger text-white my-4 deleteButton">Verwijder klas</button>
+    </div>
+
+    <div class="projectsContainer">
+      <div class="d-flex gap-3 table-responsive">
+        <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
+        <select class="form-select w-25" [(ngModel)]="selectedSearch">
+          <option value="voornaam">Voornaam</option>
+          <option value="achternaam">Achternaam</option>
+          <option value="studentnummer">Studentnummer</option>
+          <option value="email">Email</option>
+        </select>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th><span>Student naam</span></th>
+          <th><span>Student nummer</span></th>
+          <th><span>Student email</span></th>
+          <th><span>Uren over</span></th>
+          <th><span>#</span></th>
+        </tr>
+        </thead>
+        <tbody *ngIf="students.length > 0">
+        <tr class="" *ngFor="let student of students | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
+          <td class="d-flex align-items-center gap-2"><div class="studentImage" style="background-image: url({{student.student_image}})"></div><a id="{{student.student_id}}" class="text-info" (click)="gotoStudent($event)">{{student.student_firstname}} {{student.student_prefix}} {{student.student_lastname}}</a></td>
+          <td>{{student.student_number}}</td>
+          <td>{{student.student_email}}</td>
+          <td>{{student.student_hours}}</td>
+          <td>{{i}}</td>
+          <td><button id="{{student.student_id}}" (click)="removeStudent($event)" class="btn btn-danger deleteButton text-white deleteFromClassButton">Verwijder uit klas</button></td>
+        </tr>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="students.length == 0">
+      <span class="text-danger">Geen studenten.</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" [ngClass]="showModal ? 'show' : ''">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Student toevoegen</h5>
+        <button (click)="showModal = false" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-4">
+        <input class="form-control" type="text"  placeholder="Zoeken op {{allSelectedSearch}}" [(ngModel)]="allSearchName" (ngModelChange)="searchAll()">
+        <select class="form-select" [(ngModel)]="allSelectedSearch">
+          <option value="voornaam">Voornaam</option>
+          <option value="achternaam">Achternaam</option>
+          <option value="studentnummer">Studentnummer</option>
+          <option value="email">Email</option>
+        </select>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th><span>Student naam</span></th>
+            <th><span>Student nummer</span></th>
+            <th><span>Toevoegen</span></th>
+          </tr>
+          </thead>
+          <tbody *ngIf="allStudents.length > 0">
+          <tr class="" *ngFor="let student of allStudents | paginate: {itemsPerPage: 6,currentPage: page}; let i = index">
+            <td class="d-flex align-items-center gap-2"><div class="studentImage" style="background-image: url({{student.student_image}})"></div>{{student.student_firstname}} {{student.student_prefix}} {{student.student_lastname}}</td>
+            <td>{{student.student_number}}</td>
+            <td *ngIf="student.class_id != classId">
+              <button class="btn btn-secondary text-white" (click)="addNewStudent($event)" id="{{student.student_id}}"><i id="{{student.student_id}}" class="fal fa-user-plus"></i></button>
+            </td>
+            <td *ngIf="student.class_id == classId">
+              <button disabled="disabled" class="btn btn-secondary text-white"><i class="fal fa-user-plus"></i></button>
+            </td>
+          </tr>
+          <pagination-controls (pageChange)="page = $event"></pagination-controls>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

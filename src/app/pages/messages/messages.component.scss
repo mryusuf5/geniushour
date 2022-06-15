@@ -1,0 +1,33 @@
+.image{
+  height: 75px;
+  width: 75px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+.singleMessage{
+  border: 2px solid;
+  width: 470px;
+}
+.messagesContainer{
+  width: 80vw;
+}
+.message{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.messagesContainer table{
+  width: 80%;
+  table-layout: fixed;
+}
+.searchContainer{
+  width: 80%;
+}
+.deleteButton{
+  background: #BB2D3B;
+}
+.warningButton{
+  background: #FFCA2C;
+}

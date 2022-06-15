@@ -1,0 +1,65 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Berichten aan het ophalen...</p>
+</ngx-spinner>
+<div class="d-flex">
+  <app-sidebar-teacher></app-sidebar-teacher>
+  <div class="singleProjectContainer mt-3 mx-4">
+    <a class="text-blue" (click)="goBack($event)" id="{{studentId}}">Terug</a>
+    <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
+      <div class="progressContainer">
+        <p class="fs-3">Mijn voortgang:</p>
+        <button class="btn btn-danger deleteButton text-white" (click)="deleteProject()">Verwijder project</button>
+        <div class="chartContainer">
+          <canvas width="400" height="400" id="chart"></canvas>
+        </div>
+        <div>
+          <p class="fs-4">Totaal af leeraar: <strong>{{progress}}%</strong></p>
+          <div class="progress">
+            <div class="progress-bar bg-info" style="width: {{progress}}%;">{{progress}}%</div>
+          </div>
+          <br>
+          <p class="fs-4">Totaal af leerling: <strong>{{progressStudentLatest}}%</strong></p>
+          <div class="progress">
+            <div class="progress-bar bg-danger" style="width: {{progressStudentLatest}}%;">{{progressStudentLatest}}%</div>
+          </div>
+          <br>
+          <div class="d-flex flex-column gap-2">
+            <p class="fs-4">Voortgang boeken:</p>
+            <p class="fs-4">{{tmpProgress}}%</p>
+            <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="tmpProgress">
+            <button class="btn btn-secondary text-white w-50" (click)="updateProgress()">Voortgang boeken</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 d-flex gap-4 flex-column">
+        <span class="text-danger" *ngIf="apiMessage.error">{{apiMessage.error}}</span>
+        <span class="text-success" *ngIf="apiMessage.success">{{apiMessage.success}}</span>
+        <form (ngSubmit)="createMessage()">
+          <div class="form-group">
+            <textarea [(ngModel)]="message" name="message" type="text" class="form-control"></textarea>
+          </div>
+          <input type="submit" class="btn btn-secondary text-white mt-2" value="Verstuur bericht">
+        </form>
+        <div class="messagesContainer">
+          <p class="fs-3">Berichten: </p>
+          <div class="messages" *ngIf="messages.length > 0">
+            <div *ngFor="let message of messages">
+              <p class="fs-4">Bericht van: {{message.teacher_firstname}} {{message.teacher_prefix}} {{message.teacher_lastname}}</p>
+              <p class="fs-5">{{message.message}}</p>
+              <p class="text-muted">Datum: {{message.message_created}}</p>
+              <hr>
+            </div>
+          </div>
+          <div *ngIf="messages.length <= 0">
+            <p class="fs-4 text-danger">Geen berichten...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
