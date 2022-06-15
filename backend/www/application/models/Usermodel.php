@@ -36,4 +36,16 @@ class Usermodel extends CI_Model{
   {
     return $this->db->query("SELECT teacher_image FROM teachers WHERE teacher_id = '$id'")->result();
   }
+
+  public function UpdateUserPassword($state, $password, $id)
+  {
+    if($state == "student")
+    {
+      $this->db->query("UPDATE students SET student_password = '$password' WHERE student_id = '$id'");
+    }
+    else if($state = "teacher")
+    {
+      $this->db->query("UPDATE teachers SET teacher_password = '$password' WHERE teacher_id = '$id'");
+    }
+  }
 }

@@ -14,8 +14,17 @@
 .notificationContainer{
   position: relative;
 }
-//.notification{
-//  position: absolute;
-//  top: 0;
-//  right: 0;
+.sidebar-teacher{
+  position: fixed;
+}
+.sidebar-teacher-spacer{
+  width: 280px;
+}
+//@media only screen and (max-width: 900px){
+//  .sidebar-teacher{
+//    display: none !important;
+//  }
+//  .sidebar-teacher-spacer{
+//    width: 0px;
+//  }
 //}

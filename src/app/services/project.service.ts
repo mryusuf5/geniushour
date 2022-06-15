@@ -172,4 +172,64 @@ export class ProjectService {
   {
     return this.http.post(`${this.url}ProjectController/GetMessagesSingleProject`, data);
   }
+
+  public sendMessage(data)
+  {
+    return this.http.post(`${this.url}ProjectController/SendMessage`, data);
+  }
+
+  public updateProgress(data)
+  {
+    return this.http.post(`${this.url}ProjectController/UpdateProgress`, data);
+  }
+
+  public getAllProgresses(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetAllProgresses`, data);
+  }
+
+  public getLatestProgress(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetLatestProgress`, data);
+  }
+
+  public deleteStudentProject(data)
+  {
+    return this.http.post(`${this.url}ProjectController/DeleteStudentProject`, data);
+  }
+
+  public getFinishedProjects(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetFinishedProjects`, data);
+  }
+
+  public finishProject(data)
+  {
+    return this.http.post(`${this.url}ProjectController/FinishProject`, data);
+  }
+
+  public unfinishProject(data)
+  {
+    return this.http.post(`${this.url}ProjectController/UnfinishProject`, data);
+  }
+
+  public getAllStudentProjects(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetAllStudentProjects`, data);
+  }
+
+  public addField(data)
+  {
+    return this.http.post(`${this.url}ProjectController/AddField`, data);
+  }
+
+  public deleteField(data)
+  {
+    return this.http.post(`${this.url}ProjectController/DeleteField`, data);
+  }
+
+  public getApplicationsByProjectId(data)
+  {
+    return this.http.post(`${this.url}ProjectController/GetApplicationByProjectId`, data);
+  }
 }

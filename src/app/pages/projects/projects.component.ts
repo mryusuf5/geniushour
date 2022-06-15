@@ -25,9 +25,12 @@ export class ProjectsComponent implements OnInit {
   public projectsDuration: boolean = false;
   public projectsDifficulity: boolean = false;
   public searchName: string;
-  public selectedSearch: string = "Project naam";
+  public selectedSearch: string = "project naam";
   public reverse: boolean = false;
   public page: number = 1;
+  public selectedFiles: any = [];
+  public selFiles: any;
+  public formData: any;
 
 
   constructor(private projectService: ProjectService,
@@ -43,31 +46,32 @@ export class ProjectsComponent implements OnInit {
       projectDuration: [""],
       projectField: [""],
       projectDifficulity: [""],
-      projectYear: [""]
+      projectYear: [""],
+      files: [null]
     })
   }
 
   public search()
   {
-    if(this.selectedSearch == "Project naam" && this.searchName != "")
+    if(this.selectedSearch == "project naam" && this.searchName != "")
     {
       this.projects = this.projects.filter(res => {
         return res.project_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Vak" && this.searchName != "")
+    else if(this.selectedSearch == "vak" && this.searchName != "")
     {
       this.projects = this.projects.filter(res => {
         return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Aantal uren" && this.searchName != "")
+    else if(this.selectedSearch == "aantal uren" && this.searchName != "")
     {
       this.projects = this.projects.filter(res => {
         return res.project_duration.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Moeilijkheidsgraad" && this.searchName != "")
+    else if(this.selectedSearch == "moeilijkheidsgraad" && this.searchName != "")
     {
       this.projects = this.projects.filter(res => {
         return res.project_difficulty.toLowerCase().match(this.searchName.toLocaleLowerCase());
@@ -91,10 +95,6 @@ export class ProjectsComponent implements OnInit {
       this.projects = e;
       this.projectsCount = this.projects.length;
       this.spinner.hide();
-      console.log(this.projects);
-    },(err) => {
-      this.spinner.hide();
-      console.log(err);
     })
   }
 
@@ -106,10 +106,38 @@ export class ProjectsComponent implements OnInit {
     })
   }
 
+  public uploadFile(e)
+  {
+    // const element = e.currentTarget as HTMLInputElement;
+    // this.selFiles = element.files;
+    //
+    // let fileList: FileList | null = element.files;
+    // if(fileList)
+    // {
+    //   for(let itm in fileList)
+    //   {
+    //     let item: File = fileList[itm];
+    //     if((itm.match(/\d+/g) != null) && (!this.selectedFiles.includes(item['name'])))
+    //     {
+    //       this.selectedFiles.push(item['name']);
+    //     }
+    //   }
+    // }
+    this.selectedFiles = e.target.files;
+    this.projectForm.patchValue({
+      files: this.selectedFiles[0]
+    })
+  }
+
   public addNewProject()
   {
 
     const data = [];
+    const files = new FormData();
+
+    files.append("files", this.projectForm.value.files)
+    console.log(files);
+
 
     data.push(this.projectForm.value.projectName,
       this.projectForm.value.projectDescription,
@@ -117,6 +145,7 @@ export class ProjectsComponent implements OnInit {
       this.projectForm.value.projectField,
       this.projectForm.value.projectDifficulity,
       this.projectForm.value.projectYear)
+
 
     this.projectService.AddNewProject(data).subscribe((e) => {
       this.messages = e;
@@ -135,7 +164,6 @@ export class ProjectsComponent implements OnInit {
         this.projectForm.value.get("projectDifficulity").reset(),
         this.projectForm.value.get("projectYear").reset()
       }
-
     })
   }
 

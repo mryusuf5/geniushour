@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public myProjects: boolean = false;
   public projects: any = [];
   public userdata: any = JSON.parse(localStorage.getItem("userdata"));
-  public userdataClassId: string = this.userdata[0].class_id;
+  public userdataClassId: string = this.userdata[0].class_year;
   public userId: string = this.userdata[0].studentId;
   public teachers:any = [];
   public projectsNumber: boolean = true;
@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
   public reverse: boolean = false;
   public page: number = 1;
   public studentProjects: any = [];
+  public myFinishedProjects: boolean = false;
+  public finishedProjects: any = [];
 
   constructor(private router: Router,
               private projectService: ProjectService,
@@ -38,18 +40,23 @@ export class HomeComponent implements OnInit {
     if(this.router.url.includes("totaal-projecten"))
     {
       this.allProjects = true;
-      this.getAllProjectsYear();
     }
     if(this.router.url.includes("mijn-projecten"))
     {
       this.myProjects = true;
+    }
+    if(this.router.url.includes("afgeronde-projecten"))
+    {
+      this.myFinishedProjects = true;
     }
     const data = {"classId": this.userdataClassId};
     this.projectService.GetAllProjectsByYearDesc(data).subscribe((e) => {
       this.projects = e;
     })
 
+    this.getAllProjectsYear();
     this.getStudentProjects();
+    this.getFinishedProjects();
   }
 
   public search()
@@ -85,7 +92,7 @@ export class HomeComponent implements OnInit {
         this.getAllProjectsYear();
       }
     }
-    else if(this.studentProjects)
+    if(this.myProjects)
     {
       if(this.selectedSearch == "Project naam" && this.searchName != "")
       {
@@ -116,6 +123,37 @@ export class HomeComponent implements OnInit {
         this.getStudentProjects();
       }
     }
+    else if(this.myFinishedProjects)
+    {
+      if(this.selectedSearch == "Project naam" && this.searchName != "")
+      {
+        this.finishedProjects = this.finishedProjects.filter(res => {
+          return res.project_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Vak" && this.searchName != "")
+      {
+        this.finishedProjects = this.finishedProjects.filter(res => {
+          return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Aantal uren" && this.searchName != "")
+      {
+        this.finishedProjects = this.finishedProjects.filter(res => {
+          return res.project_duration.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.selectedSearch == "Moeilijkheidsgraad" && this.searchName != "")
+      {
+        this.finishedProjects = this.finishedProjects.filter(res => {
+          return res.project_difficulty.toLowerCase().match(this.searchName.toLocaleLowerCase());
+        })
+      }
+      else if(this.searchName == "")
+      {
+        this.getFinishedProjects();
+      }
+    }
 
   }
 
@@ -133,10 +171,6 @@ export class HomeComponent implements OnInit {
       this.projects = e;
       this.spinner.hide();
       this.getTeachersForSingleProjects();
-      console.log(this.projects);
-    },(err) => {
-      this.spinner.hide();
-      console.log(err);
     })
   }
   public getAllProjectsNumber()
@@ -254,8 +288,6 @@ export class HomeComponent implements OnInit {
         Object.assign(this.projects[i], teachers);
         this.teachers = [];
       })
-
-      console.log(this.projects);
     }
   }
 
@@ -276,4 +308,13 @@ export class HomeComponent implements OnInit {
       this.studentProjects = e;
     })
   }
+
+  public getFinishedProjects()
+  {
+    const data = this.userdata[0].student_id;
+    this.projectService.getFinishedProjects(data).subscribe((e) => {
+      this.finishedProjects = e;
+    })
+  }
+
 }

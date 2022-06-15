@@ -43,4 +43,9 @@ export class UserService {
   {
     return this.http.post(`${this.url}UserController/GetProfileImageTeacher`, data);
   }
+
+  public UpdateUserPassword(data)
+  {
+    return this.http.post(`${this.url}UserController/UpdateUserPassword`, data);
+  }
 }

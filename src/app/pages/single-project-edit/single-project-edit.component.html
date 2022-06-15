@@ -8,19 +8,19 @@
           <span class="text-success" *ngIf="messages">{{messages.message}}</span>
           <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
           <div class="d-flex gap-2">
-            <h2>Project naam:</h2><input name="projectName" [(ngModel)]="formProjectName" class="form-control w-25" type="text" value="{{project.project_name}}">
+            <h3>Project naam:</h3><input name="projectName" [(ngModel)]="formProjectName" class="form-control w-25" type="text" value="{{project.project_name}}">
           </div>
           <div class="d-flex gap-2">
-            <h2>Vak:</h2>
+            <h3>Vak:</h3>
             <select [(ngModel)]="formProjectField" class="form-select w-25" name="projectField">
               <option *ngFor="let field of fields" value="{{field.field_id}}">{{field.field_name}}</option>
             </select>
           </div>
           <div class="d-flex gap-2">
-            <h2>Te behalen uren:</h2><input class="form-control w-25" type="number" name="projectDuration" [(ngModel)]="formProjectDuration" value="{{project.project_duration}}">
+            <h3>Te behalen uren:</h3><input class="form-control w-25" type="number" name="projectDuration" [(ngModel)]="formProjectDuration" value="{{project.project_duration}}">
           </div>
           <div class="d-flex gap-2">
-            <h2>Moeilijkheidsgraad:</h2>
+            <h3>Moeilijkheidsgraad:</h3>
             <select class="form-select w-25" [(ngModel)]="formProjectDifficulity" value="{{project.project_difficulty}}" name="projectDifficulity">
               <option value="1">1 Makkelijk</option>
               <option value="2">2 Makkelijk</option>
@@ -35,11 +35,11 @@
             </select>
           </div>
           <div class="d-flex gap-2">
-            <h2>Project uitleg:</h2>
+            <h3>Project uitleg:</h3>
             <textarea class="form-control w-25"  value="{{project.project_description}}" name="projectDescription">
             </textarea>
           </div>
-          <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Download</a></p>
+          <p class="fs-3">Document(en): <a href="assets/images/default.png" download class="btn btn-secondary text-white">Downloaden</a></p>
           <button class="btn btn-secondary text-white w-25" id="{{project.project_id}}" (click)="editProject($event)">Project aanpassen.</button>
           <button class="btn btn-danger deleteButton w-25 text-white" id="{{project.project_id}}" (click)="deleteProject($event)">Verwijder project</button>
         </div>

@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar-teacher" style="width: 280px; height: 100vh">
   <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
     <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
     <span class="fs-4">Geniushour</span>
@@ -18,9 +18,21 @@
       </a>
     </li>
     <li class="nav-item">
+      <a #fields routerLinkActive="active" [ngClass]="fields.classList.contains('active') ? 'text-black' : 'text-white'" routerLink="/vakken" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="fal fa-folders"></i>
+        Vakken
+      </a>
+    </li>
+    <li class="nav-item">
       <a #students routerLink="/studenten" routerLinkActive="active" [ngClass]="students.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
         <i class="fal fa-users"></i>
         Studenten
+      </a>
+    </li>
+    <li class="nav-item">
+      <a #classes routerLink="/klassen" routerLinkActive="active" [ngClass]="classes.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+        <i class="fal fa-users-class"></i>
+        Klassen
       </a>
     </li>
     <li class="nav-item">
@@ -54,3 +66,4 @@
     </ul>
   </div>
 </div>
+<div class="sidebar-teacher-spacer"></div>

@@ -14,14 +14,14 @@
     <a (click)="triggerModal()" class="btn btn-secondary text-white my-4"><i class="fal fa-user-plus"></i>  Student toevoegen</a>
 
     <div class="projectsContainer">
-      <div class="d-flex gap-3">
+      <div class="d-flex gap-3 table-responsive">
         <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
         <select class="form-select w-25" [(ngModel)]="selectedSearch">
-          <option value="Student naam">Student naam</option>
-          <option value="Student achternaam">Student achternaam</option>
-          <option value="Student nummer">Student nummer</option>
-          <option value="Klas">Klas</option>
-          <option value="Student email">Student email</option>
+          <option value="voornaam">Voornaam</option>
+          <option value="achternaam">Achternaam</option>
+          <option value="studentnummer">Studentnummer</option>
+          <option value="klas">Klas</option>
+          <option value="email">Email</option>
         </select>
       </div>
       <table class="table table-striped">
@@ -29,11 +29,10 @@
         <tr>
           <th (click)="getAllStudentsName()"><span>Student naam <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsNumber()"><span>Student nummer <i class="far fa-sort"></i></span></th>
-          <th (click)="getAllStudentsNumber()"><span>Klas <i class="far fa-sort"></i></span></th>
+          <th><span>Klas</span></th>
           <th (click)="getAllStudentsMail()"><span>Student email <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsHours()"><span>Uren over <i class="far fa-sort"></i></span></th>
           <th (click)="getAllStudentsId()"><span># <i class="far fa-sort"></i></span></th>
-          <!--          <th>Leraar(en)</th>-->
         </tr>
         </thead>
         <tbody *ngIf="students.length > 0">
@@ -44,9 +43,6 @@
           <td>{{student.student_email}}</td>
           <td>{{student.student_hours}} uur</td>
           <td>{{i}}</td>
-          <!--          <td *ngFor="let teacher of project.teachers">-->
-          <!--            <span>{{teacher[0].teacher_firstname}}</span>-->
-          <!--          </td>-->
         </tr>
         <pagination-controls (pageChange)="page = $event"></pagination-controls>
         </tbody>

@@ -10,28 +10,28 @@
   <app-sidebar></app-sidebar>
   <div class="d-flex flex-column" style="width: 75vw">
     <div class="mt-3 mx-3">
-      <h2>Overview</h2>
+      <h2>Welkom {{userdata[0].student_firstname}} {{userdata[0].student_prefix}} {{userdata[0].student_lastname}}</h2>
       <hr>
       <div class="container mt-3">
         <div class="cardsContainer d-flex gap-3">
           <a routerLink="/home/totaal-projecten" [ngClass]="allProjects ? 'border-info' : ''" class="card text-decoration-none text-black border-2">
             <div class="card-body text-center">
-              <h4 class="card-subtitle text-muted mb-2">Totaal projecten</h4>
+              <h5 class="card-subtitle text-muted mb-2">Totaal projecten</h5>
               <h1>{{projects.length}}</h1>
             </div>
           </a>
           <a routerLink="/home/mijn-projecten" [ngClass]="myProjects ? 'border-info' : ''" class="card border-2 text-decoration-none text-black">
             <div class="card-body text-center">
-              <h4 class="card-subtitle text-muted mb-2">Mijn projecten</h4>
+              <h5 class="card-subtitle text-muted mb-2">Mijn projecten</h5>
               <h1>{{studentProjects.length}}</h1>
             </div>
           </a>
-          <div class="card border-2">
+          <a class="card border-2 text-decoration-none text-black" [ngClass]="myFinishedProjects ? 'border-info' : ''" routerLink="/home/afgeronde-projecten">
             <div class="card-body text-center">
-              <h4 class="card-subtitle text-muted mb-2">Afgeronden projecten</h4>
-              <h1>3</h1>
+              <h5 class="card-subtitle text-muted mb-2">Afgeronden projecten</h5>
+              <h1>{{finishedProjects.length}}</h1>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -101,11 +101,11 @@
             <table class="table table-striped">
               <thead>
               <tr>
-                <th (click)="getAllProjectsName()"><span>Project naam <i class="far fa-sort"></i></span></th>
-                <th (click)="getAllProjectsField()"><span>Vak <i class="far fa-sort"></i></span></th>
-                <th (click)="getAllProjectsHours()"><span>Aantal uren <i class="far fa-sort"></i></span></th>
-                <th (click)="getAllProjectsDifficulity()"><span>Moeilijkheidsgraad <i class="far fa-sort"></i></span></th>
-                <th (click)="getAllProjectsNumber()"><span># <i class="far fa-sort"></i></span></th>
+                <th><span>Project naam</span></th>
+                <th><span>Vak</span></th>
+                <th><span>Aantal uren</span></th>
+                <th><span>Moeilijkheidsgraad</span></th>
+                <th><span>#</span></th>
                 <!--              <th>Leraar(en)</th>-->
               </tr>
               </thead>
@@ -133,6 +133,55 @@
             <span class="text-danger">Geen projecten.</span>
           </div>
         </div>
+      </div>
+
+      <div>
+        <div class="mt-3 mx-4" *ngIf="myFinishedProjects">
+          <div class="projectsContainer">
+            <div class="d-flex gap-3">
+              <input class="form-control w-75" type="text" placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
+              <select class="form-select w-25" [(ngModel)]="selectedSearch">
+                <option value="Project naam">Project naam</option>
+                <option value="Vak">Vak</option>
+                <option value="Aantal uren">Aantal uren</option>
+                <option value="Moeilijkheidsgraad">Moeilijkheidsgraad</option>
+              </select>
+            </div>
+
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th><span>Project naam</span></th>
+                <th><span>Vak</span></th>
+                <th><span>Aantal uren</span></th>
+                <th><span>Moeilijkheidsgraad</span></th>
+                <th><span>#</span></th>
+                <!--              <th>Leraar(en)</th>-->
+              </tr>
+              </thead>
+              <tbody *ngIf="finishedProjects.length > 0">
+              <tr class="" *ngFor="let project of finishedProjects | paginate: {itemsPerPage: 10,currentPage: page}; let i = index">
+                <td><a id="{{project.project_id}}" class="text-info" (click)="gotoMyProject($event)">{{project.project_name}}</a></td>
+                <td>{{project.field_name}}</td>
+                <td>{{project.project_duration}} uren</td>
+                <td>{{project.project_difficulty}}
+                  <span class="text-success" *ngIf="project.project_difficulty >= 1 && project.project_difficulty < 4">Makkelijk</span>
+                  <span class="text-warning" *ngIf="project.project_difficulty > 3 && project.project_difficulty < 6">Matig</span>
+                  <span class="text-warning" *ngIf="project.project_difficulty > 5 && project.project_difficulty < 9">Moeilijk</span>
+                  <span class="text-danger" *ngIf="project.project_difficulty > 8 && project.project_difficulty < 11">Heel moeilijk</span>
+                </td>
+                <td>{{i}}</td>
+                <!--              <td *ngFor="let teacher of project.teachers">-->
+                <!--                <span>{{teacher[0].teacher_firstname}}</span>-->
+                <!--              </td>-->
+              </tr>
+              <pagination-controls (pageChange)="page = $event"></pagination-controls>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="finishedProjects.length == 0">
+            <span class="text-danger">Geen projecten.</span>
+          </div>
       </div>
     </div>
   </div>

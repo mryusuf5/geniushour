@@ -14,7 +14,7 @@ export class StudentsComponent implements OnInit {
   public students: any = [];
   public classes: any = [];
   public searchName: string;
-  public selectedSearch: string = "Student naam";
+  public selectedSearch: string = "voornaam";
   public reverse: boolean = false;
   public page: number = 1;
   public studentId: boolean = true;
@@ -77,43 +77,43 @@ export class StudentsComponent implements OnInit {
         this.showModal = false;
         this.getAllStudentsId();
         this.studentForm.get("studentName").reset(),
-          this.studentForm.get("studentLastName").reset(),
-          this.studentForm.get("studentPrefix").reset(),
-          this.studentForm.get("studentNumber").reset(),
-          this.studentForm.get("studentHours").reset(),
-          this.studentForm.get("studentEmail").reset(),
-          this.studentForm.get("studentClass").reset()
+        this.studentForm.get("studentLastName").reset(),
+        this.studentForm.get("studentPrefix").reset(),
+        this.studentForm.get("studentNumber").reset(),
+        this.studentForm.get("studentHours").reset(),
+        this.studentForm.get("studentEmail").reset(),
+        this.studentForm.get("studentClass").reset()
       }
     })
   }
 
   public search()
   {
-    if(this.selectedSearch == "Student naam" && this.searchName != "")
+    if(this.selectedSearch == "voornaam" && this.searchName != "")
     {
       this.students = this.students.filter(res => {
         return res.student_firstname.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Student achternaam" && this.searchName != "")
+    else if(this.selectedSearch == "achternaam" && this.searchName != "")
     {
       this.students = this.students.filter(res => {
         return res.student_lastname.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Student email" && this.searchName != "")
+    else if(this.selectedSearch == "email" && this.searchName != "")
     {
       this.students = this.students.filter(res => {
         return res.student_email.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Student nummer" && this.searchName != "")
+    else if(this.selectedSearch == "studentnummer" && this.searchName != "")
     {
       this.students = this.students.filter(res => {
         return res.student_number.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Klas" && this.searchName != "")
+    else if(this.selectedSearch == "klas" && this.searchName != "")
     {
       this.students = this.students.filter(res => {
         return res.class_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
@@ -256,6 +256,6 @@ export class StudentsComponent implements OnInit {
 
   public gotoStudent(e)
   {
-    this.router.navigate(["/studenten/student-edit"], {queryParams: {studentId: e.srcElement.id}});
+    this.router.navigate(["/studenten/student-projecten"], {queryParams: {studentId: e.srcElement.id}});
   }
 }

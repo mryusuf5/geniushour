@@ -9,10 +9,10 @@
       <div class="d-flex gap-3">
         <input class="form-control w-75" type="text"  placeholder="Zoeken op {{selectedSearch}}" [(ngModel)]="searchName" (ngModelChange)="search()">
         <select class="form-select w-25" [(ngModel)]="selectedSearch">
-          <option value="Project naam">Project naam</option>
-          <option value="Vak">Vak</option>
-          <option value="Aantal uren">Aantal uren</option>
-          <option value="Moeilijkheidsgraad">Moeilijkheidsgraad</option>
+          <option value="project naam">Project naam</option>
+          <option value="vak">Vak</option>
+          <option value="aantal uren">Aantal uren</option>
+          <option value="moeilijkheidsgraad">Moeilijkheidsgraad</option>
         </select>
       </div>
       <table class="table table-striped">
@@ -61,7 +61,7 @@
         </button>
       </div>
       <div class="modal-body d-flex flex-column gap-4">
-        <form class="d-flex flex-column gap-2" [formGroup]="projectForm">
+        <form class="d-flex flex-column gap-2" [formGroup]="projectForm" enctype="multipart/form-data">
           <span *ngIf="error" class="text-danger" >{{error}}</span>
           <div class="form-group">
             <label>Project naam: </label>
@@ -99,13 +99,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Jaar studenten: </label>
-            <select class="form-control" formControlName="projectYear">
-              <option value="">Selecteer het jaar: </option>
-              <option value="1">1ste jaars</option>
-              <option value="2">2de jaars</option>
-              <option value="3">3de jaars</option>
-            </select>
+            <label>Bestanden: </label>
+            <input type="file" multiple class="form-control" (change)="uploadFile($event)" name="projectFiles">
           </div>
         </form>
       </div>

@@ -15,8 +15,13 @@ export class ProfileComponent implements OnInit {
   public selectedFile: any;
   public userId: string;
   public teacherId: string;
+  public userPass: string;
   public profileForm: FormGroup;
   public messages: any;
+  public currentPass: string;
+  public newPass: string;
+  public repeatNewPass: string;
+  public passwordData: any = [];
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
@@ -27,11 +32,13 @@ export class ProfileComponent implements OnInit {
     {
       this.student = JSON.parse(localStorage.getItem("userdata"));
       this.userId = this.student[0].student_id;
+      this.userPass = this.student[0].student_password;
     }
     else if(localStorage.getItem("teacher"))
     {
       this.teacher = JSON.parse(localStorage.getItem("teacher"));
       this.teacherId = this.teacher[0].teacher_id;
+      this.userPass = this.teacher[0].teacher_password;
     }
 
     this.profileForm = this.formBuilder.group({
@@ -42,7 +49,7 @@ export class ProfileComponent implements OnInit {
 
   onFileChange(e)
   {
-    this.selectedFile = e.srcElement.files[0];
+    this.selectedFile = e.target.files[0];
     this.profileForm.patchValue({
       profilePicture: this.selectedFile,
       userId: this.userId,
@@ -99,7 +106,36 @@ export class ProfileComponent implements OnInit {
     {
       this.messages = {"error": "Selecteer een foto a.u.b."};
     }
+  }
 
+  public updatePassword()
+  {
+    if(localStorage.getItem("userdata"))
+    {
+      this.passwordData.push("student", this.newPass, this.userId);
+    }
+    else if(localStorage.getItem("teacher"))
+    {
+      this.passwordData.push("teacher", this.newPass, this.teacherId);
+    }
+    if(this.currentPass === this.userPass)
+    {
+      if(this.newPass === this.repeatNewPass)
+      {
+        this.userService.UpdateUserPassword(this.passwordData).subscribe((e) => {
+          this.messages = e;
+          this.messages = {success: "Wachtwoord opgeslagen."};
+        })
+      }
+      else
+      {
+        this.messages = {error: "Herhaalde wachtwoord komt niet overeen met uw nieuwe wacthwoord."};
+      }
+    }
+    else
+    {
+      this.messages = {error: "De ingevulde wachtwoord komt niet overeen met uw huidige wacthwoord."};
+    }
   }
 
 }

@@ -1,7 +1,15 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="d-flex">
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="singleProjectContainer mt-3 mx-4">
-    <a routerLink="/studenten">Terug</a>
+    <a (click)="back()" class="text-blue">Terug</a>
     <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
       <form>
         <div class="p-4 d-flex gap-4 flex-column" *ngFor="let student of student">

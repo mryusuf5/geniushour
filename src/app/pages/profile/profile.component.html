@@ -10,27 +10,87 @@
   <app-sidebar></app-sidebar>
   <div class="mt-3 mx-4 d-flex flex-column gap-3" style="width: 75vw">
     <h2>Mijn profiel</h2>
-    <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
-    <span class="text-success" *ngIf="messages">{{messages.success}}</span>
-    <div class="profilePicture" style="background-image: url({{student[0].student_image}})"></div>
-    <form class="d-flex flex-column gap-2" method="POST" enctype="multipart/form-data" (ngSubmit)="changeProfilePicture()" [formGroup]="profileForm">
-      <input type="file" class="form-control w-25" name="profilePicture" (change)="onFileChange($event)">
-      <input type="text" hidden value="{{userId}}">
-      <input type="submit" class="btn btn-secondary text-white w-25" value="Pas mijn profiel foto aan">
-    </form>
+    <div class="d-flex flex-column flex-lg-row gap-5">
+      <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+        <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
+        <span class="text-success" *ngIf="messages">{{messages.success}}</span>
+        <div class="profilePicture" style="background-image: url({{student[0].student_image}})"></div>
+        <form class="d-flex flex-column gap-2" method="POST" enctype="multipart/form-data" (ngSubmit)="changeProfilePicture()" [formGroup]="profileForm">
+          <input type="file" class="form-control" name="profilePicture" (change)="onFileChange($event)">
+          <input type="text" hidden value="{{userId}}">
+          <input type="submit" class="btn btn-secondary text-white" value="Pas mijn profiel foto aan">
+        </form>
+      </div>
+      <div class="d-flex flex-column gap-3">
+        <div>
+          <p class="fs-2"><span class="fw-bold">Voornaam: </span>{{student[0].student_firstname}}</p>
+          <p class="fs-2" *ngIf="student[0].student_prefix"><span class="fw-bold">Tussenvoegsel: </span>{{student[0].student_prefix}}</p>
+          <p class="fs-2"><span class="fw-bold">Achternaam: </span>{{student[0].student_lastname}}</p>
+          <p class="fs-2"><span class="fw-bold">Uren over: </span>{{student[0].student_hours}}</p>
+          <span class="text-muted">Kloppen deze gegevens niet? Vraag dan aan een leeraar of zei dit kunnen aanpassen.</span>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <p class="fs-2"><span class="fw-bold">Wachtwoord wijzigen</span></p>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw huidige wachtwoord" [(ngModel)]="currentPass">
+            <label>Uw huidige wachtwoord</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw nieuwe wachtwoord" [(ngModel)]="newPass">
+            <label>Uw nieuwe wachtwoord</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw nieuwe wachtwoord herhalen" [(ngModel)]="repeatNewPass">
+            <label>Uw nieuwe wachtwoord herhalen</label>
+          </div>
+          <button class="btn btn-secondary text-white" (click)="updatePassword()">Wijzigen</button>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
 
 <div class="d-flex" *ngIf="teacher.length > 0">
   <app-sidebar-teacher></app-sidebar-teacher>
   <div class="mt-3 mx-4 d-flex flex-column gap-3" style="width: 75vw">
-    <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
-    <span class="text-success" *ngIf="messages">{{messages.success}}</span>
-    <div class="profilePicture" style="background-image: url({{teacher[0].teacher_image}})"></div>
-    <form class="d-flex flex-column gap-2" method="POST" enctype="multipart/form-data" (ngSubmit)="changeProfilePictureTeacher()" [formGroup]="profileForm">
-      <input type="file" class="form-control w-25" name="profilePicture" (change)="onFileChange($event)">
-      <input type="text" hidden value="{{teacherId}}">
-      <input type="submit" class="btn btn-secondary text-white w-25" value="Pas mijn profiel foto aan">
-    </form>
-  </div>
+    <h2>Mijn profiel</h2>
+    <div class="d-flex flex-column flex-lg-row gap-5">
+      <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+        <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
+        <span class="text-success" *ngIf="messages">{{messages.success}}</span>
+        <div class="profilePicture" style="background-image: url({{teacher[0].teacher_image}})"></div>
+        <form class="d-flex flex-column gap-2" method="POST" enctype="multipart/form-data" (ngSubmit)="changeProfilePictureTeacher()" [formGroup]="profileForm">
+          <input type="file" class="form-control" name="profilePicture" (change)="onFileChange($event)">
+          <input type="text" hidden value="{{teacherId}}">
+          <input type="submit" class="btn btn-secondary text-white" value="Pas mijn profiel foto aan">
+        </form>
+      </div>
+      <div class="d-flex flex-column gap-3">
+        <div>
+          <p class="fs-2"><span class="fw-bold">Voornaam: </span>{{teacher[0].teacher_firstname}}</p>
+          <p class="fs-2" *ngIf="teacher[0].teacher_prefix"><span class="fw-bold">Tussenvoegsel: </span>{{teacher[0].teacher_prefix}}</p>
+          <p class="fs-2"><span class="fw-bold">Achternaam: </span>{{teacher[0].teacher_lastname}}</p>
+          <span class="text-muted">Kloppen deze gegevens niet? Dan kunt u dit bij de leraren paneel aanpassen.</span>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <p class="fs-2"><span class="fw-bold">Wachtwoord wijzigen</span></p>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw huidige wachtwoord" [(ngModel)]="currentPass">
+            <label>Uw huidige wachtwoord</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw nieuwe wachtwoord" [(ngModel)]="newPass">
+            <label>Uw nieuwe wachtwoord</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" placeholder="Uw nieuwe wachtwoord herhalen" [(ngModel)]="repeatNewPass">
+            <label>Uw nieuwe wachtwoord herhalen</label>
+          </div>
+          <button class="btn btn-secondary text-white" (click)="updatePassword()">Wijzigen</button>
+        </div>
+      </div>
+
+    </div>
 </div>

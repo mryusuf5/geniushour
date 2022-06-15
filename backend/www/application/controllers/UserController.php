@@ -96,18 +96,38 @@ class UserController extends CI_CONTROLLER{
     $fileName = str_replace(" ", "_", $fileName);
     $fileTmpName = $_FILES["profilePicture"]["tmp_name"];
 
-    $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
-    $profilePicture = "./assets/images/" . $fileName;
+    $fileExt = explode(".", $fileName);
+    $fileActualExt = strtolower(end($fileExt));
 
-    if(move_uploaded_file($fileTmpName, $profilePicture))
+    $allowed = [
+      "jpg",
+      "jpeg",
+      "png",
+      "gif"
+    ];
+
+    if(in_array($fileActualExt, $allowed))
     {
-      $result = ["success" => "Profiel foto aangepast."];
-      $this->Usermodel->ChangeProfilePicture($_POST["userId"], $profilePictureData);
-      echo json_encode($result);
+      $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
+      $profilePicture = "./assets/images/" . $fileName;
+
+
+
+      if(move_uploaded_file($fileTmpName, $profilePicture))
+      {
+        $result = ["success" => "Profiel foto aangepast."];
+        $this->Usermodel->ChangeProfilePicture($_POST["userId"], $profilePictureData);
+        echo json_encode($result);
+      }
+      else
+      {
+        $result = ["error" => "Er is iets fout gegaan, probeer een andere foto typen up te loaden."];
+        echo json_encode($result);
+      }
     }
     else
     {
-      $result = ["error" => "Er is iets fout gegaan, probeer een andere foto typen up te loaden."];
+      $result = ["error" => "Probeer een andere foto te uploaden."];
       echo json_encode($result);
     }
   }
@@ -152,5 +172,19 @@ class UserController extends CI_CONTROLLER{
     $image = $this->Usermodel->GetProfilePictureTeacher($data);
 
     echo json_encode($image);
+  }
+
+  public function UpdateUserPassword()
+  {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json);
+
+    $this->Usermodel->UpdateUserPassword($data[0], $data[1], $data[2]);
+
+    $result = [];
+
+    $result["message"] = ["success" => "Wachtwoord is veranderd."];
+
+    echo json_encode($result);
   }
 }

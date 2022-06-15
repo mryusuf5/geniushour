@@ -190,6 +190,72 @@ export class AuthService implements CanActivate{
         }
         return true;
         break;
+      case "studenten/studentproject":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "student")
+        {
+          this.router.navigate(["/home"]);
+        }
+        return true;
+        break;
+      case "studenten/student-projecten":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "student")
+        {
+          this.router.navigate(["/home"]);
+        }
+        return true;
+        break;
+      case "home/afgeronde-projecten":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "teacher")
+        {
+          this.router.navigate(["/dashboard"]);
+        }
+        return true;
+        break;
+      case "klassen":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "student")
+        {
+          this.router.navigate(["/home"]);
+        }
+        return true;
+        break;
+      case "klassen/klas":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "student")
+        {
+          this.router.navigate(["/home"]);
+        }
+        return true;
+        break;
+      case "vakken":
+        if(Authentication.isAuthenticated() == "none")
+        {
+          this.router.navigate(["/login"]);
+        }
+        if(Authentication.isAuthenticated() == "student")
+        {
+          this.router.navigate(["/home"]);
+        }
+        return true;
+        break;
       default:
         this.router.navigate(["/login"]);
         return true;

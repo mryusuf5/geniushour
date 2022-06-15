@@ -15,10 +15,13 @@
       <a #messages routerLink="/berichten" routerLinkActive="active" [ngClass]="messages.classList.contains('active') ? 'text-black' : 'text-white'" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
         <i class="fal fa-comment"></i>
         Mijn berichten
+        <div>
+          <span class="notification badge badge-pill bg-danger" *ngIf="notificationsLength != 0">{{notificationsLength}}</span>
+        </div>
       </a>
     </li>
     <li class="nav-item">
-      <a #settings [ngClass]="settings.classList.contains('active') ? 'text-black' : 'text-white'" routerLink="/instellingen" routerLinkActive="active" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
+      <a #settings [ngClass]="settings.classList.contains('active') ? 'text-black' : 'text-white'" routerLink="/profiel" routerLinkActive="active" class="nav-link gap-2 d-flex align-items-center" aria-current="page">
         <i class="fal fa-cog"></i>
         Instellingen
       </a>
@@ -37,3 +40,4 @@
     </ul>
   </div>
 </div>
+<div class="sidebarSpacer"></div>

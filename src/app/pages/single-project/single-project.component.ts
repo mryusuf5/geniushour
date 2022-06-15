@@ -57,10 +57,6 @@ export class SingleProjectComponent implements OnInit {
           this.disableApplication = true;
         }
       })
-      if(this.studentProject.length > 0)
-      {
-        this.disableApplication = true;
-      }
       this.spinner.hide();
     })
   }
@@ -73,6 +69,10 @@ export class SingleProjectComponent implements OnInit {
     ]
     this.projectService.getStudentProject(data).subscribe((e) => {
       this.studentProject = e;
+      if(this.studentProject.length > 0)
+      {
+        this.disableApplication = true;
+      }
     })
   }
 

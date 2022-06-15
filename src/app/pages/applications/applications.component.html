@@ -34,6 +34,7 @@
         </button>
       </div>
       <div class="modal-body d-flex flex-column gap-2">
+        <span *ngIf="singleApplication[0].finish == 1">{{singleApplication[0].student_firstname}} {{singleApplication[0].student_prefix}} {{singleApplication[0].student_lastname}} wilt zijn project afronden.</span>
         <span>Datum verzoek: {{singleApplication[0].application_date | date: 'dd-MM-yyyy'}}</span>
         <span>Vak: {{singleApplication[0].field_name}}</span>
         <span>Projectnaam: {{singleApplication[0].project_name}}</span>

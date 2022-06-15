@@ -5,7 +5,6 @@ import {HomeComponent} from "./pages/home/home.component";
 import {AuthService} from "./services/auth.service";
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {ProjectsComponent} from "./pages/projects/projects.component";
-import {SettingsComponent} from "./pages/settings/settings.component";
 import {SingleProjectComponent} from "./pages/single-project/single-project.component";
 import {StudentsComponent} from "./pages/students/students.component";
 import {SingleProjectEditComponent} from "./pages/single-project-edit/single-project-edit.component";
@@ -16,6 +15,11 @@ import {SingleTeacherComponent} from "./pages/single-teacher/single-teacher.comp
 import {ApplicationsComponent} from "./pages/applications/applications.component";
 import {MessagesComponent} from "./pages/messages/messages.component";
 import {SingleStudentProjectComponent} from "./pages/single-student-project/single-student-project.component";
+import {SingleStudentProjectTeacherComponent} from "./pages/single-student-project-teacher/single-student-project-teacher.component";
+import {StudentProjectlistComponent} from "./pages/student-projectlist/student-projectlist.component";
+import {ClassesComponent} from "./pages/classes/classes.component";
+import {SingleClassComponent} from "./pages/single-class/single-class.component";
+import {FieldsComponent} from "./pages/fields/fields.component";
 
 const routes: Routes = [
   {path: "", component: LoginComponent, canActivate: [AuthService]},
@@ -24,9 +28,9 @@ const routes: Routes = [
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthService]},
   {path: "projecten", component: ProjectsComponent, canActivate: [AuthService]},
   {path: "studenten", component: StudentsComponent, canActivate: [AuthService]},
-  {path: "instellingen", component: SettingsComponent, canActivate: [AuthService]},
   {path: "home/totaal-projecten", component: HomeComponent, canActivate: [AuthService]},
   {path: "home/mijn-projecten", component: HomeComponent, canActivate: [AuthService]},
+  {path: "home/afgeronde-projecten", component: HomeComponent, canActivate: [AuthService]},
   {path: "home/project", component: SingleProjectComponent, canActivate: [AuthService]},
   {path: "projecten/project-edit", component: SingleProjectEditComponent, canActivate: [AuthService]},
   {path: "studenten/student-edit", component: SingleStudentComponent, canActivate: [AuthService]},
@@ -35,13 +39,19 @@ const routes: Routes = [
   {path: "leraren", component: TeachersComponent, canActivate: [AuthService]},
   {path: "verzoeken", component: ApplicationsComponent, canActivate: [AuthService]},
   {path: "berichten", component: MessagesComponent, canActivate: [AuthService]},
-  {path: "home/mijn-projecten/project", component: SingleStudentProjectComponent, canActivate: [AuthService]}
+  {path: "home/mijn-projecten/project", component: SingleStudentProjectComponent, canActivate: [AuthService]},
+  {path: "studenten/studentproject", component: SingleStudentProjectTeacherComponent, canActivate: [AuthService]},
+  {path: "studenten/student-projecten", component: StudentProjectlistComponent, canActivate: [AuthService]},
+  {path: "klassen", component: ClassesComponent, canActivate: [AuthService]},
+  {path: "klassen/klas", component: SingleClassComponent, canActivate: [AuthService]},
+  {path: "vakken", component: FieldsComponent, canActivate: [AuthService]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule {
 
 }

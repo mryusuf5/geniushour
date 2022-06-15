@@ -14,7 +14,6 @@ import { NgxSpinnerModule} from "ngx-spinner";
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SidebarComponent } from './pages/templates/sidebar/sidebar.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
-import { SettingsComponent } from './pages/settings/settings.component';
 import { SingleProjectComponent } from './pages/single-project/single-project.component';
 import { SidebarTeacherComponent } from './pages/templates/sidebar-teacher/sidebar-teacher.component';
 import { StudentsComponent } from './pages/students/students.component';
@@ -29,6 +28,11 @@ import { SingleTeacherComponent } from './pages/single-teacher/single-teacher.co
 import { ApplicationsComponent } from './pages/applications/applications.component';
 import { SingleStudentProjectComponent } from './pages/single-student-project/single-student-project.component';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { SingleStudentProjectTeacherComponent } from './pages/single-student-project-teacher/single-student-project-teacher.component';
+import { StudentProjectlistComponent} from "./pages/student-projectlist/student-projectlist.component";
+import { ClassesComponent } from './pages/classes/classes.component';
+import { SingleClassComponent } from './pages/single-class/single-class.component';
+import { FieldsComponent } from './pages/fields/fields.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +44,6 @@ import { MessagesComponent } from './pages/messages/messages.component';
     DashboardComponent,
     SidebarComponent,
     ProjectsComponent,
-    SettingsComponent,
     SingleProjectComponent,
     SidebarTeacherComponent,
     StudentsComponent,
@@ -51,7 +54,12 @@ import { MessagesComponent } from './pages/messages/messages.component';
     SingleTeacherComponent,
     ApplicationsComponent,
     SingleStudentProjectComponent,
-    MessagesComponent
+    MessagesComponent,
+    SingleStudentProjectTeacherComponent,
+    StudentProjectlistComponent,
+    ClassesComponent,
+    SingleClassComponent,
+    FieldsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +73,8 @@ import { MessagesComponent } from './pages/messages/messages.component';
     Ng2SearchPipeModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

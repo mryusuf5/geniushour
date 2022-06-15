@@ -14,7 +14,7 @@ export class TeachersComponent implements OnInit {
 
   public teachers: any = [];
   public searchName: string;
-  public selectedSearch: string = "Leeraar naam";
+  public selectedSearch: string = "voornaam";
   public reverse: boolean = false;
   public page: number = 1;
   public teacherId: boolean = true;
@@ -54,25 +54,25 @@ export class TeachersComponent implements OnInit {
 
   public search()
   {
-    if(this.selectedSearch == "Leeraar naam" && this.searchName != "")
+    if(this.selectedSearch == "voornaam" && this.searchName != "")
     {
       this.teachers = this.teachers.filter(res => {
         return res.teacher_firstname.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Leeraar achternaam" && this.searchName != "")
+    else if(this.selectedSearch == "achternaam" && this.searchName != "")
     {
       this.teachers = this.teachers.filter(res => {
         return res.teacher_lastname.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Leeraar email" && this.searchName != "")
+    else if(this.selectedSearch == "email" && this.searchName != "")
     {
       this.teachers = this.teachers.filter(res => {
         return res.teacher_email.toLowerCase().match(this.searchName.toLocaleLowerCase());
       })
     }
-    else if(this.selectedSearch == "Leeraar vak" && this.searchName != "")
+    else if(this.selectedSearch == "vak" && this.searchName != "")
     {
       this.teachers = this.teachers.filter(res => {
         return res.field_name.toLowerCase().match(this.searchName.toLocaleLowerCase());
