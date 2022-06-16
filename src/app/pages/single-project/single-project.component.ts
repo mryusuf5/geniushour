@@ -91,7 +91,8 @@ export class SingleProjectComponent implements OnInit {
     const data = [
       this.userdata[0].student_id,
       this.projectId,
-      this.singleProject[0].field_id
+      this.singleProject[0].field_id,
+      "0"
     ];
     Swal.fire({
       text: "Weet je zeker dat je een verzoek wilt sturen naar de leraar?",

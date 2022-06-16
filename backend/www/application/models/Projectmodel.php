@@ -161,9 +161,10 @@
           return $this->db->query("SELECT * FROM `student_projects` INNER JOIN students ON student_projects.student_id = students.student_id INNER JOIN projects ON student_projects.project_id = projects.project_id INNER JOIN fields ON student_projects.field_id = fields.field_id WHERE student_projects.student_id = '$id'")->result();
         }
 
-        public function FinishProject($studentId, $projectId)
+        public function FinishProject($studentId, $projectId, $studentHours)
         {
           $this->db->query("UPDATE student_projects SET finished = 1 WHERE student_id = '$studentId' AND project_id = '$projectId'");
+          $this->db->query("UPDATE students SET student_hours = '$studentHours' WHERE student_id = '$studentId'");
         }
 
         public function UnfinishProject($studentId, $projectId)

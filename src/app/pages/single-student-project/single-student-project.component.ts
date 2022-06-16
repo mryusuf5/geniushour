@@ -18,7 +18,8 @@ export class SingleStudentProjectComponent implements OnInit {
   public userId: string = this.userdata[0].student_id;
   public projectId: string;
   public messages: any = [];
-  public tmpProgress: string = "0";
+  public tmpProgress: number = 0;
+  public tmpProgressHours: number = 0;
   public progress: string;
   public progresses: any = [];
   public progressesProgress: any = [];
@@ -29,6 +30,7 @@ export class SingleStudentProjectComponent implements OnInit {
   public getProgressLength: any = [];
   public applications: any = [];
   public projectSupplies: any = [];
+  public hours: number;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -47,6 +49,11 @@ export class SingleStudentProjectComponent implements OnInit {
     this.getSupplies();
     Chart.register(...registerables);
     this.getAllProgresses();
+  }
+
+  public tmpProgressHoursChange()
+  {
+    this.tmpProgressHours = this.tmpProgress * this.singleProject[0].project_duration / 100;
   }
 
   public getSupplies()
@@ -126,6 +133,7 @@ export class SingleStudentProjectComponent implements OnInit {
     ];
     this.projectService.getLatestProgress(data).subscribe((e) => {
       this.getProgressLength = e;
+      console.log(this.getProgressLength)
       if(this.getProgressLength.length <= 0)
       {
         this.progress = "0";
@@ -133,7 +141,8 @@ export class SingleStudentProjectComponent implements OnInit {
       else
       {
         this.progress = e[0].progress;
-        this.tmpProgress = this.progress;
+        this.tmpProgress = <number><unknown>this.progress;
+        this.tmpProgressHours = <number><unknown>this.progress * this.singleProject[0].project_duration / 100;
       }
     })
   }
@@ -242,30 +251,4 @@ export class SingleStudentProjectComponent implements OnInit {
     })
   }
 
-  unfinishProject(e)
-  {
-    const data = [
-      this.userId,
-      e.target.id
-    ];
-    Swal.fire({
-      title: "Weet u zeker dat u dit project wilt terugzetten?",
-      text: "",
-      icon: "info",
-      showCancelButton: true,
-      cancelButtonText: "Nee",
-      confirmButtonText: "Ja",
-      confirmButtonColor: "#169898",
-      cancelButtonColor: "#BB2D3B",
-    }).then((e) => {
-      if(e.isConfirmed)
-      {
-        this.spinner.show()
-        this.projectService.unfinishProject(data).subscribe(() => {
-          this.spinner.hide()
-          this.router.navigate(["/home/afgeronde-projecten"])
-        });
-      }
-    })
-  }
 }

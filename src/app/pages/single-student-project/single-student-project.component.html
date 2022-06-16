@@ -57,8 +57,8 @@
             <br>
             <div class="d-flex flex-column gap-2" *ngIf="project.finished != 1">
               <p class="fs-4">Voortgang boeken:</p>
-              <p class="fs-4">{{tmpProgress}}%</p>
-              <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="tmpProgress">
+              <p class="fs-4">{{tmpProgress}}% - {{tmpProgressHours}} uren</p>
+              <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="tmpProgress" (change)="tmpProgressHoursChange()">
               <button class="btn btn-secondary text-white w-50" (click)="updateProgress()">Voortgang boeken</button>
             </div>
           </div>

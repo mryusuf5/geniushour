@@ -6,6 +6,7 @@
         {
             Parent::__construct();
             $this->load->model("Projectmodel");
+            $this->load->model("Studentmodel");
 
             Header("Access-Control-Allow-Origin: *");
             Header('Access-Control-Allow-Headers: *');
@@ -453,8 +454,21 @@
         {
           $json = file_get_contents("php://input");
           $data = json_decode($json);
+          $student = $this->Studentmodel->GetSingleStudent($data[0]);
+          $studentData = json_decode(json_encode($student), true);
+          $studentHours = $studentData[0]["student_hours"];
 
-          $this->Projectmodel->FinishProject($data[0], $data[1]);
+          $projectHours = $data[2];
+          $hoursLeft = $studentHours - $projectHours;
+          if($hoursLeft <= 0)
+          {
+            $hoursLeft = 0;
+            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
+          }
+          else
+          {
+            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
+          }
         }
 
         public function UnfinishProject()

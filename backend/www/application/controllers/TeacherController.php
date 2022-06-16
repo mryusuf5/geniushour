@@ -150,7 +150,7 @@ class TeacherController extends CI_Controller
     $this->email->to($userEmail);
     $this->email->subject("Welkom bij genuishour!");
     $this->email->message(
-      "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b></body></html>"
+      "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b>" . "U kunt dit veranderen bij u instellingen." . "</body></html>"
     );
     $this->email->send();
   }

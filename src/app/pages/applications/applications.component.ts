@@ -62,7 +62,8 @@ export class ApplicationsComponent implements OnInit {
     {
       this.data.push(
         this.singleApplication[0].student_id,
-        this.singleApplication[0].project_id
+        this.singleApplication[0].project_id,
+        this.singleApplication[0].project_duration
       );
     }
 

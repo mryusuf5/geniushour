@@ -33,7 +33,7 @@
         <tbody *ngIf="messages.length > 0">
         <tr class="" *ngFor="let message of messages | paginate: {itemsPerPage: 7,currentPage: page}; let i = index">
           <td class="d-flex align-items-center gap-2"><div class="image" style="background-image: url({{message.teacher_image}})"></div><span class="">{{message.teacher_firstname}} {{message.teacher_prefix}} {{message.teacher_lastname}}</span></td>
-          <td id="{{message.student_id}}" (click)="gotoProject($event)" class="message">
+          <td class="message">
             <span class="overflow-hidden" [ngClass]="message.read_message != 1 ? 'text-danger' : 'text-info'">{{message.message}}</span>
           </td>
           <td>{{message.message_created}}</td>
