@@ -102,13 +102,17 @@ class TeacherController extends CI_Controller
     $json = file_get_contents("php://input");
     $data = json_decode($json);
     $teacherExists = $this->Teachermodel->GetSingleTeacherByValues($data[0], $data[1], $data[3]);
+    $teacherExists2 = $this->Teachermodel->GetSingleTeacherByMail($data[3]);
 
     if(!empty($data[0]) && !empty($data[1]) && !empty($data[3]) && !empty($data[4]))
     {
-      if(count($teacherExists) == 0)
+      if(count($teacherExists) == 0 && count($teacherExists2) == 0)
       {
+        $randomPass = $this->randomString(8);
+        $hashedPassword = password_hash($randomPass, PASSWORD_DEFAULT);
         $result["success"] = "success";
-        $this->Teachermodel->AddTeacher($data[0], $data[1], $data[2], $data[3], $data[4]);
+        $this->SendMail($data[3], $randomPass);
+        $this->Teachermodel->AddTeacher($data[0], $data[1], $hashedPassword, $data[2], $data[3], $data[4]);
         echo json_encode($result);
       }
       else
@@ -122,5 +126,32 @@ class TeacherController extends CI_Controller
       $result["error"] = "Vul alle velden in a.u.b.";
       echo json_encode($result);
     }
+  }
+
+  public function randomString($string = 8)
+  {
+    return substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), 10, $string);
+  }
+
+  public function SendMail($userEmail, $randomPass)
+  {
+    $this->load->library("email");
+
+    $config = array();
+    $config['smtp_host'] = 'smtp.transip.email';
+    $config['smtp_user'] = 'genuishour@yusufyildiz.nl';
+    $config['smtp_pass'] = 'MRyusuf12304560.';
+    $config['smtp_port'] = 465;
+    $config["mailtype"] = "html";
+    $this->email->initialize($config);
+    $this->email->set_newline("\r\n");
+
+    $this->email->from("genuishour@yusufyildiz.nl");
+    $this->email->to($userEmail);
+    $this->email->subject("Welkom bij genuishour!");
+    $this->email->message(
+      "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b></body></html>"
+    );
+    $this->email->send();
   }
 }

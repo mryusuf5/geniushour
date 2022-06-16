@@ -11,84 +11,61 @@ class UserController extends CI_CONTROLLER{
         Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
     }
 
-    public function index()
-    {
-        echo "test<br/>";
-    }
-    public function CheckLogin(){
-        print_r($this->Usermodel->LoginUser('86941@roc-teraa.nl','admin'));
-    }
-
-    public function AddStudent()
-    {
-        $json = file_get_contents("php://input");
-
-        $data = json_decode($json);
-        $result = [];
-//        $field = [
-//            "username" => $data->username,
-//            "password" => $data->password
-//        ];
-
-        $res = $this->Usermodel->Login($data->username, $data->password);
-
-        if($res == true)
-        {
-            $result["message"] = "succes";
-        }
-        else
-        {
-            $result["message"] = "fail";
-        }
-        echo json_encode($result);
-//        $result ? $this->output->set_output(json_encode(["status"=>"succes"])) : $$this->output->set_output(json_encode(["status"=>"failed"]));
-    }
-
     public function LoginStudent()
     {
         $json = file_get_contents("php://input");
 
-        $inputData = json_decode($json);
+        $data = json_decode($json);
 
         $result = [];
         $user = [];
 
+        $student = $this->Usermodel->GetStudent($data[0]);
 
-        $user["user"] = $this->Usermodel->Login($inputData[0], $inputData[1]);
-
-        if(count($user["user"]) == 1)
+        if(count($student) == 0)
         {
+          $teacher = $this->Usermodel->GetTeacher($data[0]);
+          if(count($teacher) == 0)
+          {
+            $result["message"] = "Email is onjuist.";
+            echo json_encode($result);
+          }
+          else
+          {
+            $teacherData = json_decode(json_encode($teacher[0]), true);
+            if(password_verify($data[1], $teacherData["teacher_password"]))
+            {
+              $user["teacher"] = $this->Usermodel->LoginTeacher($data[0]);
+              echo json_encode($user);
+            }
+            else
+            {
+              $result["message"] = "Wachtwoord onjuist.";
+              echo json_encode($result);
+            }
+          }
+        }
+        else if(count($student) == 1)
+        {
+          $studentData = json_decode(json_encode($student), true);
+          if(password_verify($data[1], $studentData[0]["student_password"]))
+          {
+            $user["user"] = $this->Usermodel->Login($data[0]);
             echo json_encode($user);
-        }
-        else if($user < 1 || $user > 1)
-        {
-            $result["message"] = "Gebruikersnaam of wachtwoord is onjuist.";
+          }
+          else
+          {
+            $result["message"] = "Wachtwoord onjuist.";
             echo json_encode($result);
+          }
+        }
+        else
+        {
+          $result["message"] = "Email is onjuist.";
+          echo json_encode($result);
         }
     }
 
-    public function LoginTeacher()
-    {
-        $json = file_get_contents("php://input");
-
-        $inputData = json_decode($json);
-
-        $result = [];
-        $teacher = [];
-
-
-        $teacher["teacher"] = $this->Usermodel->LoginTeacher($inputData[0], $inputData[1]);
-
-        if(count($teacher["teacher"]) == 1)
-        {
-            echo json_encode($teacher);
-        }
-        else if($teacher < 1 || $teacher > 1)
-        {
-            $result["message"] = "Gebruikersnaam of wachtwoord is fout.";
-            echo json_encode($result);
-        }
-    }
 
   public function ChangeProfilePicture()
   {
@@ -108,7 +85,7 @@ class UserController extends CI_CONTROLLER{
 
     if(in_array($fileActualExt, $allowed))
     {
-      $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
+      $profilePictureData = "https://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
       $profilePicture = "./assets/images/" . $fileName;
 
 
@@ -148,7 +125,7 @@ class UserController extends CI_CONTROLLER{
     $fileName = str_replace(" ", "_", $fileName);
     $fileTmpName = $_FILES["profilePicture"]["tmp_name"];
 
-    $profilePictureData = "http://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
+    $profilePictureData = "https://yusufyildiz.nl/genieshour/backend/www/assets/images/" . $fileName;
     $profilePicture = "./assets/images/" . $fileName;
 
     if(move_uploaded_file($fileTmpName, $profilePicture))
@@ -178,12 +155,38 @@ class UserController extends CI_CONTROLLER{
   {
     $json = file_get_contents("php://input");
     $data = json_decode($json);
-
-    $this->Usermodel->UpdateUserPassword($data[0], $data[1], $data[2]);
-
+    $teacher = $this->Usermodel->GetTeacher($data[2]);
+    $student = $this->Usermodel->GetStudent($data[2]);
     $result = [];
 
-    $result["message"] = ["success" => "Wachtwoord is veranderd."];
+    if(count($teacher) == 1)
+    {
+      $teacherData = json_decode(json_encode($teacher), true);
+      if(password_verify($data[3], $teacherData[0]["teacher_password"]))
+      {
+        $hashedPassword = password_hash($data[1], PASSWORD_DEFAULT);
+        $this->Usermodel->UpdateUserPassword($data[0], $hashedPassword, $data[2]);
+        $result["success"] = "Wachtwoord opgeslagen.";
+      }
+      else
+      {
+        $result["error"] = "De ingevulde wachtwoord komt niet overeen met uw huidige wacthwoord.";
+      }
+    }
+    else if(count($student) == 1)
+    {
+      $studentData = json_decode(json_encode($student), true);
+      if(password_verify($data[3], $studentData[0]["student_password"]))
+      {
+        $hashedPassword = password_hash($data[1], PASSWORD_DEFAULT);
+        $this->Usermodel->UpdateUserPassword($data[0], $hashedPassword, $data[2]);
+        $result["success"] = "Wachtwoord opgeslagen.";
+      }
+      else
+      {
+        $result["error"] = "De ingevulde wachtwoord komt niet overeen met uw huidige wacthwoord.";
+      }
+    }
 
     echo json_encode($result);
   }

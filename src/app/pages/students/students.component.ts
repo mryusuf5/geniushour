@@ -65,15 +65,17 @@ export class StudentsComponent implements OnInit {
       this.studentForm.value.studentHours,
       this.studentForm.value.studentEmail,
       this.studentForm.value.studentClass)
-
+    this.spinner.show();
     this.studentService.addStudent(data).subscribe((e) => {
       this.messages = e;
       if(this.messages.error)
       {
+        this.spinner.hide();
         this.error = this.messages.error;
       }
       if(this.messages.success)
       {
+        this.spinner.hide();
         this.showModal = false;
         this.getAllStudentsId();
         this.studentForm.get("studentName").reset(),

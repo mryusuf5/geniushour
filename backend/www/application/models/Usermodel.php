@@ -7,14 +7,24 @@ class Usermodel extends CI_Model{
         return $this->db->query("SELECT * FROM `users` WHERE `users`.`email` = '$email' LIMIT 1")->result();
     }
 
-    public function Login($username, $password)
+    public function GetStudent($studentMail)
     {
-        return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id WHERE student_email = '$username' AND student_password = '$password'")->result();
+      return $this->db->query("SELECT * FROM students WHERE student_email = '$studentMail'")->result();
     }
 
-    public function LoginTeacher($username, $password)
+    public function GetTeacher($teacherMail)
     {
-        return $this->db->query("SELECT * FROM teachers WHERE teacher_email = '$username' AND teacher_password = '$password'")->result();
+      return $this->db->query("SELECT * FROM teachers WHERE teacher_email = '$teacherMail'")->result();
+    }
+
+    public function Login($username)
+    {
+        return $this->db->query("SELECT * FROM students INNER JOIN classes ON students.class_id = classes.class_id WHERE student_email = '$username'")->result();
+    }
+
+    public function LoginTeacher($username)
+    {
+        return $this->db->query("SELECT * FROM teachers WHERE teacher_email = '$username'")->result();
     }
 
     public function ChangeProfilePicture($id, $profilePicture)
@@ -41,11 +51,11 @@ class Usermodel extends CI_Model{
   {
     if($state == "student")
     {
-      $this->db->query("UPDATE students SET student_password = '$password' WHERE student_id = '$id'");
+      $this->db->query("UPDATE students SET student_password = '$password' WHERE student_email = '$id'");
     }
     else if($state = "teacher")
     {
-      $this->db->query("UPDATE teachers SET teacher_password = '$password' WHERE teacher_id = '$id'");
+      $this->db->query("UPDATE teachers SET teacher_password = '$password' WHERE teacher_email = '$id'");
     }
   }
 }

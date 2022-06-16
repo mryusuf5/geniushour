@@ -314,7 +314,7 @@
                     $targetFile = $targetDir . str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
                     $fileName = str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
                     move_uploaded_file($_FILES["files"]["tmp_name"][$fileCount], $targetFile);
-                    $this->Projectmodel->AddSuppliesProject($project[0]["project_id"], $file, "http://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
+                    $this->Projectmodel->AddSuppliesProject($project[0]["project_id"], $file, "https://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
                     $result["success"] = "success";
                     $fileCount++;
                   }
@@ -341,7 +341,7 @@
             $targetFile = $targetDir . str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
             $fileName = str_replace(" ", "_", basename($_FILES["files"]["name"][$fileCount]));
             move_uploaded_file($_FILES["files"]["tmp_name"][$fileCount], $targetFile);
-            $this->Projectmodel->AddSuppliesProject($_POST["projectId"], $file, "http://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
+            $this->Projectmodel->AddSuppliesProject($_POST["projectId"], $file, "https://yusufyildiz.nl/genieshour/backend/www/assets/files/" . $fileName);
             $fileCount++;
           }
         }

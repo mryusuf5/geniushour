@@ -15,13 +15,14 @@ export class ProfileComponent implements OnInit {
   public selectedFile: any;
   public userId: string;
   public teacherId: string;
-  public userPass: string;
   public profileForm: FormGroup;
   public messages: any;
-  public currentPass: string;
-  public newPass: string;
-  public repeatNewPass: string;
+  public currentPass: string = "";
+  public newPass: string = "";
+  public repeatNewPass: string = "";
   public passwordData: any = [];
+  public teacherMail: string;
+  public userMail: string;
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
@@ -32,13 +33,13 @@ export class ProfileComponent implements OnInit {
     {
       this.student = JSON.parse(localStorage.getItem("userdata"));
       this.userId = this.student[0].student_id;
-      this.userPass = this.student[0].student_password;
+      this.userMail = this.student[0].student_email;
     }
     else if(localStorage.getItem("teacher"))
     {
       this.teacher = JSON.parse(localStorage.getItem("teacher"));
       this.teacherId = this.teacher[0].teacher_id;
-      this.userPass = this.teacher[0].teacher_password;
+      this.teacherMail = this.teacher[0].teacher_email;
     }
 
     this.profileForm = this.formBuilder.group({
@@ -110,21 +111,25 @@ export class ProfileComponent implements OnInit {
 
   public updatePassword()
   {
-    if(localStorage.getItem("userdata"))
+    if(this.currentPass.length == 0 || this.newPass.length == 0 || this.repeatNewPass.length == 0)
     {
-      this.passwordData.push("student", this.newPass, this.userId);
+      this.messages = {error: "Vul alles in a.u.b."};
     }
-    else if(localStorage.getItem("teacher"))
+    else
     {
-      this.passwordData.push("teacher", this.newPass, this.teacherId);
-    }
-    if(this.currentPass === this.userPass)
-    {
+      if(localStorage.getItem("userdata"))
+      {
+        this.passwordData.push("student", this.newPass, this.userMail, this.currentPass);
+      }
+      else if(localStorage.getItem("teacher"))
+      {
+        this.passwordData.push("teacher", this.newPass, this.teacherMail, this.currentPass);
+      }
       if(this.newPass === this.repeatNewPass)
       {
         this.userService.UpdateUserPassword(this.passwordData).subscribe((e) => {
           this.messages = e;
-          this.messages = {success: "Wachtwoord opgeslagen."};
+          console.log(this.messages)
         })
       }
       else
@@ -132,10 +137,7 @@ export class ProfileComponent implements OnInit {
         this.messages = {error: "Herhaalde wachtwoord komt niet overeen met uw nieuwe wacthwoord."};
       }
     }
-    else
-    {
-      this.messages = {error: "De ingevulde wachtwoord komt niet overeen met uw huidige wacthwoord."};
-    }
+    this.passwordData = [];
   }
 
 }

@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class TeacherService {
 
-  public url: string = "http://yusufyildiz.nl/genieshour/backend/www/";
+  public url: string = "https://yusufyildiz.nl/genieshour/backend/www/";
 
   constructor(private http: HttpClient) { }
 

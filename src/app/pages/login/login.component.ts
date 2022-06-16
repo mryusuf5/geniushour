@@ -46,9 +46,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("userdata", JSON.stringify(userdata));
         this.router.navigate(["/home"]);
       }
-      else if(this.messages.message)
+      else if(this.messages.teacher)
       {
-        this.userService.loginTeacher(userdata).subscribe((data) => {
+        this.userService.login(userdata).subscribe((data) => {
           this.spinner.hide();
           this.messages = data;
           if(this.messages.teacher)
@@ -57,14 +57,12 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("teacher", JSON.stringify(userdata));
             this.router.navigate(["/dashboard"]);
           }
-          else if(this.messages.message)
-          {
-            this.error = this.messages.message;
-          }
         })
       }
-    },(err) => {
-
+      else if(this.messages.message)
+      {
+        this.error = this.messages.message;
+      }
     })
   }
 }

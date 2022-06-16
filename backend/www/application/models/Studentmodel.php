@@ -53,6 +53,11 @@
       return $this->db->query("SELECT * FROM students WHERE student_firstname = '$studentFirstname' AND student_lastname = '$studentLastname' AND student_number = '$studentNumber'")->result();
     }
 
+    public function GetSingleStudentByMail($studentMail)
+    {
+      return $this->db->query("SELECT * FROM students WHERE student_email = '$studentMail'")->result();
+    }
+
     public function GetAllClassesByClassName($className)
     {
       return $this->db->query("SELECT * FROM classes WHERE class_name = '$className'")->result();
@@ -112,9 +117,9 @@
       $this->db->query("DELETE FROM students WHERE student_id = '$id'");
     }
 
-    public function AddStudent($studentName, $studentLastname, $studentPrefix, $studentEmail, $classId, $studentHours, $studentNumber)
+    public function AddStudent($studentName, $studentLastname, $studentPassword, $studentPrefix, $studentEmail, $classId, $studentHours, $studentNumber)
     {
-      $this->db->query("INSERT INTO students(student_firstname, student_lastname, student_prefix, student_email, class_id, student_hours, student_number) VALUES('$studentName', '$studentLastname', '$studentPrefix', '$studentEmail', '$classId', '$studentHours', '$studentNumber')");
+      $this->db->query("INSERT INTO students(student_firstname, student_lastname, student_password, student_prefix, student_email, class_id, student_hours, student_number) VALUES('$studentName', '$studentLastname', '$studentPassword', '$studentPrefix', '$studentEmail', '$classId', '$studentHours', '$studentNumber')");
     }
 
     public function GetMessagesStudent($id)

@@ -201,13 +201,17 @@
       $json = file_get_contents("php://input");
       $data = json_decode($json);
       $studentExists = $this->Studentmodel->GetSingleStudentByValues($data[0], $data[1], $data[3]);
+      $studentExists2 = $this->Studentmodel->GetSingleStudentByMail($data[5]);
 
       if(!empty($data[0]) && !empty($data[1]) && !empty($data[3]) && !empty($data[5]) && !empty($data[6]))
       {
-        if(count($studentExists) == 0)
+        if(count($studentExists) == 0 && count($studentExists2) == 0)
         {
+          $randomPass = $this->randomString(8);
           $result["success"] = "success";
-          $this->Studentmodel->AddStudent($data[0], $data[1], $data[2], $data[5], $data[6], $data[4], $data[3]);
+          $hashedPassword = password_hash($randomPass, PASSWORD_DEFAULT);
+          $this->Studentmodel->AddStudent($data[0], $data[1], $hashedPassword, $data[2], $data[5], $data[6], $data[4], $data[3]);
+          $this->SendMail($data[5], $randomPass);
           echo json_encode($result);
         }
         else
@@ -221,6 +225,11 @@
         $result["error"] = "Vul alle velden in a.u.b.";
         echo json_encode($result);
       }
+    }
+
+    public function randomString($string = 8)
+    {
+      return substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), 10, $string);
     }
 
     public function GetMessagesStudent()
@@ -286,6 +295,28 @@
       $data = json_decode($json);
 
       $this->Studentmodel->SetStudentClass($data[0], $data[1]);
+    }
+
+    public function SendMail($userEmail, $randomPass)
+    {
+      $this->load->library("email");
+
+      $config = array();
+      $config['smtp_host'] = 'smtp.transip.email';
+      $config['smtp_user'] = 'genuishour@yusufyildiz.nl';
+      $config['smtp_pass'] = 'MRyusuf12304560.';
+      $config['smtp_port'] = 465;
+      $config["mailtype"] = "html";
+      $this->email->initialize($config);
+      $this->email->set_newline("\r\n");
+
+      $this->email->from("genuishour@yusufyildiz.nl");
+      $this->email->to($userEmail);
+      $this->email->subject("Welkom bij genuishour!");
+      $this->email->message(
+        "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b></body></html>"
+      );
+      $this->email->send();
     }
 
     public function TestEmail()

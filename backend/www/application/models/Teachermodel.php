@@ -45,6 +45,11 @@ class Teachermodel extends CI_Model
     return $this->db->query("SELECT * FROM teachers WHERE teacher_firstname = '$teacherFirstName' AND teacher_lastname = '$teacherLastname' AND teacher_email = '$teacherEmail'")->result();
   }
 
+  public function GetSingleTeacherByMail($teacherEmail)
+  {
+    return $this->db->query("SELECT * FROM teachers WHERE teacher_email = '$teacherEmail'")->result();
+  }
+
   public function EditTeacher($id, $TeacherFirstName, $TeacherLastName, $TeacherPrefix, $TeacherEmail)
   {
     $this->db->query("UPDATE teachers SET teacher_firstname = '$TeacherFirstName', teacher_lastname = '$TeacherLastName', teacher_prefix = '$TeacherPrefix', teacher_email = '$TeacherEmail' WHERE teacher_id = '$id'");
@@ -55,8 +60,9 @@ class Teachermodel extends CI_Model
     $this->db->query("DELETE FROM teachers WHERE teacher_id = '$id'");
   }
 
-  public function AddTeacher($teacherName, $teacherLastname, $teacherPrefix, $teacherEmail, $fieldId)
+  public function AddTeacher($teacherName, $teacherLastname, $teacherPassword, $teacherPrefix, $teacherEmail, $fieldId)
   {
-    $this->db->query("INSERT INTO teachers(teacher_firstname, teacher_lastname, teacher_prefix, teacher_email, field_id) VALUES('$teacherName', '$teacherLastname', '$teacherPrefix', '$teacherEmail', '$fieldId')");
+    $this->db->query("INSERT INTO teachers(teacher_firstname, teacher_lastname, teacher_password, teacher_prefix, teacher_email, field_id) VALUES('$teacherName', '$teacherLastname', '$teacherPassword', '$teacherPrefix', '$teacherEmail', '$fieldId')");
   }
+
 }
