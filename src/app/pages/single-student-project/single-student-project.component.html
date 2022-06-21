@@ -9,8 +9,10 @@
 <div class="d-flex mainContainer">
   <app-sidebar></app-sidebar>
   <div class="singleProjectContainer mt-3 mx-4">
-    <a *ngIf="singleProject[0].finished != 1" routerLink="/home/mijn-projecten">Terug</a>
-    <a *ngIf="singleProject[0].finished == 1" routerLink="/home/afgeronde-projecten">Terug</a>
+    <div *ngIf="singleProject.length > 0">
+      <a *ngIf="singleProject[0].finished != 1" routerLink="/home/mijn-projecten">Terug</a>
+      <a *ngIf="singleProject[0].finished == 1" routerLink="/home/afgeronde-projecten">Terug</a>
+    </div>
     <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
       <div class="p-4 d-flex gap-4 flex-column singleProject" *ngFor="let project of singleProject">
         <h2>{{project.project_name}} <span *ngIf="project.finished == 1" class="text-success">(afgerond)</span></h2>

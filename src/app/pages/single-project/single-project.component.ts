@@ -21,6 +21,8 @@ export class SingleProjectComponent implements OnInit {
   public disableApplication: boolean = false;
   public studentProject: any = [];
   public projectSupplies: any = [];
+  public fields: any = [];
+  public field: string = "";
 
   constructor(private projectService: ProjectService,
               private route: ActivatedRoute,
@@ -37,6 +39,7 @@ export class SingleProjectComponent implements OnInit {
       this.singleProject = e;
       this.checkstudentApplication()
     });
+    this.getAllFieds();
 
     this.getSupplies();
 
@@ -92,7 +95,8 @@ export class SingleProjectComponent implements OnInit {
       this.userdata[0].student_id,
       this.projectId,
       this.singleProject[0].field_id,
-      "0"
+      "0",
+      this.field
     ];
     Swal.fire({
       text: "Weet je zeker dat je een verzoek wilt sturen naar de leraar?",
@@ -110,11 +114,21 @@ export class SingleProjectComponent implements OnInit {
           "",
           "success"
         );
-        this.disableApplication = true;
         this.projectService.AddApplication(data).subscribe((e) => {
           this.messages = e;
+          if(this.messages.success)
+          {
+            this.disableApplication = true;
+          }
         })
       }
+    })
+  }
+
+  public getAllFieds()
+  {
+    this.projectService.GetAllFields().subscribe((e) => {
+      this.fields = e;
     })
   }
 }

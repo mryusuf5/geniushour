@@ -65,4 +65,19 @@ class Teachermodel extends CI_Model
     $this->db->query("INSERT INTO teachers(teacher_firstname, teacher_lastname, teacher_password, teacher_prefix, teacher_email, field_id) VALUES('$teacherName', '$teacherLastname', '$teacherPassword', '$teacherPrefix', '$teacherEmail', '$fieldId')");
   }
 
+  public function GetCurrentProjects($fieldId)
+  {
+      return $this->db->query("SELECT students.student_id, students.student_firstname, students.student_lastname, students.student_prefix, students.student_image, students.student_hours FROM student_projects INNER JOIN fields ON student_projects.field_id = fields.field_id INNER JOIN students ON student_projects.student_id = students.student_id INNER JOIN projects ON student_projects.project_id = projects.project_id WHERE fields.field_id = '$fieldId' GROUP BY students.student_id")->result();
+  }
+
+  public function GetCurrentStudentProjects($studentId)
+  {
+    return $this->db->query("SELECT * FROM student_projects INNER JOIN projects ON student_projects.project_id = projects.project_id WHERE student_projects.student_id = '$studentId' LIMIT 3")->result();
+  }
+
+  public function GetLatestProgress($studentId, $projectId)
+  {
+    return $this->db->query("SELECT * FROM saved_progress WHERE student_id = '$studentId' AND project_id = '$projectId' ORDER BY progress DESC LIMIT 1")->result();
+  }
+
 }

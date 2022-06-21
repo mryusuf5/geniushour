@@ -129,7 +129,6 @@ export class ProfileComponent implements OnInit {
       {
         this.userService.UpdateUserPassword(this.passwordData).subscribe((e) => {
           this.messages = e;
-          console.log(this.messages)
         })
       }
       else

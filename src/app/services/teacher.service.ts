@@ -43,7 +43,6 @@ export class TeacherService {
     return this.http.get(`${this.url}TeacherController/GetAllTeachersFieldDesc`);
   }
 
-
   public getSingleTeacher(data)
   {
     return this.http.post(`${this.url}TeacherController/GetSingleTeacher`, data);
@@ -62,5 +61,15 @@ export class TeacherService {
   public addTeacher(data)
   {
     return this.http.post(`${this.url}TeacherController/AddTeacher`, data);
+  }
+
+  public getCurrentProjects(data)
+  {
+    return this.http.post(`${this.url}TeacherController/GetCurrentProjects`, data);
+  }
+
+  public getCurrentStudentProjects(data)
+  {
+    return this.http.post(`${this.url}TeacherController/GetCurrentStudentProjects`, data);
   }
 }

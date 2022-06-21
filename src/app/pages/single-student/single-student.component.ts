@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from "../../services/student.service";
 import { ProjectService } from "../../services/project.service";
+import { UserService } from "../../services/user.service";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import Swal from "sweetalert2";
 import { NgxSpinnerService} from "ngx-spinner";
+import {FormGroup, FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-single-student',
@@ -23,6 +25,8 @@ export class SingleStudentComponent implements OnInit {
   public formStudentHours: string;
   public formStudentClass: string;
   public projects: any = [];
+  public selectedFile: any;
+  public profileForm: FormGroup;
 
   public studentId: any;
 
@@ -30,12 +34,19 @@ export class SingleStudentComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private projectService: ProjectService,
-              private spinner: NgxSpinnerService) { }
+              private spinner: NgxSpinnerService,
+              private userService: UserService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((e) => {
       this.studentId = e["studentId"];
     });
+
+    this.profileForm = this.formBuilder.group({
+      profilePicture: [null],
+      userId: [""]
+    })
 
     this.studentService.getAllClasses().subscribe((e) => {
       this.classes = e;
@@ -98,7 +109,7 @@ export class SingleStudentComponent implements OnInit {
 
   public deleteStudent(e)
   {
-    const data = e.srcElement.id;
+    const data = e.target.id;
 
     Swal.fire({
       title: "Weet u zeker dat u deze student wilt verwijderen?",
@@ -124,5 +135,34 @@ export class SingleStudentComponent implements OnInit {
         }, 1000)
       }
     })
+  }
+
+  public profileImage(e)
+  {
+    this.selectedFile = e.target.files[0];
+    this.profileForm.patchValue({
+      profilePicture: this.selectedFile,
+      userId: this.studentId,
+    })
+
+    this.changeProfilePicture();
+  }
+
+  public changeProfilePicture()
+  {
+    if(this.selectedFile)
+    {
+      this.spinner.show();
+      const data = new FormData();
+      data.append("profilePicture", this.profileForm.value.profilePicture)
+      data.append("userId", this.studentId);
+
+      this.userService.changeProfilePicture(data).subscribe((e) => {
+        this.spinner.hide();
+        this.userService.getProfilePicture(this.studentId).subscribe((e) => {
+          window.location.reload();
+        })
+      })
+    }
   }
 }

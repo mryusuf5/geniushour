@@ -14,3 +14,14 @@ td a{
 .deleteButton{
   background: #BB2D3B;
 }
+.upload{
+  display: none;
+}
+.uploadLabel{
+  border: 1px dashed;
+}
+.uploadLabel:hover{
+  cursor: pointer;
+}
+.projectModal{
+}

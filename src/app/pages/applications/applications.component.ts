@@ -16,6 +16,7 @@ export class ApplicationsComponent implements OnInit {
   public teacherId: string = this.teacher[0].teacher_id;
   public singleApplicationId: string;
   public data: any = [];
+  public reason: string = "";
 
   constructor(private projectService: ProjectService) { }
 
@@ -85,6 +86,7 @@ export class ApplicationsComponent implements OnInit {
           this.projectService.acceptApplication(this.data).subscribe(() => {
             this.projectService.sendMessage(data2).subscribe(() => {})
             this.getApplications();
+            this.showModal = false;
           });
         }
         else if(this.singleApplication[0].finish == "1")
@@ -93,15 +95,17 @@ export class ApplicationsComponent implements OnInit {
             this.projectService.sendMessage(data2).subscribe(() => {})
             this.projectService.denyApplication(this.singleApplicationId).subscribe(() => {})
             this.getApplications();
+            this.showModal = false;
+            Swal.fire(
+              "Succesvol geaccepteerd",
+              "",
+              "success"
+            )
+            this.data = [];
           })
         }
 
-        Swal.fire(
-          "Succesvol geaccepteerd",
-          "",
-          "success"
-        )
-        this.showModal = false;
+
       }
     })
   }
@@ -109,10 +113,12 @@ export class ApplicationsComponent implements OnInit {
   public denyApplication()
   {
     const data2 = [
-      "Uw verzoek is geweigerd.",
+      "Uw verzoek is geweigerd. \n" + this.reason,
       this.singleApplication[0].student_id,
       this.teacherId,
-      this.singleApplication[0].project_id
+      this.singleApplication[0].project_id,
+      1,
+      1
     ];
     Swal.fire({
       title: "Weet u zeker dat u dit verzoek wilt weigeren?",
@@ -127,14 +133,15 @@ export class ApplicationsComponent implements OnInit {
       if(result.isConfirmed)
       {
         this.projectService.denyApplication(this.singleApplicationId).subscribe(() => {});
-        this.projectService.sendMessage(data2).subscribe(() => {})
+        this.projectService.sendMessage(data2).subscribe(() => {
+          this.getApplications();
+          this.showModal = false;
+        })
         Swal.fire(
           "Succesvol geweigerd",
           "",
           "success"
         )
-        this.showModal = false;
-        this.getApplications();
       }
     })
   }

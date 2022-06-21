@@ -116,8 +116,10 @@ export class ClassesComponent implements OnInit {
 
   public getAllClassesId()
   {
+    this.spinner.show();
     this.studentService.getAllClasses().subscribe((e) => {
       this.classes = e;
+      this.spinner.hide();
     })
   }
 

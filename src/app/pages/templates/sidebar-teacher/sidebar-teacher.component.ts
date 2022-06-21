@@ -22,12 +22,16 @@ export class SidebarTeacherComponent implements OnInit {
     this.userdata = JSON.parse(localStorage.getItem("teacher"));
     this.username = this.userdata[0].teacher_firstname;
     this.profilePicture = this.userdata[0].teacher_image;
-    this.getApplications();
+    this.getApplications()
+    setInterval((e) => {
+      this.getApplications();
+    }, 10000)
+
   }
 
   public showMenu(e)
   {
-    e.srcElement.classList.add("show");
+    e.target.classList.add("show");
   }
 
   public logout()

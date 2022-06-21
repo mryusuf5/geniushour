@@ -12,7 +12,7 @@ import {Chart, registerables} from "chart.js";
 })
 export class SingleStudentProjectComponent implements OnInit {
 
-  public singleProject: any;
+  public singleProject: any = [];
   public teachers: any;
   public userdata: any = JSON.parse(localStorage.getItem("userdata"));
   public userId: string = this.userdata[0].student_id;
@@ -42,8 +42,8 @@ export class SingleStudentProjectComponent implements OnInit {
       this.projectId = e["projectId"];
     })
 
-    this.getApplicationsByProjectId();
     this.getSingleProject();
+    this.getApplicationsByProjectId();
     this.getMessages();
     this.getProgress();
     this.getSupplies();
@@ -60,7 +60,6 @@ export class SingleStudentProjectComponent implements OnInit {
   {
     this.projectService.getProjectSupplies(this.projectId).subscribe((e) => {
       this.projectSupplies = e;
-      console.log(e)
     })
   }
 
@@ -83,10 +82,8 @@ export class SingleStudentProjectComponent implements OnInit {
       this.userId,
       this.projectId
     ];
-    console.log(data)
     this.projectService.getApplicationsByProjectId(data).subscribe((e) => {
       this.applications = e;
-      console.log(this.applications);
     })
   }
 
@@ -133,7 +130,6 @@ export class SingleStudentProjectComponent implements OnInit {
     ];
     this.projectService.getLatestProgress(data).subscribe((e) => {
       this.getProgressLength = e;
-      console.log(this.getProgressLength)
       if(this.getProgressLength.length <= 0)
       {
         this.progress = "0";

@@ -13,7 +13,6 @@
     <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
       <div class="progressContainer">
         <p class="fs-3">Mijn voortgang:</p>
-        <button class="btn btn-danger deleteButton text-white" (click)="deleteProject()">Verwijder project</button>
         <div class="chartContainer">
           <canvas width="400" height="400" id="chart"></canvas>
         </div>
@@ -58,6 +57,7 @@
           <div *ngIf="messages.length <= 0">
             <p class="fs-4 text-danger">Geen berichten...</p>
           </div>
+          <button class="btn btn-danger deleteButton text-white" (click)="deleteProject()">Verwijder project</button>
         </div>
       </div>
     </div>

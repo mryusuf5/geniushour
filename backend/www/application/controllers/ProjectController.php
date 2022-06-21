@@ -412,12 +412,32 @@
         {
           $json = file_get_contents("php://input");
           $data = json_decode($json);
-          if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]))
+          $result = [];
+
+          if(empty($data[4]) && $data[2] != "11")
           {
-            $result["success"] = "Aanvraag is ingedient";
-            $this->Projectmodel->AddApplication($data[0], $data[1], $data[2], $data[3]);
-            echo json_encode($result);
+            if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]))
+            {
+              $result["success"] = "Aanvraag is ingedient";
+              $this->Projectmodel->AddApplication($data[0], $data[1], $data[2], $data[3]);
+            }
           }
+          else
+          {
+            if($data[4] != "11" && !empty($data[4]))
+            {
+              if(!empty($data[0]) && !empty($data[1]) && !empty($data[2]))
+              {
+                $result["success"] = "Aanvraag is ingedient";
+                $this->Projectmodel->AddApplication($data[0], $data[1], $data[4], $data[3]);
+              }
+            }
+            else
+            {
+             $result["error"] = "Kies een vak a.u.b.";
+            }
+          }
+          echo json_encode($result);
         }
 
         public function GetStudentProjects()
@@ -460,15 +480,16 @@
 
           $projectHours = $data[2];
           $hoursLeft = $studentHours - $projectHours;
-          if($hoursLeft <= 0)
-          {
-            $hoursLeft = 0;
-            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
-          }
-          else
-          {
-            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
-          }
+          $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
+//          if($hoursLeft <= 0)
+//          {
+//            $hoursLeft = 0;
+//            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
+//          }
+//          else
+//          {
+//            $this->Projectmodel->FinishProject($data[0], $data[1], $hoursLeft);
+//          }
         }
 
         public function UnfinishProject()
@@ -534,9 +555,15 @@
           $data = json_decode($json);
           $result = [];
 
-          if(!empty($data[0]))
+          if($data[4] == "0")
           {
-            $this->Projectmodel->SendMessage($data[0], $data[1], $data[2], $data[3], $data[4]);
+            $this->Projectmodel->SendMessage($data[0], $data[1], $data[2], $data[3], "0");
+            $result["success"] = "Bericht verstuurd.";
+            echo json_encode($result);
+          }
+          else if($data[4] == "1")
+          {
+            $this->Projectmodel->SendMessage($data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
             $result["success"] = "Bericht verstuurd.";
             echo json_encode($result);
           }
@@ -555,6 +582,7 @@
           if(isset($data[0]) && isset($data[1]) && isset($data[2]) && isset($data[3]))
           {
             $this->Projectmodel->InsertProgress($data[0], $data[1], $data[2], $data[3]);
+            $this->Projectmodel->UpdateProgress($data[0], $data[1], $data[2]);
           }
         }
 
@@ -584,6 +612,8 @@
           $data = json_decode($json);
 
           $this->Projectmodel->DeleteStudentProject($data[0], $data[1]);
+          $this->Projectmodel->DeleteMessagesProject($data[0], $data[1]);
+          $this->Projectmodel->DeleteProgressProject($data[0], $data[1]);
         }
 
         public function AddField()

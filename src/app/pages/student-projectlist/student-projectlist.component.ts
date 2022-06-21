@@ -68,7 +68,6 @@ export class StudentProjectlistComponent implements OnInit {
     const data = this.studentId;
     this.projectService.getAllStudentProjects(data).subscribe((e) => {
       this.projects = e;
-      console.log(this.projects);
     })
   }
 

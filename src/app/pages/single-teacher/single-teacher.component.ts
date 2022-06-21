@@ -29,7 +29,6 @@ export class SingleTeacherComponent implements OnInit {
 
     this.teacherService.getSingleTeacher(this.teacherId).subscribe((e) => {
       this.teacher = e;
-      console.log(this.teacher);
       this.formTeacherFirstName = this.teacher[0].teacher_firstname;
       this.formTeacherLastName = this.teacher[0].teacher_lastname;
       this.formTeacherPrefix = this.teacher[0].teacher_prefix;

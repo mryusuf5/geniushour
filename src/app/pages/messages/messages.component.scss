@@ -31,3 +31,13 @@
 .warningButton{
   background: #FFCA2C;
 }
+i:hover{
+  cursor: pointer;
+}
+.show
+{
+  display: block !important;
+}
+.backgroundDim{
+  filter: blur(8px);
+}

@@ -15,6 +15,10 @@ export class LoginComponent implements OnInit {
   public user: any;
   public loginForm: FormGroup;
   public error: string;
+  public success: string;
+  public passwordForgot: boolean = false;
+  public emailSend: boolean = false;
+  public email: string;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -63,6 +67,20 @@ export class LoginComponent implements OnInit {
       {
         this.error = this.messages.message;
       }
+    })
+  }
+
+  public resetPassword()
+  {
+    this.spinner.show();
+    this.userService.SendResetPassword(this.email).subscribe((e) => {
+      this.success = "Als deze email in ons systeem bestaat dan krijgt u een mail.";
+      this.emailSend = true;
+      this.spinner.hide();
+      setTimeout(() => {
+        this.passwordForgot = false;
+        this.emailSend = true;
+      }, 2000)
     })
   }
 }

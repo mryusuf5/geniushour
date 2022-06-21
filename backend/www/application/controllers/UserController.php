@@ -190,4 +190,85 @@ class UserController extends CI_CONTROLLER{
 
     echo json_encode($result);
   }
+
+  public function SendResetPassword()
+  {
+    $json = file_get_contents("php://input");
+
+    $code = uniqid(true);
+    $result = $this->Usermodel->SearchMail($json);
+
+    if(count($result) >= 1)
+    {
+      $this->Usermodel->DeletePasswordReset($json);
+      $this->Usermodel->SendResetPassword($json, $code);
+      $this->SendMail($json, $code);
+    }
+    else
+    {
+      $this->Usermodel->SendResetPassword($json, $code);
+      $this->SendMail($json, $code);
+    }
+
+
+  }
+
+  public function UpdatePassword()
+  {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json);
+
+    $result = [];
+    $newPass = password_hash($data[2], PASSWORD_DEFAULT);;
+    $result = $this->Usermodel->SearchCode($data[0], $data[1]);
+
+
+    if(count($result) == 1)
+    {
+      $studentResult = $this->Usermodel->GetStudent($data[1]);
+      if(count($studentResult) == 1)
+      {
+        $this->Usermodel->UpdatePasswordStudent($data[1], $newPass);
+        $this->Usermodel->DeletePasswordReset($data[1]);
+        $result["success"] = "Wachtwoord geupdate.";
+      }
+      else
+      {
+        $teacherResult = $this->Usermodel->GetTeacher($data[1]);
+        if(count((array)$teacherResult) == 1)
+        {
+          $this->Usermodel->UpdatePasswordTeacher($data[1], $newPass);
+          $this->Usermodel->DeletePasswordReset($data[1]);
+          $result["success"] = "Wachtwoord geupdate.";
+        }
+      }
+    }
+    else
+    {
+      $result["error"] = "Email of verificatie code niet gevonden.";
+    }
+    echo json_encode($result);
+  }
+
+  public function SendMail($email, $code)
+  {
+    $this->load->library("email");
+
+    $config = array();
+    $config['smtp_host'] = 'smtp.transip.email';
+    $config['smtp_user'] = 'genuishour@yusufyildiz.nl';
+    $config['smtp_pass'] = 'MRyusuf12304560.';
+    $config['smtp_port'] = 465;
+    $config["mailtype"] = "html";
+    $this->email->initialize($config);
+    $this->email->set_newline("\r\n");
+
+    $this->email->from("genuishour@yusufyildiz.nl");
+    $this->email->to($email);
+    $this->email->subject("Wachtwoord resetten.");
+    $this->email->message(
+      "<html><body><a href='https://yusufyildiz.nl/#/password-reset?code=$code&email=$email'>U kun uw wachtwoord op deze link resetten.</a></body></html>"
+    );
+    $this->email->send();
+  }
 }

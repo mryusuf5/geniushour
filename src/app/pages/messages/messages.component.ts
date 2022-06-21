@@ -17,6 +17,8 @@ export class MessagesComponent implements OnInit {
   public selectedSearch: string = "voornaam";
   public searchName: string;
   public page: number = 1;
+  public showModal: boolean = false;
+  public singleMessage: any = [];
   constructor(private studentService: StudentService,
               private spinner:NgxSpinnerService,
               private router: Router) { }
@@ -28,6 +30,14 @@ export class MessagesComponent implements OnInit {
   public search()
   {
 
+  }
+
+  public openMessage(e)
+  {
+    this.studentService.getSingleMessage(e.target.id).subscribe((e) => {
+      this.singleMessage = e;
+    })
+    this.showModal = true;
   }
 
   public getMessages()

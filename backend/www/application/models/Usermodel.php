@@ -58,4 +58,34 @@ class Usermodel extends CI_Model{
       $this->db->query("UPDATE teachers SET teacher_password = '$password' WHERE teacher_email = '$id'");
     }
   }
+
+  public function SendResetPassword($email, $code)
+  {
+    $this->db->query("INSERT INTO password_reset(email, code) VALUES('$email', '$code')");
+  }
+
+  public function SearchCode($code, $email)
+  {
+    return $this->db->query("SELECT * FROM password_reset WHERE email = '$email' AND code = '$code'")->result();
+  }
+
+  public function SearchMail($email)
+  {
+    return $this->db->query("SELECT * FROM password_reset WHERE email = '$email'")->result();
+  }
+
+  public function DeletePasswordReset($email)
+  {
+    $this->db->query("DELETE FROM password_reset WHERE email = '$email'");
+  }
+
+  public function UpdatePasswordStudent($email, $newPass)
+  {
+    $this->db->query("UPDATE students SET student_password = '$newPass' WHERE student_email = '$email'");
+  }
+
+  public function UpdatePasswordTeacher($email, $newPass)
+  {
+    $this->db->query("UPDATE teachers SET teacher_password = '$newPass' WHERE teacher_email = '$email'");
+  }
 }

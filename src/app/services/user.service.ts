@@ -48,4 +48,14 @@ export class UserService {
   {
     return this.http.post(`${this.url}UserController/UpdateUserPassword`, data);
   }
+
+  public SendResetPassword(data)
+  {
+    return this.http.post(`${this.url}UserController/SendResetPassword`, data);
+  }
+
+  public UpdatePassword(data)
+  {
+    return this.http.post(`${this.url}UserController/UpdatePassword`, data);
+  }
 }

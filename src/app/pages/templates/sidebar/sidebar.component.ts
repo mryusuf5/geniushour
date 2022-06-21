@@ -24,6 +24,9 @@ export class SidebarComponent implements OnInit {
     this.username = this.userdata[0].student_firstname;
     this.profilePicture = this.userdata[0].student_image;
     this.getMessages();
+    setInterval((e) => {
+      this.getMessages();
+    }, 10000)
   }
 
   public showMenu(e)
@@ -48,6 +51,8 @@ export class SidebarComponent implements OnInit {
         }
       })
     })
+    this.notifications = [];
+    this.notificationsLength = 0;
   }
 
 }

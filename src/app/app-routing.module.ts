@@ -20,6 +20,7 @@ import {StudentProjectlistComponent} from "./pages/student-projectlist/student-p
 import {ClassesComponent} from "./pages/classes/classes.component";
 import {SingleClassComponent} from "./pages/single-class/single-class.component";
 import {FieldsComponent} from "./pages/fields/fields.component";
+import {PasswordResetComponent} from "./pages/password-reset/password-reset.component";
 
 const routes: Routes = [
   {path: "", component: LoginComponent, canActivate: [AuthService]},
@@ -44,7 +45,8 @@ const routes: Routes = [
   {path: "studenten/student-projecten", component: StudentProjectlistComponent, canActivate: [AuthService]},
   {path: "klassen", component: ClassesComponent, canActivate: [AuthService]},
   {path: "klassen/klas", component: SingleClassComponent, canActivate: [AuthService]},
-  {path: "vakken", component: FieldsComponent, canActivate: [AuthService]}
+  {path: "vakken", component: FieldsComponent, canActivate: [AuthService]},
+  {path: "password-reset", component: PasswordResetComponent}
 ];
 
 @NgModule({

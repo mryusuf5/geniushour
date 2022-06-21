@@ -142,6 +142,11 @@
       $this->db->query("DELETE FROM messages WHERE student_id = '$studentId' AND id = '$messageId'");
     }
 
+    public function GetSingleMessage($messageId)
+    {
+      return $this->db->query("SELECT * FROM messages INNER JOIN teachers ON messages.teacher_id = teachers.teacher_id WHERE id = '$messageId'")->result();
+    }
+
     public function GetStudentsClass($classId)
     {
       return $this->db->query("SELECT * FROM students WHERE class_id = '$classId'")->result();

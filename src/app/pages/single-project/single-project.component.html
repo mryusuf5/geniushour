@@ -13,6 +13,7 @@
     <div class="singleProject mt-2 border border-danger border-3" style="width: 75vw">
       <div class="p-4 d-flex gap-4 flex-column" *ngFor="let project of singleProject">
         <span class="text-success" *ngIf="messages">{{messages.success}}</span>
+        <span class="text-danger" *ngIf="messages">{{messages.error}}</span>
         <h2>{{project.project_name}}</h2>
         <p class="fs-4">Vak: {{project.field_name}}</p>
         <p class="fs-4">Te behalen uren: {{project.project_duration}} uur</p>
@@ -24,6 +25,13 @@
         </p>
         <p class="fs-4">Vakdocent(en): <span *ngFor="let teacher of teachers">{{teacher.teacher_firstname}} {{teacher.teacher_lastname}}, </span></p>
         <p class="projectDescription"><span class="fs-4">Project uitleg:</span>&nbsp; {{project.project_description}}</p>
+        <div *ngIf="project.field_name == 'Eigenkeuze'">
+          <label>Selecteer een vak waar je het project in wilt maken</label>
+          <select class="form-select w-25" [(ngModel)]="field">
+            <option value="">Selecteer hier een vak</option>
+            <option value="{{field.field_id}}" *ngFor="let field of fields">{{field.field_name}}</option>
+          </select>
+        </div>
         <div *ngIf="projectSupplies.length > 0" class="d-flex flex-column gap-2">
             <span *ngFor="let supply of projectSupplies" class="singleItem d-flex flex-row gap-3 fs-3 justify-content-between">
               <div class="d-flex gap-3">
@@ -35,6 +43,7 @@
               </div>
             </span>
         </div>
+
         <button *ngIf="!disableApplication" class="btn btn-secondary text-white w-25" (click)="submitApplication()">Aanvraag indienen.</button>
         <button *ngIf="disableApplication" disabled class="btn btn-secondary text-white w-25">Ingediend.</button>
       </div>

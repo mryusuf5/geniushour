@@ -95,6 +95,11 @@ export class StudentService {
     return this.http.post(`${this.url}StudentController/DeleteMessage`, data);
   }
 
+  public getSingleMessage(data)
+  {
+    return this.http.post(`${this.url}StudentController/GetSingleMessage`, data);
+  }
+
   public getAllClassesIdAsc()
   {
     return this.http.get(`${this.url}StudentController/GetAllClassesIdAsc`);

@@ -192,7 +192,6 @@ export class TeachersComponent implements OnInit {
 
     this.teacherService.addTeacher(data).subscribe((e) => {
       this.messages = e;
-      console.log(this.messages);
       if(this.messages.error)
       {
         this.error = this.messages.error;

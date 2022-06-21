@@ -203,7 +203,7 @@
       $studentExists = $this->Studentmodel->GetSingleStudentByValues($data[0], $data[1], $data[3]);
       $studentExists2 = $this->Studentmodel->GetSingleStudentByMail($data[5]);
 
-      if(!empty($data[0]) && !empty($data[1]) && !empty($data[3]) && !empty($data[5]) && !empty($data[6]))
+      if(!empty($data[0]) && !empty($data[1]) && !empty($data[5]) && !empty($data[6]))
       {
         if(count($studentExists) == 0 && count($studentExists2) == 0)
         {
@@ -265,6 +265,14 @@
       $this->Studentmodel->DeleteMessage($data[0], $data[1]);
     }
 
+    public function GetSingleMessage()
+    {
+      $json = file_get_contents("php://input");
+      $result = $this->Studentmodel->GetSingleMessage($json);
+
+      echo json_encode($result);
+    }
+
     public function GetStudentsClass()
     {
       $json = file_get_contents("php://input");
@@ -314,7 +322,7 @@
       $this->email->to($userEmail);
       $this->email->subject("Welkom bij genuishour!");
       $this->email->message(
-        "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b>" . "U kunt dit veranderen bij u instellingen." . "</body></html>"
+        "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b>" . " U kunt dit veranderen bij u instellingen." . "<br />U kunt inloggen op <a href='https://yusufyildiz.nl'>yusufyildiz.nl</a></body></html>"
       );
       $this->email->send();
     }

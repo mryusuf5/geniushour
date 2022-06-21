@@ -8,9 +8,27 @@
 </ngx-spinner>
 <div class="d-flex">
   <app-sidebar-teacher></app-sidebar-teacher>
-  <div class="d-flex flex-column" style="width: 75vw">
-    <div class="mt-3 mx-3">
-      asdasdsad
+  <div class="d-flex flex-column p-2" style="width: 75vw">
+    <div class="mt-3 mx-3 d-flex flex-column gap-3">
+      <h3>Welkom {{firstName}} {{prefix}} {{lastName}}</h3>
+      <div class="cardsContainer d-flex gap-3 flex-wrap justify-content-around" *ngIf="currentProjects.length > 0">
+        <div class="card cardContainer" *ngFor="let current of currentProjects">
+          <a [routerLink]="['/studenten/student-projecten']" [queryParams]="{studentId: current.student_id}" class="card-header">{{current.student_firstname}} {{current.student_prefix}} {{current.student_lastname}}</a>
+          <div class="card-body" *ngFor="let project of current[0]">
+            <h5 class="">{{project.project_name}}</h5>
+            <p>{{project.latest_progress}}%</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: {{project.latest_progress}}%"></div>
+            </div>
+            <br>
+            <a href="#" class="btn btn-secondary text-white" [routerLink]="['/studenten/studentproject']" [queryParams]="{studentId: project.student_id, projectId: project.project_id}" >Ga naar project</a>
+          </div>
+          <span class="text-muted m-2">Om alle projecten van deze student te zien klik dan op zijn naam.</span>
+        </div>
+      </div>
+      <div class="cardsContainer d-flex gap-3 flex-wrap justify-content-around" *ngIf="currentProjects.length <= 0">
+        <span class="text-danger fs-2">Op dit moment zijn er geen studenten bezig met opdrachten.</span>
+      </div>
     </div>
   </div>
 </div>

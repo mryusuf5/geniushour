@@ -33,6 +33,7 @@ import { StudentProjectlistComponent} from "./pages/student-projectlist/student-
 import { ClassesComponent } from './pages/classes/classes.component';
 import { SingleClassComponent } from './pages/single-class/single-class.component';
 import { FieldsComponent } from './pages/fields/fields.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { FieldsComponent } from './pages/fields/fields.component';
     StudentProjectlistComponent,
     ClassesComponent,
     SingleClassComponent,
-    FieldsComponent
+    FieldsComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,

@@ -39,7 +39,7 @@ export class StudentsComponent implements OnInit {
       studentLastName: [""],
       studentPrefix: [""],
       studentNumber: [""],
-      studentHours: [""],
+      studentHours: ["200"],
       studentEmail: [""],
       studentClass: [""]
     })
@@ -50,7 +50,6 @@ export class StudentsComponent implements OnInit {
     this.showModal = true;
     this.studentService.getAllClasses().subscribe((e) => {
       this.classes = e;
-      console.log(this.classes);
     })
   }
 
@@ -82,7 +81,7 @@ export class StudentsComponent implements OnInit {
         this.studentForm.get("studentLastName").reset(),
         this.studentForm.get("studentPrefix").reset(),
         this.studentForm.get("studentNumber").reset(),
-        this.studentForm.get("studentHours").reset(),
+        this.studentForm.get("studentHours").value("200"),
         this.studentForm.get("studentEmail").reset(),
         this.studentForm.get("studentClass").reset()
       }

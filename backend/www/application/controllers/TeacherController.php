@@ -133,6 +133,40 @@ class TeacherController extends CI_Controller
     return substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), 10, $string);
   }
 
+  public function GetCurrentProjects()
+  {
+    $json = file_get_contents("php://input");
+
+    $students = $this->Teachermodel->GetCurrentProjects($json);
+    $studentsArray = json_decode(json_encode($students), true);
+
+    for($i = 0; $i < count($studentsArray); $i++)
+    {
+      $studentProjects = $this->Teachermodel->GetCurrentStudentProjects($studentsArray[$i]["student_id"]);
+      array_push($studentsArray[$i], $studentProjects);
+    }
+
+    echo json_encode($studentsArray);
+
+  }
+
+  public function GetLatestProgress()
+  {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json);
+
+    $result = $this->Teachermodel->GetLatestProgress($data[0], $data[1]);
+    var_dump(json_decode(json_encode($result[0]), true));
+  }
+
+  public function GetCurrentStudentProjects()
+  {
+    $json = file_get_contents("php://input");
+
+    $result = $this->Teachermodel->GetCurrentStudentProjects($json);
+    echo json_encode($result);
+  }
+
   public function SendMail($userEmail, $randomPass)
   {
     $this->load->library("email");
@@ -150,7 +184,7 @@ class TeacherController extends CI_Controller
     $this->email->to($userEmail);
     $this->email->subject("Welkom bij genuishour!");
     $this->email->message(
-      "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b>" . "U kunt dit veranderen bij u instellingen." . "</body></html>"
+      "<html><body>Uw wachtwoord is" . " <b>" .$randomPass . "</b>" . " U kunt dit veranderen bij u instellingen." . "<br />U kunt inloggen op <a href='https://yusufyildiz.nl'>yusufyildiz.nl</a></body></html>"
     );
     $this->email->send();
   }

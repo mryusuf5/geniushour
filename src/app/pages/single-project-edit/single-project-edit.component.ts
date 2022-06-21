@@ -114,9 +114,10 @@ export class SingleProjectEditComponent implements OnInit {
 
   public getSupplies()
   {
+    this.spinner.show();
     this.projectService.getProjectSupplies(this.projectId).subscribe((e) => {
       this.projectSupplies = e;
-      console.log(this.projectSupplies);
+      this.spinner.hide();
     })
   }
 
@@ -142,7 +143,6 @@ export class SingleProjectEditComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed)
       {
-        const data = e.srcElement.id;
         this.projectService.EditProject(data).subscribe(() => {
         })
         Swal.fire(
@@ -150,16 +150,15 @@ export class SingleProjectEditComponent implements OnInit {
           " ",
           "success"
         )
-        setTimeout(() => {
-          this.router.navigate(["/projecten"]);
-        }, 1000)
+        // setTimeout(() => {
+        //   this.router.navigate(["/projecten"]);
+        // }, 1000)
       }
     })
   }
 
   deleteProject(e)
   {
-    console.log(e.srcElement.id);
     Swal.fire({
       title: "Weet u zeker dat u dit project wilt verwijderen?",
       text: " ",

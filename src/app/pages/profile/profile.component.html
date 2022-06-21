@@ -27,6 +27,7 @@
           <p class="fs-2" *ngIf="student[0].student_prefix"><span class="fw-bold">Tussenvoegsel: </span>{{student[0].student_prefix}}</p>
           <p class="fs-2"><span class="fw-bold">Achternaam: </span>{{student[0].student_lastname}}</p>
           <p class="fs-2"><span class="fw-bold">Uren over: </span>{{student[0].student_hours}}</p>
+          <p class="fs-2 text-success" *ngIf="student[0].student_hours <= 0">Gefeliciteerd u bent klaar 🥳</p>
           <span class="text-muted">Kloppen deze gegevens niet? Vraag dan aan een leeraar of zei dit kunnen aanpassen.</span>
         </div>
         <div class="d-flex flex-column gap-2">

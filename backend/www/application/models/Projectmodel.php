@@ -202,14 +202,19 @@
           return $this->db->query("SELECT * FROM `messages` INNER JOIN teachers ON messages.teacher_id = teachers.teacher_id WHERE project_id = '$projectId' AND student_id = '$studentId' AND info = '0' ORDER BY message_created DESC")->result();
         }
 
-        public function SendMessage($message, $studentId, $teacherId, $projectId, $info)
+        public function SendMessage($message, $studentId, $teacherId, $projectId, $info, $reject)
         {
-          $this->db->query("INSERT INTO messages(message, student_id, teacher_id, project_id, info) VALUES('$message', '$studentId', '$teacherId', '$projectId', '$info')");
+          $this->db->query("INSERT INTO messages(message, student_id, teacher_id, project_id, info, rejected) VALUES('$message', '$studentId', '$teacherId', '$projectId', '$info', '$reject')");
+        }
+
+        public function DeleteMessagesProject($studentId, $projectId)
+        {
+          $this->db->query("DELETE FROM messages WHERE student_id = '$studentId' AND project_id = '$projectId'");
         }
 
         public function UpdateProgress($studentId, $projectId, $progress)
         {
-          $this->db->query("UPDATE student_projects SET progress = '$progress' WHERE student_id = '$studentId' AND project_id = '$projectId'");
+          $this->db->query("UPDATE student_projects SET latest_progress = '$progress' WHERE student_id = '$studentId' AND project_id = '$projectId'");
         }
 
         public function InsertProgress($studentId, $projectId, $progress, $progress_teacher)
@@ -223,6 +228,11 @@
         public function getLatestProgress($studentId, $projectId)
         {
           return $this->db->query("SELECT * FROM `saved_progress` WHERE student_id = '$studentId' AND project_id = '$projectId' ORDER BY progress_id DESC LIMIT 1")->result();
+        }
+
+        public function DeleteProgressProject($studentId, $projectId)
+        {
+          $this->db->query("DELETE FROM saved_progress WHERE student_id = '$studentId' AND project_id = '$projectId'");
         }
 
         public function DeleteStudentProject($studentId, $projectId)

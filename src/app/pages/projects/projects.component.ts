@@ -119,7 +119,6 @@ export class ProjectsComponent implements OnInit {
     this.projectForm.patchValue({
       files: []
     })
-    console.log(this.selectedFiles)
   }
 
   public addNewProject()
@@ -140,7 +139,6 @@ export class ProjectsComponent implements OnInit {
 
     this.projectService.AddNewProject(files).subscribe((e) => {
       this.messages = e;
-      console.log(this.messages);
       if(this.messages.error)
       {
         this.spinner.hide();
